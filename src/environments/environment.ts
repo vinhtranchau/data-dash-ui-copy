@@ -3,7 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  //api: 'http://localhost:8000/api/v1',
+  api: 'https://api.datadash-development.stableprice.com/api/v1',
+  //baseUrl: 'http://localhost:8000',
+  baseUrl: 'https://api.datadash-development.stableprice.com',
+  wsUrl: 'wss://api.datadash-development.stableprice.com',
+  logRocket: null,
+  vapid_public_key: null,
+  pendo_env: null
 };
 
 /*

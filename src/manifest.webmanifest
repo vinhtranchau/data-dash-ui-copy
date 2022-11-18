@@ -1,0 +1,63 @@
+{
+  "dir": "ltr",
+  "lang": "en",
+  "name": "data dash",
+  "short_name": "data dash",
+  "theme_color": "#FFD3B5",
+  "background_color": "#ffffff",
+  "display": "fullscreen",
+  "scope": "/",
+  "start_url": "/",
+  "orientation": "any",
+  "description": "Stableprice Data Dash",
+  "push": {
+    "showNotifications": true
+  },
+  "icons": [
+    {
+      "src": "assets/icons/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/favicon-57x57.png",
+      "sizes": "57x57",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/favicon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/favicon-114x114.png",
+      "sizes": "114x114",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/favicon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/favicon-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/favicon-310x310.png",
+      "sizes": "310x310",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
