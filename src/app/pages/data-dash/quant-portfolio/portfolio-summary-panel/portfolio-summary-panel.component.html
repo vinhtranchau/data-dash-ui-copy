@@ -1,0 +1,16 @@
+<div>
+  <h4 class="text-dark px-20">Portfolio Summary</h4>
+
+  <div class="flex items-stretch min-h-400">
+    <div class="min-w-450">
+      <dd-portfolio-summary-table
+        [dataSource]="dataSource"
+        [isLoading]="isLoading"
+        (changeSelection)="changeSelection($event)"
+      ></dd-portfolio-summary-table>
+    </div>
+    <div class="ml-25 flex-grow mr-10">
+      <dd-portfolio-summary-graph [changePortfolio$]="changePortfolio$"></dd-portfolio-summary-graph>
+    </div>
+  </div>
+</div>

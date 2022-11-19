@@ -1,0 +1,29 @@
+mat-drawer {
+  transform: none !important;
+  visibility: visible !important;
+  display: block;
+  transition: ease all 0.38s, box-shadow 0s;
+  min-width: 280px;
+  width: 280px;
+  filter: drop-shadow(0 0 #0000);
+}
+
+mat-drawer.closed {
+  min-width: 65px;
+  width: 65px;
+  transition: ease all 0.3s;
+}
+
+mat-drawer-content {
+  margin-left: 280px !important;
+}
+
+mat-drawer-content.closed {
+  margin-left: 65px !important;
+}
+
+@media only screen and (max-width: 767px) {
+  mat-drawer-container > mat-drawer-content {
+    margin-left: 0 !important;
+  }
+}

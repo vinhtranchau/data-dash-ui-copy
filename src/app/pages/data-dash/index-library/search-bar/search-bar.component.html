@@ -1,0 +1,22 @@
+<form (submit)="search.emit({ searchTerm, indexFilter: advancedIndexFilterService.indexFilter })">
+  <div class="flex justify-center items-center">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>{{ label }}</mat-label>
+      <input [(ngModel)]="searchTerm" [placeholder]="placeholder" matInput name="searchTerm" type="text" />
+      <button
+        (click)="openFilterDialog()"
+        [matBadgeHidden]="!advancedIndexFilterService.indexFilter.filters.length"
+        [matBadge]="advancedIndexFilterService.indexFilter.filters.length"
+        mat-icon-button
+        matBadgeColor="accent"
+        matSuffix
+        type="button"
+      >
+        <mat-icon>filter_list</mat-icon>
+      </button>
+      <button mat-icon-button matSuffix>
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</form>

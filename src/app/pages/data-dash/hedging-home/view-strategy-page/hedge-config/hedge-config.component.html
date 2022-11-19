@@ -1,0 +1,49 @@
+<div class="py-10 flex-grow relative h-full bg-white rounded-lg !rounded-bl-3xl">
+  <dd-spinner *ngIf="isLoading" message="Loading hedge config..."></dd-spinner>
+  <div *ngIf="hedgeConfig" class="h-full">
+    <h4 class="text-dark px-15 mb-10">Hedge Config</h4>
+
+    <div class="text-[12px] px-15 h-[calc(100%_-_45px)] overflow-y-auto scroll">
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Risk Measure:</div>
+        <div>{{ hedgeConfig.risk_measure | textTransform }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Hedging Style:</div>
+        <div>{{ hedgeConfig.hedging_style | textTransform }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Method:</div>
+        <div>{{ hedgeConfig.method }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Confidence Level:</div>
+        <div>{{ hedgeConfig.confidence_level | number: '1.0-2' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Threshold:</div>
+        <div>{{ hedgeConfig.threshold | number: '1.0-2' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Rebalancing Interval:</div>
+        <div>{{ hedgeConfig.rebalancing_interval | number: '1.0-0' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Scenario Generator:</div>
+        <div>{{ hedgeConfig.scenario_generator }}</div>
+      </div>
+    </div>
+  </div>
+</div>

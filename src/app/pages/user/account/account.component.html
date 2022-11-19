@@ -1,0 +1,98 @@
+<div class="px-30 py-10 h-[calc(100vh_-_60px)] flex justify-center items-center">
+  <div class="rounded-3xl shadow-md bg-white w-[900px] min-h-[700px] overflow-clip relative">
+    <div class="absolute bottom-0 left-0 top-0 w-300 bg-ultimate p-20" *ngIf="user$ | async as user">
+      <div class="rounded-lg bg-navy w-full px-20 py-10 flex items-center mb-50">
+        <div class="relative cursor-pointer">
+          <div class="relative w-50 h-50 rounded-full overflow-clip">
+            <input (change)="selectFile($event)" accept="image/*" class="hidden" id="selectedFile" type="file" />
+            <img
+              [src]="user.avatar || '/assets/images/default-avatar.jpeg'"
+              alt="Avatar"
+              class="rounded-full w-full h-full cursor-pointer object-cover"
+              loading="lazy"
+            />
+            <div
+              (click)="upload()"
+              class="absolute top-0 bottom-0 right-0 left-0 bg-black text-white rounded-full w-full h-full transition-all z-10 opacity-0 flex items-center justify-center hover:opacity-100 hover:bg-black/50"
+            >
+              <mat-icon>add_a_photo</mat-icon>
+            </div>
+          </div>
+          <div
+            (click)="upload()"
+            class="rounded-full bg-teal w-15 h-15 absolute top-0 right-0 z-[11] flex items-center justify-center text-bold text-slate-200"
+          >
+            +
+          </div>
+        </div>
+        <div class="ml-15 w-full">
+          <p class="font-medium text-15 text-white mb-5">{{ user.name }}</p>
+          <p class="text-[12px] text-slate-400">{{ company?.name }}</p>
+        </div>
+      </div>
+      <div class="border-t border-b border-t-slate-600 border-b-slate-600 py-50 h-[456px] overflow-y-auto">
+        <div class="px-20 mb-30" (click)="switchTab(1)">
+          <div
+            class="flex items-center justify-start border-l-4 border-l-slate-400 px-15 text-slate-400 hover:text-teal hover:border-l-teal cursor-pointer"
+            [ngClass]="{ 'text-teal border-l-teal': activeTab === 1 }"
+          >
+            <mat-icon class="scale-110">settings</mat-icon>
+            <p class="text-15 ml-20">User Account</p>
+          </div>
+        </div>
+        <div class="px-20 mb-30" (click)="switchTab(2)">
+          <div
+            class="flex items-center justify-start border-l-4 border-l-slate-400 px-15 text-slate-400 hover:text-teal hover:border-l-teal cursor-pointer"
+            [ngClass]="{ 'text-teal border-l-teal': activeTab === 2 }"
+          >
+            <mat-icon class="scale-110">apartment</mat-icon>
+            <p class="text-15 ml-20">Company</p>
+          </div>
+        </div>
+        <div class="px-20 mb-30" (click)="switchTab(3)">
+          <div
+            class="flex items-center justify-start border-l-4 border-l-slate-400 px-15 text-slate-400 hover:text-teal hover:border-l-teal cursor-pointer"
+            [ngClass]="{ 'text-teal border-l-teal': activeTab === 3 }"
+          >
+            <mat-icon class="scale-110">egg</mat-icon>
+            <p class="text-15 ml-20">Commodities</p>
+          </div>
+        </div>
+        <div class="px-20" (click)="switchTab(4)" *ngIf="hasIndexAlertAccess">
+          <div
+            class="flex items-center justify-start border-l-4 border-l-slate-400 px-15 text-slate-400 hover:text-teal hover:border-l-teal cursor-pointer"
+            [ngClass]="{ 'text-teal border-l-teal': activeTab === 4 }"
+          >
+            <mat-icon class="scale-110">subscriptions</mat-icon>
+            <p class="text-15 ml-20">Alert Subscriptions</p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-20 py-10 flex items-center justify-center text-teal px-15">
+        <div
+          class="p-10 rounded-lg border border-teal flex items-center justify-center w-fit text-15 cursor-pointer hover:underline"
+          (click)="switchTab(5)"
+        >
+          Need Help ?
+        </div>
+      </div>
+    </div>
+    <div class="ml-300 h-full px-90 py-60">
+      <dd-profile *ngIf="activeTab === 1"></dd-profile>
+      <dd-company-details *ngIf="activeTab === 2" continueText="Save" (nextStage)="getCompany()">
+        <div class="flex items-center justify-start text-dark mb-60">
+          <mat-icon class="scale-125">apartment</mat-icon>
+          <p class="font-bold text-25 ml-20">Edit Company</p>
+        </div>
+      </dd-company-details>
+      <dd-commodity-interest *ngIf="activeTab === 3" continueText="Save">
+        <div class="flex items-center justify-start text-dark mb-60">
+          <mat-icon class="scale-125">egg</mat-icon>
+          <p class="font-bold text-25 ml-20">Edit Commodities</p>
+        </div>
+      </dd-commodity-interest>
+      <dd-alert-subscription *ngIf="activeTab === 4 && hasIndexAlertAccess"></dd-alert-subscription>
+      <dd-help *ngIf="activeTab === 5"></dd-help>
+    </div>
+  </div>
+</div>

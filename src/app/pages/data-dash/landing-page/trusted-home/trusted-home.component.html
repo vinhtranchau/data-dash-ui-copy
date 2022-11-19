@@ -1,0 +1,63 @@
+<div class="px-30 py-20 overflow-y-auto h-[calc(100vh_-_50px)]">
+  <div class="font-black text-35 text-dark flex md:block justify-center text-center md:text-left">
+    <div>
+      <mat-icon class="mr-20 scale-150" color="warn">deck</mat-icon>
+      <span>Welcome to Data Dash!</span>
+      <br />
+      <p class="text-grey font-medium text-15 text-center md:text-left">Get started with the following pages:</p>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap justify-center md:justify-start items-center gap-x-30">
+    <!-- TODO: turn into carousel-like -->
+    <div *ngFor="let item of navItems">
+      <mat-card
+        *ngIf="!item.disabled"
+        class="relative !rounded-xl h-[150px] w-[260px] lg:w-[280px] xl:w-[300px] my-20 !shadow-md !transition-transform md:hover:scale-[1.04]"
+      >
+        <a [routerLink]="item.route" class="absolute top-0 bottom-0 right-0 left-0"></a>
+        <mat-card-title class="font-medium text-20">
+          <div class="flex items-center">
+            <mat-icon class="mr-10 text-dark">{{ item.icon }}</mat-icon>
+            <span>{{ item.title }}</span>
+          </div>
+        </mat-card-title>
+        <mat-card-content
+          [innerHTML]="item.description"
+          class="text-grey !text-[0.8em] overflow-y-auto"
+        ></mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <br />
+  <div>
+    <div class="text-dark font-bold text-20 text-center mb-10 md:text-left">
+      Whats New?
+      <mat-icon class="ml-5 scale-125" color="primary">celebration</mat-icon>
+    </div>
+    <div class="text-grey font-medium mb-20 text-center md:text-left">Check out the latest features below!</div>
+    <div class="min-h-[300px] relative">
+      <dd-spinner [spinner]="spinner.loaders.loading"></dd-spinner>
+      <div *ngIf="changeLogItems.length > 0">
+        <div *ngFor="let item of changeLogItems">
+          <div class="mb-20 rounded-xl bg-white px-20 py-20">
+            <div class="text-grey text-10">{{ item.date }}</div>
+            <div class="text-dark font-bold text-15">v{{ item.version }}: {{ item.title }}</div>
+            <div *ngIf="item.features && item.features.length > 0" class="ml-15 font-medium text-primary">
+              New Features:
+            </div>
+            <div *ngFor="let feature of item.features; let i = index" class="ml-30">
+              <div class="font-medium text-15">{{ i + 1 }}. {{ feature.title }}</div>
+              <div [innerHTML]="feature.description" class="text-[0.8em] text-grey"></div>
+            </div>
+            <div *ngIf="item.bugs && item.bugs.length > 0" class="ml-15 mt-10 font-medium text-danger">Bug Fixes:</div>
+            <div *ngFor="let bug of item.bugs; let i = index" class="ml-30">
+              <div class="font-medium text-15">{{ i + 1 }}. {{ bug.title }}</div>
+              <div [innerHTML]="bug.description" class="text-[0.8em] text-grey"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

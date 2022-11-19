@@ -1,0 +1,47 @@
+<dd-dialog-layout
+  (save)="save()"
+  [disabled]="form.invalid"
+  [isLoading]="dialogDisabled"
+  [title]="data.id ? 'Update Index Provider' : 'Add Index Provider'"
+>
+  <form [formGroup]="form">
+    <div class="grid grid-cols-2 gap-x-30">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Name</mat-label>
+        <input formControlName="name" matInput/>
+        <mat-error *ngIf="form.get('name')?.hasError('required')">Required.</mat-error>
+        <mat-error *ngIf="form.get('name')?.hasError('maxlength')">Too many characters!</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let statusOption of StatusOptions" [value]="statusOption.id">
+            {{ statusOption.label }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('status')?.hasError('required')">Required.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Public Access</mat-label>
+      <mat-select formControlName="public_access">
+        <mat-option *ngFor="let accessDataOption of accessDataOptions" [value]="accessDataOption.id">
+          {{ accessDataOption.label }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('public_access')?.hasError('required')">Required.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Trusted Access</mat-label>
+      <mat-select formControlName="trusted_access">
+        <mat-option *ngFor="let accessDataOption of accessDataOptions" [value]="accessDataOption.id">
+          {{ accessDataOption.label }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('trusted_access')?.hasError('required')">Required.</mat-error>
+    </mat-form-field>
+  </form>
+</dd-dialog-layout>

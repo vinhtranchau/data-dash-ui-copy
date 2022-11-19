@@ -1,0 +1,42 @@
+<dd-data-table-page
+  (action)="action($event)"
+  (loadData)="loadData($event)"
+  [columns]="columns"
+  [dataSource]="dataSource"
+  [displayedColumns]="displayedColumns"
+  [hasHeader]="hasSearch"
+  [headerHasAddButton]="false"
+  [isLoading]="isLoading"
+  [pageSize]="pageSize"
+  [serverSideSearch]="true"
+  [stickyColumns]="stickyColumns"
+  [stickyPaginator]="false"
+  [total]="total"
+  [tableHeight]="tableHeight"
+  [expandable]="true"
+  [expandTemplate]="expandTemplate"
+>
+</dd-data-table-page>
+<ng-template #expandTemplate let-fixations="element.fixations">
+  <dd-data-table
+    [columns]="fixationTableColumns"
+    [dataSource]="fixations"
+    [displayedColumns]="fixationTableDisplayColumns"
+    [isLoading]="false"
+    [isDetailContent]="true"
+  >
+  </dd-data-table>
+</ng-template>
+
+<ng-template #actionCellTemplate let-element="element">
+  <div class="py-10">
+    <button
+      mat-stroked-button
+      color="primary"
+      *ngIf="element.is_ds_check_passed && element.is_underwriter_check_passed && element.is_sales_check_passed"
+      [routerLink]="[dataDashRoute.root, dataDashRoute.quoteReview, element.id] | absolutePath"
+    >
+      {{ (element | isViewQuote) ? 'View Deal' : 'Review Quote' }}
+    </button>
+  </div>
+</ng-template>

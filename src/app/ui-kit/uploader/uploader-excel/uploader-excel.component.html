@@ -1,0 +1,13 @@
+<div>
+  <dd-uploader
+    (onFileUpload)="uploaded($event)"
+    fileType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  >
+  </dd-uploader>
+  <br />
+  <div>
+    <button class="w-full" color="primary" mat-flat-button>
+      <a [href]="fileFormatExample" class="w-full block" target="_blank"> Download file template </a>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div
+  (visible)="visibleElement.emit(id)"
+  [debounceTime]="0"
+  [id]="id"
+  class="snap-start py-20 section"
+  dcObserveVisibility
+>
+  <div class="w-full">
+    <div class="flex items-center">
+      <p class="font-bold text-grey mr-10">{{ title }}</p>
+      <mat-icon *ngIf="hint" [matTooltip]="hint" class="text-grey" matTooltipPosition="after"> info_outline</mat-icon>
+    </div>
+    <br />
+    <div class="relative w-full">
+      <ng-content></ng-content>
+    </div>
+    <ng-content select="[additional]"></ng-content>
+  </div>
+</div>

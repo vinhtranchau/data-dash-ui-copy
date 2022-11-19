@@ -1,0 +1,99 @@
+<div class="grid grid-cols-7 gap-x-10 px-30 mb-10" *ngIf="indexDetails">
+  <div class="col-span-5">
+    <div class="rounded-lg bg-white p-10">
+      <div class="h-600 relative">
+        <div class="w-full h-full" *ngIf="indexDetails.public_access_level < 6">
+          <dd-basic-chart
+            [data]="plotData"
+            [hasLegend]="true"
+            [hasRangeSelector]="false"
+            [hasRangeSlider]="false"
+            [disableDoubleClick]="true"
+            [refreshLayout$]="refreshLayout$"
+            [startingLayout]="startingLayout"
+          ></dd-basic-chart>
+          <div class="absolute left-0 right-0 bottom-60 h-60">
+            <dd-basic-chart
+              [data]="rangeSliderPlotData"
+              [hasLegend]="false"
+              [hasRangeSelector]="false"
+              [hasRangeSlider]="false"
+              [disableDoubleClick]="true"
+              [startingLayout]="rangeSliderStartingLayout"
+              [refreshLayout$]="rangeSliderRefreshLayout$"
+            ></dd-basic-chart>
+          </div>
+          <div class="absolute w-full left-0 right-0 bottom-180 z-10 flex items-center justify-center">
+            <dd-additional-options [form]="additionalOptionsForm"></dd-additional-options>
+          </div>
+          <div
+            class="absolute right-20 top-20 z-10"
+            [ngClass]="{ 'right-75': secondaryIndex && secondaryDataX.length }"
+          >
+            <form [formGroup]="rangeForm">
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Preview on Years</mat-label>
+                <mat-select formControlName="dateRange">
+                  <mat-option *ngFor="let option of graphRangeOptions" [value]="option.id">
+                    {{ option.label }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </form>
+          </div>
+          <span
+            class="absolute left-10 bottom-0 text-slate-400 text-10 flex items-center justify-center cursor-pointer"
+            *ngIf="indexDetails.public_access_level === 5"
+            matTooltip="Certain index providers place restrictions on how stable is allowed to share their data. This includes historical length limitations or disallowing precise datapoints."
+          >
+            <mat-icon>info_outline</mat-icon><span class="ml-5">Why can't I see graph values?</span>
+          </span>
+        </div>
+        <div class="flex items-center justify-center w-full h-full" *ngIf="indexDetails.public_access_level === 6">
+          <div>
+            <img src="assets/illustrations/empty-card-panel.svg" class="w-470 h-300 mb-10" alt="empty card" />
+            <div
+              class="flex items-center justify-center text-slate-400 text-15 cursor-pointer"
+              matTooltip="Certain index providers place restrictions on how Stable is allowed to share their data. Please contact our Sales team for inquiries about this index."
+            >
+              <mat-icon>info_outline</mat-icon>
+              <span class="ml-5">Why is this index not showing?</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-span-2">
+    <dd-rolling-deal-contract-config
+      [form]="rollingDealContractConfigForm"
+      [indexDetails]="indexDetails"
+    ></dd-rolling-deal-contract-config>
+  </div>
+</div>
+
+<div class="grid grid-cols-7 gap-x-10 px-30 pb-20 h-430" *ngIf="indexDetails">
+  <div class="col-span-12">
+    <div class="rounded-b-3xl rounded-lg bg-white h-full overflow-clip">
+      <div class="flex items-center">
+        <span class="font-bold text-20 text-dark pl-30 py-10 mr-10">Position Summary</span>
+        <mat-icon
+          class="text-grey"
+          matTooltip="Fill in at least one fixation date to preview the option maturities. The plot below will show the fixation date, policy start, and policy end date for each option."
+          >info_outline
+        </mat-icon>
+      </div>
+      <div class="h-350 relative">
+        <dd-position-summary [configForm]="rollingDealContractConfigForm"></dd-position-summary>
+      </div>
+    </div>
+  </div>
+  <!--  Remove Similar Products part -->
+  <!--<div class="col-span-2">
+    <dd-correlated-indexes-table
+      [indexId]="indexDetails.id"
+      [contractType]="contractType.RollingDeal"
+      (selectCorrelation)="onSelectCorrelation($event)"
+    ></dd-correlated-indexes-table>
+  </div>-->
+</div>

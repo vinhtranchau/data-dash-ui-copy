@@ -1,0 +1,70 @@
+<div class="py-20">
+  <mat-tab-group [selectedIndex]="0" class="bg-white">
+    <mat-tab label="Net Position Empirical Stats">
+      <div class="w-full">
+        <dd-data-table-page
+          [columns]="statsTableRowOneColumns"
+          [dataSource]="netPositionEmpiricalRowOne"
+          [displayedColumns]="statsTableRowOneDisplayedColumns"
+          [hasHeader]="false"
+          [isLoading]="false"
+          tableHeight="105px"
+        >
+        </dd-data-table-page>
+        <dd-data-table-page
+          [columns]="statsTableRowTwoColumns"
+          [dataSource]="netPositionEmpiricalRowTwo"
+          [displayedColumns]="statsTableRowTwoDisplayedColumns"
+          [hasHeader]="false"
+          [isLoading]="false"
+          tableHeight="105px"
+        >
+        </dd-data-table-page>
+      </div>
+    </mat-tab>
+    <mat-tab label="Pay Off Empirical Stats">
+      <div class="w-full">
+        <dd-data-table-page
+          [columns]="statsTableRowOneColumns"
+          [dataSource]="payOffEmpiricalRowOne"
+          [displayedColumns]="statsTableRowOneDisplayedColumns"
+          [hasHeader]="false"
+          [isLoading]="false"
+          tableHeight="105px"
+        >
+        </dd-data-table-page>
+        <dd-data-table-page
+          [columns]="statsTableRowTwoColumns"
+          [dataSource]="payOffEmpiricalRowTwo"
+          [displayedColumns]="statsTableRowTwoDisplayedColumns"
+          [hasHeader]="false"
+          [isLoading]="false"
+          tableHeight="105px"
+        >
+        </dd-data-table-page>
+      </div>
+    </mat-tab>
+    <mat-tab label="Positive Pay Off Empirical Stats">
+      <div class="w-full">
+        <dd-data-table-page
+          [columns]="statsTableRowOneColumns"
+          [dataSource]="positivePayOffEmpiricalRowOne"
+          [displayedColumns]="statsTableRowOneDisplayedColumns"
+          [hasHeader]="false"
+          [isLoading]="false"
+          tableHeight="105px"
+        >
+        </dd-data-table-page>
+        <dd-data-table-page
+          [columns]="statsTableRowTwoColumns"
+          [dataSource]="positivePayOffEmpiricalRowTwo"
+          [displayedColumns]="statsTableRowTwoDisplayedColumns"
+          [hasHeader]="false"
+          [isLoading]="false"
+          tableHeight="105px"
+        >
+        </dd-data-table-page>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

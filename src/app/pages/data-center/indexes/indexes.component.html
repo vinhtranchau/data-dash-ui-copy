@@ -1,0 +1,44 @@
+<div class="pt-10">
+  <div class="rounded-3xl bg-white mx-30 pt-10 overflow-clip">
+    <dd-data-table-page
+      (action)="action($event)"
+      (add)="openIndexDetailDialog()"
+      (loadData)="loadData($event)"
+      [columns]="columns"
+      [dataSource]="dataSource"
+      [displayedColumns]="displayedColumns"
+      [hasHeader]="true"
+      [isLoading]="tableDataLoading"
+      [serverSideSearch]="true"
+      [stickyColumns]="stickyColumns"
+      [tableType]="PermissionType.IndexDetailsTable"
+      [total]="total"
+      headerAddText="Onboard Index"
+      tableHeight="calc(100vh - 228px)"
+    >
+      <div class="w-full flex justify-between items-center">
+        <button
+          (click)="downloadAllIndexes()"
+          [disabled]="isDownloading"
+          class="w-full sm:w-fit"
+          color="accent"
+          mat-flat-button
+        >
+          <mat-icon class="mr-5"> cloud_download</mat-icon>
+          Export
+        </button>
+        <button
+          (click)="openFilterDialog()"
+          [disabled]="tableDataLoading"
+          [matBadgeHidden]="!advancedIndexFilterService.indexFilter.filters.length"
+          [matBadge]="advancedIndexFilterService.indexFilter.filters.length"
+          class="!hidden md:!block"
+          mat-icon-button
+          matBadgeColor="accent"
+        >
+          <mat-icon>filter_list</mat-icon>
+        </button>
+      </div>
+    </dd-data-table-page>
+  </div>
+</div>

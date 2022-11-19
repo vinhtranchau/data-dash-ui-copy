@@ -1,0 +1,19 @@
+<button
+  (click)="clickNotification()"
+  (mouseenter)="clearNotification()"
+  [ngClass]="{ 'bg-blue-50': !notification.is_read }"
+  class="w-full"
+  mat-button
+>
+  <div class="flex items-center py-10">
+    <mat-icon class="min-w-[24px] mr-[16px] text-teal">{{
+      notification.notification_type | notificationType
+    }}</mat-icon>
+    <div class="flex flex-col items-start max-w-[208px]">
+      <div class="leading-normal text-13 text-dark text-medium">{{ notification.title }}</div>
+      <div class="leading-normal text-10 w-full whitespace-pre-wrap text-left text-grey">
+        <p>{{ notification.description }}</p>
+      </div>
+    </div>
+  </div>
+</button>

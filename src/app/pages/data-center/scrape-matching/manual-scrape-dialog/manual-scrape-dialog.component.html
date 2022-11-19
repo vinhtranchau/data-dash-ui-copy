@@ -1,0 +1,151 @@
+<dd-dialog-layout
+  (save)="save()"
+  [disabled]="form.invalid || isLoading"
+  [isLoading]="isLoading"
+  title="Upload Manual Scrape"
+>
+  <form [formGroup]="form">
+    <div class="grid grid-cols-6 gap-x-30">
+      <div class="col-span-6 md:col-span-3 mb-30 md:mb-0 md:overflow-y-auto md:h-[493px]">
+        <div class="grid grid-cols-1 gap-x-30">
+          <div>
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>SIC</mat-label>
+              <mtx-select
+                [clearable]="true"
+                [items]="(indexUUIDs$ | async) || []"
+                [required]="true"
+                [virtualScroll]="true"
+                appendTo="body"
+                bindLabel="stable_index_code"
+                bindValue="id"
+                formControlName="index_details_id"
+              ></mtx-select>
+              <mat-error *ngIf="form.get('index_details_id')?.hasError('required')">Required.</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-x-30">
+          <div>
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Scrape ID</mat-label>
+              <input formControlName="scrape_id" matInput />
+              <button
+                mat-icon-button
+                matSuffix
+                type="button"
+                matTooltip="Visualise and edit scrape ID through its individual specification components."
+                (click)="showScrapeIdComponents = !showScrapeIdComponents"
+              >
+                <mat-icon
+                  matSuffix
+                  text-grey
+                  class="text-grey transition-all"
+                  [ngClass]="{ 'rotate-180': showScrapeIdComponents }"
+                  >call_split</mat-icon
+                >
+              </button>
+              <mat-error *ngIf="form.get('scrape_id')?.hasError('required')">Required.</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div formArrayName="scrape_id_components" *ngIf="showScrapeIdComponents">
+          <div *ngFor="let scrapeIdComponent of scrapeIdComponents?.controls; let i = index">
+            <div [formGroupName]="i" class="grid grid-cols-4 gap-x-30">
+              <mat-form-field appearance="outline" [ngClass]="{ 'col-span-3': i !== 0, 'col-span-4': i === 0 }">
+                <mat-label *ngIf="i === 0">Collection</mat-label>
+                <mat-label *ngIf="i !== 0">Specification {{ i }}</mat-label>
+                <input formControlName="scrape_id_component" matInput />
+              </mat-form-field>
+              <div *ngIf="i !== 0" class="col-span-1 flex items-center pb-20">
+                <button class="w-full" color="warn" mat-flat-button type="button" (click)="removeScrapeIdComponent(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-span-4 pb-20">
+            <button class="w-full" color="primary" mat-flat-button type="button" (click)="addScrapeIdComponent()">
+              Add Specification
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-x-30">
+          <div class="col-span-2 sm:col-span-1">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Published Date</mat-label>
+              <input [matDatepicker]="picker1" formControlName="published_date" matInput />
+              <mat-hint>YYYY-MM-DD</mat-hint>
+              <mat-datepicker-toggle [for]="picker1" matSuffix></mat-datepicker-toggle>
+              <mat-datepicker #picker1 color="primary"></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="col-span-2 sm:col-span-1">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Stable Assigned Date</mat-label>
+              <input [matDatepicker]="picker2" formControlName="stable_assigned_date" matInput />
+              <mat-hint>YYYY-MM-DD</mat-hint>
+              <mat-datepicker-toggle [for]="picker2" matSuffix></mat-datepicker-toggle>
+              <mat-datepicker #picker2 color="primary"></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <br />
+
+        <div class="grid grid-cols-2 gap-x-30">
+          <div class="col-span-2 sm:col-span-1">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Report Start Date</mat-label>
+              <input [matDatepicker]="picker3" formControlName="report_start_date" matInput />
+              <mat-hint>YYYY-MM-DD</mat-hint>
+              <mat-datepicker-toggle [for]="picker3" matSuffix></mat-datepicker-toggle>
+              <mat-datepicker #picker3 color="primary"></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="col-span-2 sm:col-span-1">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Report End Date</mat-label>
+              <input [matDatepicker]="picker4" formControlName="report_end_date" matInput />
+              <mat-hint>YYYY-MM-DD</mat-hint>
+              <mat-datepicker-toggle [for]="picker4" matSuffix></mat-datepicker-toggle>
+              <mat-datepicker #picker4 color="primary"></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <br />
+
+        <div class="grid grid-cols-1 gap-x-30">
+          <div>
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Price</mat-label>
+              <input formControlName="price" matInput type="number" />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-6 md:col-span-3">
+        <div class="border">
+          <dd-data-table-page
+            [columns]="columns"
+            [dataSource]="dataSource"
+            [displayedColumns]="displayedColumns"
+            [hasHeader]="false"
+            [isLoading]="false"
+            tableHeight="260px"
+          >
+          </dd-data-table-page>
+        </div>
+        <br />
+        <dd-excel-uploader
+          (onFileUpload)="onFileUpload($event)"
+          [fileFormatExample]="homeUrl + '/media/excelfiles/upload_manual_scrape_template.xlsx'"
+        ></dd-excel-uploader>
+      </div>
+    </div>
+  </form>
+</dd-dialog-layout>

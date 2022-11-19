@@ -1,0 +1,126 @@
+<div class="rounded-lg bg-white px-20 py-20 h-620 overflow-y-auto scroll">
+  <!-- Temporarily removed -->
+  <!-- <dd-switch-contract
+    [indexDetails]="indexDetails"
+    [startingContractType]="contractType.RollingDeal"
+  ></dd-switch-contract> -->
+  <form [formGroup]="form" class="text-13">
+    <!--    <mat-form-field appearance="outline" class="w-full">-->
+    <!--      <mat-label>Popular Structures</mat-label>-->
+    <!--      <mat-select formControlName="popularStructures">-->
+    <!--        <mat-option *ngFor="let option of structureTypesOptions" [value]="option.id">-->
+    <!--          {{ option.label }}-->
+    <!--        </mat-option>-->
+    <!--      </mat-select>-->
+    <!--    </mat-form-field>-->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Direction</mat-label>
+      <mat-select formControlName="direction">
+        <mat-option *ngFor="let option of optionTypesOptions" [value]="option.id">
+          {{ option.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="grid grid-cols-1">
+      <div class="mb-15">Strike and Limit Ratios (%):</div>
+      <mtx-slider
+        formControlName="strikeAndLimitRatio"
+        thumbLabel
+        [step]="1"
+        [min]="strikeAndLimitRange[0]"
+        [max]="strikeAndLimitRange[1]"
+        [(ngModel)]="strikeAndLimitRatio"
+        (valueChange)="strikeAndLimitUpdate()"
+      ></mtx-slider>
+    </div>
+    <div class="grid grid-cols-2 gap-x-30">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Starting Delay</mat-label>
+        <mat-select formControlName="startingDelay">
+          <mat-option *ngFor="let option of startingDelayOptions" [value]="option.id">
+            {{ option.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Duration</mat-label>
+        <mat-select formControlName="duration">
+          <mat-option *ngFor="let option of durationTypesOptions" [value]="option.id">
+            {{ option.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Fixation Dates</mat-label>
+      <mtx-select
+        [clearable]="true"
+        [items]="sellingMonthsOptions"
+        [multiple]="true"
+        [required]="true"
+        [virtualScroll]="false"
+        [selectableGroup]="true"
+        [selectableGroupAsModel]="false"
+        [closeOnSelect]="false"
+        appendTo="body"
+        bindLabel="label"
+        bindValue="id"
+        formControlName="sellingMonths"
+      ></mtx-select>
+      <mat-error *ngIf="form.get('sellingMonths')?.hasError('required')">Required.</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Quantity</mat-label>
+      <span matSuffix>{{ indexDetails.unit_multiplier + indexDetails.unit_id.abbreviations }}</span>
+      <input formControlName="quantity" matInput type="number" />
+    </mat-form-field>
+
+    <div class="mb-5">
+      <mat-error *ngIf="form.get('quantity')?.hasError('pattern')" class="text-[0.85em]"
+        >Must be a whole number.</mat-error
+      >
+
+      <mat-error *ngIf="form.errors?.['invalidQuantity']" class="text-[0.85em]">
+        The quantity range must be {{ form.errors?.['lower'] }} <= value
+        {{ form.errors?.['upper'] ? ' <= ' + form.errors?.['upper'] : '' }}
+      </mat-error>
+
+      <mat-error *ngIf="form.errors?.['moreFixations']" class="text-[0.85em]">
+        Select more fixation months. At least {{ form.errors?.['min'] }} months
+      </mat-error>
+
+      <mat-error *ngIf="form.errors?.['invalidFixation']" class="text-[0.85em]">
+        Invalid fixation months. {{ form.errors?.['error'] }}
+      </mat-error>
+
+      <mat-error *ngIf="apiErrors && apiErrors.length" class="text-[0.85em]">
+        <span [innerHTML]="apiErrors.join('<br/>')"></span>
+      </mat-error>
+    </div>
+
+    <div class="grid grid-cols-1 gap-x-15">
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        class="w-full"
+        [disabled]="form.invalid || !hasEditPermission"
+        (click)="submitTrade()"
+      >
+        {{ isOnboardedCompletely ? 'Request for Firm Quote' : 'Request for Indicative Quote' }}
+      </button>
+      <!-- <button
+        mat-flat-button
+        color="warn"
+        type="button"
+        class="w-full"
+        [disabled]="form.invalid || !isTradingEngineOnline || !hasEditPermission"
+      >
+        Watch It
+      </button> -->
+    </div>
+    <div *ngIf="!hasEditPermission" class="text-[0.75em] mt-5 text-red-500">
+      Trading will be enabled shortly. Please wait while Stable verifies your account.
+    </div>
+  </form>
+</div>

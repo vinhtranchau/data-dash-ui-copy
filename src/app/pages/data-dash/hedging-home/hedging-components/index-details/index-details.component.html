@@ -1,0 +1,42 @@
+<ng-template #textRenderer let-isLast="isLast" let-label="label" let-value="value">
+  <div class="flex justify-between my-5 flex-wrap">
+    <div class="text-grey">{{ label }}:</div>
+    <div>{{ value }}</div>
+  </div>
+  <hr *ngIf="!isLast" />
+</ng-template>
+
+<div class="py-10 flex-grow relative h-full">
+  <dd-error-handler [hasError]="!index" message="Select an index or position."></dd-error-handler>
+  <dd-spinner *ngIf="isLoading" message="Loading index details..." bgClass="bg-white"></dd-spinner>
+  <div (click)="openIndexModal()" *ngIf="index" class="h-full cursor-pointer">
+    <h4 class="text-dark mb-10 px-20">Index Details</h4>
+
+    <div class="text-[12px] h-[calc(100%_-_45px)] overflow-y-auto px-20">
+      <ng-container
+        *ngTemplateOutlet="textRenderer; context: { label: 'Stable Index Code', value: index.stable_index_code }"
+      ></ng-container>
+
+      <ng-container
+        *ngTemplateOutlet="textRenderer; context: { label: 'Product', value: index.product_id.name }"
+      ></ng-container>
+
+      <ng-container
+        *ngTemplateOutlet="textRenderer; context: { label: 'Index Provider', value: index.index_provider_id.name }"
+      ></ng-container>
+
+      <ng-container
+        *ngTemplateOutlet="textRenderer; context: { label: 'Specification', value: index.specification }"
+      ></ng-container>
+
+      <ng-container
+        *ngTemplateOutlet="textRenderer; context: { label: 'Delivery Point', value: index.delivery_point }"
+      ></ng-container>
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Currency & Unit:</div>
+        <div>{{ index | currencyAndUnit: false }}</div>
+      </div>
+    </div>
+  </div>
+</div>

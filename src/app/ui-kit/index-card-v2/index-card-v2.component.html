@@ -1,0 +1,143 @@
+<ng-template #titleRenderer let-background="background" let-title="title">
+  <div class="mb-10 flex items-start">
+    <div
+      [ngClass]="{ 'bg-navy': background === 'dark', 'bg-midnight': background === 'light' }"
+      class="rounded w-30 h-30 flex items-center justify-center"
+    >
+      <img
+        [src]="index.product_id.class_hierarchy_id.icon || 'assets/images/logo.svg'"
+        alt="Image"
+        class="w-25 h-25 inline"
+      />
+    </div>
+    <div [ngClass]="{ 'text-white': background === 'dark', 'text-dark': background === 'light' }" class="ml-10 w-170">
+      <p class="font-medium text-[12px]">
+        {{ title === 'product' ? index.product : index.stable_index_code }}
+      </p>
+      <p class="text-10">
+        {{ title === 'product' ? index.specification : index.product }}
+      </p>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #followRenderer let-zIndex="zIndex">
+  <a
+    (click)="updateFavorite()"
+    [ngClass]="{ 'z-[52]': zIndex === 'raised' }"
+    class="absolute bottom-10 right-10 bg-slate-200 text-dark rounded-lg text-10 p-5 px-10 hover:scale-[1.04] hover:bg-slate-300"
+  >
+    <ng-container *ngIf="index.is_favorite; else elseTemplate">
+      <div class="flex items-center">
+        <span>Unfollow</span>
+        <mat-icon class="!text-10 !w-10 !h-10">remove</mat-icon>
+      </div>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <div class="flex items-center">
+        <span>Follow</span>
+        <mat-icon class="!text-10 !w-10 !h-10">add</mat-icon>
+      </div>
+    </ng-template>
+  </a>
+</ng-template>
+
+<ng-template #tradeTypeRenderer let-zIndex="zIndex">
+  <div [ngClass]="{ 'bottom-10 left-10': zIndex != 'raised', 'top-10 right-10': zIndex == 'raised' }" class="absolute">
+    <div class="flex items-center justify-center gap-x-10">
+      <dd-icon *ngIf="index.in_hedging_book" [size]="28" class="bg-navy rounded" name="targeted"></dd-icon>
+      <dd-icon *ngIf="index.is_rolling_deal" [size]="28" class="bg-navy rounded" name="comprehensive"></dd-icon>
+    </div>
+  </div>
+</ng-template>
+
+<div (mouseenter)="changeState$.next(true)" (mouseleave)="changeState$.next(false)" class="relative mx-10">
+  <div
+    [@onInit]
+    [ngStyle]="{
+      background: index.image
+        ? 'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0) ), url(' + index.image + ')'
+        : index.product_id.class_hierarchy_id.image
+        ? 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3) ), url(' +
+          index.product_id.class_hierarchy_id.image +
+          ')'
+        : 'black'
+    }"
+    class="w-240 h-150 rounded-lg shadow-md bg-ultimate overflow-hidden p-10 !bg-cover cursor-pointer"
+  >
+    <ng-container *ngTemplateOutlet="titleRenderer; context: { background: 'dark', title: 'product' }"></ng-container>
+    <!-- <ng-container *ngTemplateOutlet="tradeTypeRenderer"></ng-container> -->
+  </div>
+
+  <div
+    *ngIf="isHover"
+    [@onHover]
+    class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl overflow-hidden drop-shadow-lg shadow-2xl mx-auto h-350 w-320 bg-midnight z-10"
+  >
+    <a
+      [routerLink]="
+        [
+          dataDashRoute.root,
+          dataDashRoute.tradingCenter,
+          'trade',
+          index.id,
+          index.in_hedging_book ? contractType.Individual : contractType.RollingDeal
+        ] | absolutePath
+      "
+      class="absolute top-0 right-0 bottom-0 left-0 z-[51]"
+    ></a>
+    <div class="h-[175px] w-[320px] relative">
+      <div *ngIf="index.public_access_level < 6" class="h-full w-full relative">
+        <div class="absolute top-10 left-10 z-10">
+          <p>
+            <span class="text-15">{{ index.last_index_price | getDecimal: 3 }}</span>
+            <span class="ml-[2px] text-10">{{ index | currencyAndUnit: false }}</span>
+          </p>
+          <p
+            [ngClass]="{ 'text-green-400': index.last_price_change > 0, 'text-red-400': index.last_price_change < 0 }"
+            class="flex items-center text-dark"
+          >
+            <span class="text-[12px]">
+              {{ index.last_price_movement }}
+            </span>
+            <mat-icon *ngIf="index.last_price_change > 0" class="!text-[12px] !h-[12px] !w-[12px]">north</mat-icon>
+            <mat-icon *ngIf="index.last_price_change < 0" class="!text-[12px] !h-[12px] !w-[12px]">south</mat-icon>
+          </p>
+        </div>
+        <dd-spinner [spinner]="spinner.loaders.loading" class="text-[0.8em]"></dd-spinner>
+        <dd-basic-chart
+          [data]="plotData"
+          [refreshLayout$]="refreshPlotLayout$"
+          [startingLayout]="startingLayout"
+          class="w-full"
+        ></dd-basic-chart>
+      </div>
+      <div *ngIf="index.public_access_level === 6" class="bg-white h-full w-full flex items-center justify-center">
+        <img src="assets/illustrations/empty-card-panel.svg" />
+      </div>
+    </div>
+    <div class="h-[175px] w-[320px] p-10 relative">
+      <ng-container *ngTemplateOutlet="titleRenderer; context: { background: 'dark', title: 'index' }"></ng-container>
+      <div class="text-[12px]">
+        <div class="flex">
+          <p class="text-white basis-[110px] grow-0 shrink-0">Index Provider</p>
+          <p class="text-slate-100 text-10">{{ index.index_provider }}</p>
+        </div>
+        <div class="flex">
+          <p class="text-white basis-[110px] grow-0 shrink-0">Specification</p>
+          <p class="text-slate-100 text-10">{{ index.specification | truncate: 80 }}</p>
+        </div>
+        <div class="flex">
+          <p class="text-white basis-[110px] grow-0 shrink-0">Delivery Point</p>
+          <p class="text-slate-100 text-10">{{ index.delivery_point }}</p>
+        </div>
+        <div class="flex">
+          <p class="text-white basis-[110px] grow-0 shrink-0">Currency & Unit</p>
+          <p class="text-slate-100 text-10">{{ index | currencyAndUnit: false }}</p>
+        </div>
+      </div>
+      <!-- <ng-container *ngTemplateOutlet="tradeTypeRenderer; context: { zIndex: 'raised' }"></ng-container> -->
+      <ng-container *ngTemplateOutlet="followRenderer; context: { zIndex: 'raised' }"></ng-container>
+    </div>
+  </div>
+</div>

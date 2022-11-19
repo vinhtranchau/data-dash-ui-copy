@@ -1,0 +1,95 @@
+<div class="relative h-[calc(100vh_-_60px)] overflow-hidden px-30 pt-10 py-20">
+  <div class="flex flex-wrap justify-between gap-x-30 pt-10">
+    <div class="text-center font-black text-35 text-dark">
+      <mat-icon class="mr-20 ml-5 scale-150" color="warn">crisis_alert</mat-icon>
+      <span>Index Alerts</span>
+    </div>
+    <div>
+      <form [formGroup]="form">
+        <div class="flex flex-col items-end justify-center">
+          <mat-form-field appearance="outline" class="w-300">
+            <mat-label>Search Alerts</mat-label>
+            <input matInput formControlName="searchTerm" placeholder="e.g. US88" />
+            <button mat-icon-button matSuffix>
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-slide-toggle color="primary" class="mb-15" formControlName="favoriteIndexOnly"
+            >Only show favourite indexes</mat-slide-toggle
+          >
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="rounded-3xl bg-white overflow-clip relative h-[calc(100vh_-_235px)]">
+    <div
+      class="h-[calc(100vh_-_235px)] overflow-y-auto scroll overflow-x-hidden"
+      infiniteScroll
+      [scrollWindow]="false"
+      [infiniteScrollDistance]="1"
+      (scrolled)="onScroll()"
+    >
+      <mat-list>
+        <div class="absolute top-15 right-30 z-[1000]">
+          <div class="flex items-center justify-center">
+            <a
+              class="pr-10 border-r text-blue-400"
+              [routerLink]="[userRoute.root, userRoute.account, '4'] | absolutePath"
+              >Manage alert notifications</a
+            >
+            <a class="text-blue-400 flex items-center justify-center ml-10" (click)="downloadAll()">
+              <mat-icon>download</mat-icon> <span>Download All</span>
+            </a>
+          </div>
+        </div>
+        <ng-container *ngFor="let date of alertDates; let i = index">
+          <div class="sticky top-0 bg-white border-b w-full" [ngStyle]="{ zIndex: i + 1 }" mat-subheader>
+            <div class="flex items-center justify-between w-full">
+              <div class="text-dark font-bold pt-25 pb-20 text-20">{{ date | date }}</div>
+            </div>
+          </div>
+          <mat-list-item
+            class="mb-10 cursor-pointer hover:bg-slate-400 hover:bg-opacity-20"
+            (click)="showAlertDetails(alert.id)"
+            *ngFor="let alert of alertsByDate[date]"
+          >
+            <div mat-list-icon class="rounded-full bg-teal text-white flex items-center justify-center">
+              <mat-icon>{{ alert.log_type | alertType }}</mat-icon>
+            </div>
+            <div mat-line>
+              <span class="text-midnight font-medium">{{ alert.index_details_id.stable_index_code }}</span>
+              <span class="text-midnight font-medium mx-5"> - </span>
+              <span class="text-midnight font-medium">{{ alert.log_type | enumToLabel }}</span>
+            </div>
+            <div mat-line>
+              <span class="text-grey text-12">{{ alert.created_at | date: 'shortTime' }} GMT+0</span>
+            </div>
+
+            <div class="flex items-center" *ngIf="alert.triggered_by">
+              <div class="mr-10">
+                <p class="text-13 font-medium text-right">{{ alert.triggered_by.name }}</p>
+                <p class="text-12 text-right text-grey">{{ alert.triggered_by.email }}</p>
+              </div>
+              <div class="relative h-40 w-40">
+                <img
+                  [src]="alert.triggered_by.avatar || 'assets/images/default-avatar.jpeg'"
+                  class="rounded-full w-full h-full object-cover"
+                  alt="Avatar"
+                />
+              </div>
+            </div>
+          </mat-list-item>
+        </ng-container>
+        <div class="relative min-h-50" *ngIf="isLoading">
+          <dd-spinner message="Loading alerts..." bgClass="bg-white"></dd-spinner>
+        </div>
+        <div *ngIf="!isLoading && alerts.length === 0">
+          <div class="flex justify-center items-center p-50">
+            <img src="/assets/illustrations/empty-search-results.svg" />
+          </div>
+          <p class="text-medium text-center py-50 text-dark">No results found.</p>
+        </div>
+      </mat-list>
+    </div>
+  </div>
+</div>

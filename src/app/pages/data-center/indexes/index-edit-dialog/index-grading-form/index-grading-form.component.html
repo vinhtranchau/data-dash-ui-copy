@@ -1,0 +1,82 @@
+<div [formGroup]="form" class="grid grid-cols-4 gap-x-30 mt-20">
+  <mat-form-field appearance="outline" class="col-span-4 sm:col-span-2">
+    <mat-label>Index State</mat-label>
+    <mat-select formControlName="index_state">
+      <mat-option *ngFor="let indexState of indexStateOptions" [value]="indexState.id">
+        {{ indexState.label }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('index_state')?.hasError('required')">Required.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-span-4 sm:col-span-2">
+    <mat-label>Index Type</mat-label>
+    <mat-select formControlName="index_type">
+      <mat-option *ngFor="let indexType of indexTypeOptions" [value]="indexType.id">
+        {{ indexType.label }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('index_type')?.hasError('required')">Required.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-span-4 sm:col-span-2">
+    <mat-label>Tier</mat-label>
+    <mat-select formControlName="tier" placeholder="Pending">
+      <mat-option *ngFor="let tier of tierOptions" [value]="tier.id">
+        {{ tier.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-span-4 sm:col-span-2">
+    <mat-label>Underwriter Approval</mat-label>
+    <mat-select formControlName="underwriter_approval" placeholder="Pending">
+      <mat-option *ngFor="let approval of underwriterApprovalOptions" [value]="approval.id">
+        {{ approval.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-span-4 sm:col-span-2 md:col-span-1">
+    <mat-label>Methodology</mat-label>
+    <input formControlName="stable_grading_methodology" matInput type="number"/>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-span-4 sm:col-span-2 md:col-span-1">
+    <mat-label>Data Integrity</mat-label>
+    <input formControlName="stable_grading_data_integrity" matInput type="number"/>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-span-4 sm:col-span-2 md:col-span-1">
+    <mat-label>Data Availability</mat-label>
+    <input formControlName="stable_grading_data_availability" matInput type="number"/>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-span-4 sm:col-span-2 md:col-span-1">
+    <mat-label>Index Robustness</mat-label>
+    <input formControlName="stable_grading_index_robustness" matInput type="number"/>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-span-4 sm:col-span-1">
+    <mat-label>Total Grade</mat-label>
+    <input formControlName="stable_grading_total_grade" matInput type="number"/>
+  </mat-form-field>
+
+  <div class="flex items-center justify-start mr-auto col-span-4 sm:col-span-1">
+    <mat-slide-toggle class="mb-15" color="primary" formControlName="cfp_ready">CFP Ready</mat-slide-toggle>
+  </div>
+
+  <div class="flex items-center justify-start mr-auto col-span-4 sm:col-span-1">
+    <mat-slide-toggle class="mb-15" color="primary" formControlName="in_hedging_book">Hedging Book</mat-slide-toggle>
+  </div>
+
+  <div class="flex items-center justify-start mr-auto col-span-4 sm:col-span-1">
+    <mat-slide-toggle class="mb-15" color="primary" formControlName="is_rolling_deal">Rolling Deal</mat-slide-toggle>
+  </div>
+
+  <mat-form-field appearance="outline" class="col-span-4">
+    <mat-label>Index Notes</mat-label>
+    <textarea formControlName="index_notes" matInput></textarea>
+    <mat-error *ngIf="form.get('index_notes')?.hasError('maxlength')">Too many characters!</mat-error>
+  </mat-form-field>
+</div>

@@ -1,0 +1,77 @@
+<ng-content></ng-content>
+<form [formGroup]="form">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-30">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Company Name</mat-label>
+      <input formControlName="name" matInput placeholder="Stable" type="text" />
+      <mat-error *ngIf="form.controls.name?.hasError('required')">Field is required.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>City</mat-label>
+      <input formControlName="city" matInput placeholder="City" type="text" />
+      <mat-error *ngIf="form.controls.city?.hasError('required')">Field is required.</mat-error>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Country</mat-label>
+    <mtx-select
+      [clearable]="false"
+      [items]="nationOptions$"
+      [multiple]="false"
+      [required]="true"
+      [virtualScroll]="true"
+      appendTo="body"
+      bindLabel="name"
+      bindValue="id"
+      formControlName="country_id"
+    ></mtx-select>
+    <mat-error *ngIf="form.controls.country_id?.hasError('required')">Field is required.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Business Type</mat-label>
+    <mtx-select
+      [clearable]="false"
+      [items]="businessTypeOptions"
+      [multiple]="false"
+      [required]="true"
+      [virtualScroll]="false"
+      appendTo="body"
+      bindLabel="label"
+      bindValue="id"
+      formControlName="business_type"
+    ></mtx-select>
+    <mat-error *ngIf="form.controls.business_type?.hasError('required')">Field is required.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Company Turnover</mat-label>
+    <mtx-select
+      [clearable]="false"
+      [items]="turnOverOptions"
+      [multiple]="false"
+      [required]="true"
+      [virtualScroll]="false"
+      appendTo="body"
+      bindLabel="label"
+      bindValue="id"
+      formControlName="turnover"
+    ></mtx-select>
+    <mat-error *ngIf="form.controls.turnover?.hasError('required')">Field is required.</mat-error>
+  </mat-form-field>
+
+  <div class="mt-30 w-full">
+    <button
+      [disabled]="form.invalid || isLoading"
+      class="w-full !mb-30"
+      color="primary"
+      mat-flat-button
+      type="button"
+      (click)="continue()"
+    >
+      {{ continueText }}
+    </button>
+  </div>
+</form>

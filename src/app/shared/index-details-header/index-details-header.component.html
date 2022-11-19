@@ -1,0 +1,82 @@
+<div class="rounded-t-3xl rounded-lg bg-midnight px-30 py-20 h-full relative" *ngIf="indexDetails">
+  <div class="flex items-start justify-start mb-20">
+    <div class="flex justify-start items-center">
+      <div class="w-60 h-60 rounded-full bg-navy flex items-center justify-center mr-20">
+        <img
+          [src]="indexDetails.product_id.class_hierarchy_id.icon || 'assets/images/logo.svg'"
+          class="rounded-full w-5/6 h-5/6 object-cover"
+          alt="Avatar"
+        />
+      </div>
+      <div class="h-60 pr-20">
+        <p class="text-white font-bold text-25">{{ indexDetails.product_id.name }}</p>
+        <p class="text-white text-[12px]">{{ indexDetails.stable_index_code }}</p>
+      </div>
+    </div>
+    <div class="w-650 border-l border-r border-slate-400 px-20">
+      <div class="w-full flex items-center justify-between pb-20">
+        <div class="flex items-center justify-center">
+          <div class="bg-seablue rounded w-[35px] h-[35px] flex items-center justify-center mr-10">
+            <mat-icon class="text-white">language</mat-icon>
+          </div>
+          <div>
+            <p class="text-white font-medium text-15">Index Provider</p>
+            <p class="text-white text-[12px]">{{ indexDetails.index_provider_id.name }}</p>
+          </div>
+        </div>
+        <div class="flex items-center justify-center ml-20">
+          <div class="bg-seablue rounded w-[35px] h-[35px] flex items-center justify-center mr-10">
+            <mat-icon class="text-white">calendar_today</mat-icon>
+          </div>
+          <div>
+            <p class="text-white font-medium text-15">Publishing Frequency</p>
+            <p class="text-white text-[12px]">{{ indexDetails.price_frequency | textTransform }}</p>
+          </div>
+        </div>
+        <div class="flex items-center justify-center ml-20">
+          <div class="bg-seablue rounded w-[35px] h-[35px] flex items-center justify-center mr-10">
+            <mat-icon class="text-white">category</mat-icon>
+          </div>
+          <div>
+            <p class="text-white font-medium text-15">Delivery Point</p>
+            <p class="text-white text-[12px]">{{ indexDetails.delivery_point }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="text-[12px] text-white mb-10">{{ indexDetails.specification }}</div>
+    </div>
+    <div class="ml-20">
+      <div class="flex items-center">
+        <div class="flex items-baseline">
+          <p class="text-white font-bold text-20">
+            <span *ngIf="!indexDetails.is_currency_cents">$</span>{{ indexDetails.last_index_price | number: '1.2-2' }}
+          </p>
+          <span
+            class="mx-5 text-12"
+            [ngClass]="{
+              'text-green-400': indexDetails.last_price_change > 0,
+              'text-red-400': indexDetails.last_price_change < 0,
+              'text-grey': indexDetails.last_price_change == 0
+            }"
+          >
+            ({{ indexDetails.last_price_percentage_change | percentageChange }})
+          </span>
+          <span class="text-white text-12">{{ indexDetails | currencyAndUnit: false }}</span>
+        </div>
+      </div>
+      <p class="text-white text-12">Last Updated: {{ indexDetails.index_price_end_date | date }}</p>
+      <a
+        (click)="updateFavorite()"
+        class="flex items-center w-fit mt-10 bg-slate-200 text-dark rounded-lg text-10 p-5 px-10 hover:scale-[1.04] hover:bg-slate-300"
+      >
+        <span>{{ indexDetails.is_favorite ? 'Unfollow' : 'Follow' }}</span>
+        <mat-icon class="!text-10 !w-10 !h-10">{{ indexDetails.is_favorite ? 'remove' : 'add' }}</mat-icon>
+      </a>
+    </div>
+  </div>
+  <img
+    class="-scale-x-[1] absolute bottom-0 right-0"
+    src="assets/backgrounds/hexagon-cover-bottom.svg"
+    alt="bottom-banner-cover"
+  />
+</div>

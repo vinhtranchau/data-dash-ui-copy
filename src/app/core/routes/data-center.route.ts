@@ -1,0 +1,15 @@
+export const dataCenterRoute = {
+  root: 'data-center',
+  indexes: 'indexes',
+  scrapeMatching: 'scrape-matching',
+  indexExtension: 'index-extension',
+  historicalData: 'historical-data',
+  hierarchy: 'hierarchy',
+  unit: 'unit',
+  currency: 'currency',
+  nation: 'nation',
+  indexProvider: 'index-provider',
+  users: 'users',
+  permissions: 'permissions',
+  apiKey: 'api-key',
+};

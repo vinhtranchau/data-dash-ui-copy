@@ -1,0 +1,42 @@
+<div class="py-20">
+  <mat-tab-group [selectedIndex]="0" class="bg-white">
+    <mat-tab label="Net Position Plot">
+      <ng-template matTabContent>
+        <div class="relative h-[600px] mt-20 w-full">
+          <dd-basic-chart
+            [data]="netPositionPlotData"
+            [hasLegend]="true"
+            [hasRangeSelector]="true"
+            [hasRangeSlider]="true"
+            [refreshLayout$]="refreshNetPositionPlotLayout$"
+            [startingLayout]="netPositionPlotLayout"
+          ></dd-basic-chart>
+        </div>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Net Position ACF/PACF">
+      <ng-template matTabContent>
+        <div class="relative h-[600px] mt-20 w-full">
+          <dd-basic-chart
+            [data]="netPositionAcfData"
+            [hasLegend]="true"
+            [refreshLayout$]="refreshNetPositionAcfLayout$"
+            [startingLayout]="netPositionAcfLayout"
+          ></dd-basic-chart>
+        </div>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Net Position Distribution">
+      <ng-template matTabContent>
+        <div class="relative h-[600px] mt-20">
+          <dd-basic-chart
+            [data]="netPositionDistributionData"
+            [hasLegend]="true"
+            [refreshLayout$]="refreshNetPositionDistributionLayout$"
+            [startingLayout]="netPositionDistributionLayout"
+          ></dd-basic-chart>
+        </div>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

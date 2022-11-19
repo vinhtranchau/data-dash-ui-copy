@@ -1,0 +1,44 @@
+<div class="relative">
+  <dd-data-table-header
+    (add)="add.emit()"
+    (search)="search($event)"
+    *ngIf="hasHeader"
+    [addText]="headerAddText"
+    [hasAddButton]="headerHasAddButton"
+    [hasEditPermission]="hasEditPermission"
+    [hasSearchFilter]="headerHasSearchFilter"
+    [isLoading]="isLoading"
+  >
+    <ng-content></ng-content>
+  </dd-data-table-header>
+  <div [style]="tableHeight ? { height: tableHeight } : ''" class="overflow-auto scroll min-h-300">
+    <dd-data-table
+      (action)="action.emit($event)"
+      (sort)="sort.emit($event)"
+      [columns]="columns"
+      [dataSource]="dataSource"
+      [expandTemplate]="expandTemplate"
+      [displayedColumns]="displayedColumns"
+      [hasEditPermission]="hasEditPermission"
+      [hasSort]="hasSort"
+      [isLoading]="isLoading"
+      [stickyColumns]="stickyColumns"
+      [selectable]="selectable"
+      [multiSelect]="multiSelect"
+      [expandable]="expandable"
+      (changeSelection)="changeSelection.emit($event)"
+    ></dd-data-table>
+  </div>
+  <mat-paginator
+    (page)="changePage($event)"
+    *ngIf="total"
+    [hidePageSize]="true"
+    [length]="total"
+    [ngClass]="stickyPaginator ? 'sticky' : ''"
+    [pageIndex]="pageIndex"
+    [pageSize]="pageSize"
+    class="bottom-0 right-0 w-full"
+    showFirstLastButtons
+  >
+  </mat-paginator>
+</div>

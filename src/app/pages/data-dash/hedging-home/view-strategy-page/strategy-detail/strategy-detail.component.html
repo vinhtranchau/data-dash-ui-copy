@@ -1,0 +1,178 @@
+<div class="py-10 flex-grow relative h-[calc(67vh_-_60px)] bg-white !rounded-tr-3xl rounded-lg overflow-clip">
+  <dd-error-handler [hasError]="!strategy" message="Select a strategy below."></dd-error-handler>
+  <dd-spinner *ngIf="isLoading" message="Loading strategy detail..." bgClass="bg-white"></dd-spinner>
+  <div *ngIf="strategy">
+    <h4 class="text-dark mb-10 px-15">Strategy Details</h4>
+
+    <div class="text-[12px] px-15 overflow-y-auto h-[calc(67vh_-_210px)] scroll mb-10">
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Amount Commodity:</div>
+        <div>{{ strategy.amount_commodity | number: '1.0-4' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Correlation:</div>
+        <div>{{ strategy.correlation | number: '1.2-4' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Currency:</div>
+        <div>{{ strategy.currency }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Delivery Month:</div>
+        <div>{{ strategy.delivery_month | date }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Description:</div>
+        <div>{{ strategy.description }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Exchange Code:</div>
+        <div>{{ strategy.exchange_code }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Futures Code:</div>
+        <div>{{ strategy.futures_code }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">HE Average:</div>
+        <div>{{ strategy.he_avg | number: '1.2-4' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">HE Low:</div>
+        <div>{{ strategy.he_low | number: '1.2-4' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">HE High:</div>
+        <div>{{ strategy.he_up | number: '1.2-4' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Hedge Ratio:</div>
+        <div>{{ strategy.hedge_ratio | number: '1.2-4' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Last Tradable Date:</div>
+        <div>{{ strategy.last_tradable_date | date }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">NB Contracts:</div>
+        <div>{{ strategy.nb_contracts | number: '1.0-4' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Open Interest:</div>
+        <div>{{ strategy.open_interest | number: '1.0-4' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">PX Ask:</div>
+        <div>{{ strategy.px_ask | number: '1.2-4' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">PX Bid:</div>
+        <div>{{ strategy.px_bid | number: '1.2-4' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">PX High:</div>
+        <div>{{ strategy.px_high | number: '1.2-4' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">PX Last:</div>
+        <div>{{ strategy.px_last | number: '1.2-4' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">PX Low:</div>
+        <div>{{ strategy.px_low | number: '1.2-4' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">PX Open:</div>
+        <div>{{ strategy.px_open | number: '1.2-4' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Settlement Date:</div>
+        <div>{{ strategy.settle_date | date }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Tenor:</div>
+        <div>{{ strategy.tenor }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Size:</div>
+        <div>{{ strategy.the_size | number: '1.2-4' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Unit:</div>
+        <div>{{ strategy.unit | textTransform }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Volume:</div>
+        <div>{{ strategy.volume | number: '1.2-4' }}</div>
+      </div>
+      <hr />
+    </div>
+
+    <div class="sticky bottom-0 bg-white px-15">
+      <div class="grid grid-cols-2 gap-x-10 mb-10">
+        <button class="w-full" mat-flat-button color="primary" type="button">Update</button>
+        <button class="w-full" mat-flat-button color="accent" type="button">Save</button>
+      </div>
+
+      <div class="grid grid-cols-1 gap-x-10 mb-10">
+        <button
+          class="w-full"
+          mat-flat-button
+          color="warn"
+          type="button"
+          [routerLink]="[dataDashRoute.root, dataDashRoute.derivativesTrading] | absolutePath"
+        >
+          Go To Trade
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

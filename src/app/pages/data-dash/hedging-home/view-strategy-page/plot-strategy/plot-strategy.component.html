@@ -1,0 +1,11 @@
+<div class="border py-10 flex-grow relative h-[calc(67vh_-_60px)] overflow-y-auto bg-white shadow-md rounded-lg">
+  <dd-error-handler [hasError]="!selectedStrategyDetail" message="Select a strategy below."></dd-error-handler>
+  <dd-spinner *ngIf="isLoading || isLoadingForecast" message="Loading plots..."></dd-spinner>
+  <dd-basic-chart
+    [data]="data"
+    [hasLegend]="true"
+    [hasRangeSelector]="false"
+    [hasRangeSlider]="true"
+    [refreshLayout$]="refreshLayout$"
+  ></dd-basic-chart>
+</div>

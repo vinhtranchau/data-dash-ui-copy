@@ -1,0 +1,19 @@
+<div class="relative h-[calc(100vh_-_60px)] py-10 overflow-y-auto scroll">
+  <dd-error-handler
+    [hasError]="hasError"
+    message="An error has occurred, please contact the admins."
+    bgClass="bg-slate-200"
+  ></dd-error-handler>
+  <dd-spinner *ngIf="isLoading" message="Loading index..."></dd-spinner>
+  <div class="h-140 px-30 mb-10" *ngIf="indexDetails">
+    <dd-index-details-header [indexDetails]="indexDetails"></dd-index-details-header>
+  </div>
+  <div *ngIf="!isLoading && indexDetails && indexPrices">
+    <div *ngIf="indexContractType == contractType.Individual">
+      <dd-individual-contract [indexPrices]="indexPrices" [indexDetails]="indexDetails"></dd-individual-contract>
+    </div>
+    <div *ngIf="indexContractType == contractType.RollingDeal">
+      <dd-rolling-deal-contract [indexPrices]="indexPrices" [indexDetails]="indexDetails"></dd-rolling-deal-contract>
+    </div>
+  </div>
+</div>

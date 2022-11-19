@@ -1,0 +1,83 @@
+<div
+  [ngClass]="{
+    'md:h-[85vh]': !fullscreen,
+    'md:max-h-[1400px]': !fullscreen
+  }"
+  class="px-20 md:px-30 pt-20 h-[calc(100vh_-_110px)] md:h-[calc(100vh_-_50px)]"
+>
+  <div class="grid grid-cols-7 gap-x-30">
+    <div class="col-span-7 lg:col-span-5">
+      <div>
+        <dd-error-handler
+          [hasError]="!indexDetailsStoreService.indexPrices.length && !spinner.loaders.loading.isLoading"
+          message="No prices available"
+        ></dd-error-handler>
+        <dd-spinner [spinner]="spinner.loaders.loading" bgClass="bg-white"></dd-spinner>
+        <div class="pl-60 flex flex-wrap justify-between items-end">
+          <dd-price-change-header
+            [startPrice]="startPrice"
+            [startDate]="startDate"
+            [endPrice]="endPrice"
+            [endDate]="endDate"
+          ></dd-price-change-header>
+          <button
+            class="w-full !my-10 sm:!my-0 sm:w-fit"
+            (click)="downloadData()"
+            color="primary"
+            mat-flat-button
+            type="button"
+          >
+            <mat-icon> download</mat-icon>
+            <span>Export</span>
+          </button>
+        </div>
+        <div
+          [ngClass]="{
+            'md:h-[calc(85vh_-_270px)]': !fullscreen,
+            'md:max-h-[1030px]': !fullscreen
+          }"
+          class="relative w-full mb-20 h-[calc(100vh_-_320px)]"
+        >
+          <dd-basic-chart
+            [data]="data"
+            [hasLegend]="true"
+            [hasRangeSelector]="true"
+            [hasRangeSlider]="true"
+            [refreshLayout$]="refreshLayout$"
+            (relayout)="graphRelayout($event)"
+          ></dd-basic-chart>
+        </div>
+      </div>
+      <div class="relative">
+        <dd-error-handler
+          [hasError]="!indexDetailsStoreService.indexPrices.length && !spinner.loaders.loading.isLoading"
+        ></dd-error-handler>
+        <div class="flex items-center justify-center">
+          <dd-additional-options-form
+            (filterChanged)="filterChange($event)"
+            [hasExtension]="hasExtension"
+          ></dd-additional-options-form>
+        </div>
+      </div>
+    </div>
+    <div
+      [ngClass]="{
+        'md:max-h-[1250px]': !fullscreen,
+        'md:h-[calc(85vh_-_50px)]': !fullscreen
+      }"
+      class="col-span-7 lg:col-span-2 sidebar-section h-[calc(100vh_-_100px)]"
+    >
+      <div class="border rounded-lg mb-20 relative h-[calc(50%_-_20px)]">
+        <p class="font-bold px-10 py-10 text-grey">Statistics</p>
+        <dd-statistics-sidebar></dd-statistics-sidebar>
+      </div>
+      <div class="border rounded-lg mb-20 relative h-[calc(50%_-_20px)]">
+        <p class="font-bold px-10 py-10 text-grey">Index Details</p>
+        <dd-details-sidebar
+          [indexDetails$]="indexDetailsStoreService.indexDetails$.asObservable()"
+          [spinner]="indexDetailsStoreService.spinner.loaders.indexDetails"
+        ></dd-details-sidebar>
+      </div>
+    </div>
+  </div>
+</div>

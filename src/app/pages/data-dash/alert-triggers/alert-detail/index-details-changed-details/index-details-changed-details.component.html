@@ -1,0 +1,95 @@
+<table class="table-auto border w-full mb-10" *ngIf="alert">
+  <tbody>
+    <tr class="border-b">
+      <th class="px-15 py-5 border-r bg-slate-100">Field</th>
+      <th class="px-15 py-5 border-r bg-slate-100">Old Value</th>
+      <th class="px-15 py-5 bg-slate-100">New Value</th>
+    </tr>
+    <ng-container *ngFor="let field of fields">
+      <tr
+        class="border-b"
+        *ngIf="
+          [
+            'tier',
+            'index_type',
+            'proxy_type',
+            'index_state',
+            'price_frequency',
+            'underwriter_approval',
+            'publishing_delay_units'
+          ].includes(field)
+        "
+      >
+        <td class="px-15 py-5 border-r">{{ field | textTransform }}</td>
+        <td class="px-15 py-5 border-r">{{ extraData.old_data[field] | textTransform }}</td>
+        <td class="px-15 py-5">{{ extraData.new_data[field] | textTransform }}</td>
+      </tr>
+      <tr
+        class="border-b"
+        *ngIf="
+          [
+            'index_notes',
+            'proxy_notes',
+            'public_access',
+            'specification',
+            'delivery_point',
+            'trusted_access',
+            'unit_multiplier',
+            'price_update_url',
+            'index_calculation',
+            'price_update_type',
+            'index_provider_code',
+            'specification_notes',
+            'business_day_convention',
+            'source_publication_notes',
+            'index_provider_methodology',
+            'stable_grading_methodology',
+            'stable_grading_total_grade',
+            'stable_grading_data_integrity',
+            'stable_grading_index_robustness',
+            'stable_grading_data_availability',
+            'publishing_delay_max_multiplier',
+            'publishing_delay_max_multiplier'
+          ].includes(field)
+        "
+      >
+        <td class="px-15 py-5 border-r">{{ field | textTransform }}</td>
+        <td class="px-15 py-5 border-r">{{ extraData.old_data[field] }}</td>
+        <td class="px-15 py-5">{{ extraData.new_data[field] }}</td>
+      </tr>
+      <tr
+        class="border-b"
+        *ngIf="['cfp_ready', 'is_currency_cents', 'in_hedging_book', 'is_rolling_deal'].includes(field)"
+      >
+        <td class="px-15 py-5 border-r">{{ field | textTransform }}</td>
+        <td class="px-15 py-5 border-r">{{ extraData.old_data[field] | boolean }}</td>
+        <td class="px-15 py-5">{{ extraData.new_data[field] | boolean }}</td>
+      </tr>
+      <tr class="border-b" *ngIf="field === 'unit_id'">
+        <td class="px-15 py-5 border-r">{{ field | textTransform }}</td>
+        <td class="px-15 py-5 border-r">{{ extraData.old_data[field].units }}</td>
+        <td class="px-15 py-5">{{ extraData.new_data[field].units }}</td>
+      </tr>
+      <tr class="border-b" *ngIf="field === 'nation_id'">
+        <td class="px-15 py-5 border-r">{{ field | textTransform }}</td>
+        <td class="px-15 py-5 border-r">{{ extraData.old_data[field].code }}</td>
+        <td class="px-15 py-5">{{ extraData.new_data[field].code }}</td>
+      </tr>
+      <tr class="border-b" *ngIf="field === 'product_id'">
+        <td class="px-15 py-5 border-r">{{ field | textTransform }}</td>
+        <td class="px-15 py-5 border-r">{{ extraData.old_data[field].name }}</td>
+        <td class="px-15 py-5">{{ extraData.new_data[field].name }}</td>
+      </tr>
+      <tr class="border-b" *ngIf="field === 'currency_id'">
+        <td class="px-15 py-5 border-r">{{ field | textTransform }}</td>
+        <td class="px-15 py-5 border-r">{{ extraData.old_data[field].code }}</td>
+        <td class="px-15 py-5">{{ extraData.new_data[field].code }}</td>
+      </tr>
+      <tr class="border-b" *ngIf="field === 'index_provider_id'">
+        <td class="px-15 py-5 border-r">{{ field | textTransform }}</td>
+        <td class="px-15 py-5 border-r">{{ extraData.old_data[field].name }}</td>
+        <td class="px-15 py-5">{{ extraData.new_data[field].name }}</td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>

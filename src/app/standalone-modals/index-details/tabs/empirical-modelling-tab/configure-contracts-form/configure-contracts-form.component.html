@@ -1,0 +1,156 @@
+<div class="flex items-center mb-20">
+  <span class="font-bold text-grey mr-10">Configure Contracts</span>
+  <mat-icon
+    class="text-grey"
+    matTooltip="All contracts are Asian options where the settlement price is the mean of the spot prices between the policy start and end dates using the monthly index prices"
+  >info_outline
+  </mat-icon
+  >
+</div>
+<div
+  [ngClass]="{
+    'md:h-[calc(85vh_-_185px)]': !fullscreen,
+    'md:max-h-[1215px]': !fullscreen
+  }"
+  class="h-[calc(100vh-_235px)] overflow-auto lg:pr-20"
+>
+  <form [formGroup]="form">
+    <div formArrayName="contracts">
+      <div *ngFor="let contract of form.controls.contracts.controls; let i = index">
+        <div
+          [formGroupName]="i"
+          [id]="'config-' + i.toString()"
+          [ngClass]="{ 'border-warn border-2': contract.errors !== null, 'mt-20': i > 0 }"
+          class="border rounded-lg px-30 py-10 w-full relative"
+        >
+          <button (click)="removeContract(i)" *ngIf="i > 0" class="!absolute top-0 right-0" mat-icon-button>
+            <mat-icon class="text-[1.2em]"> close</mat-icon>
+          </button>
+          <p class="mb-10 text-[0.8em]">Option Features:</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-30">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Option Type</mat-label>
+              <mat-select formControlName="optionType">
+                <mat-option *ngFor="let option of optionTypesOptions" [value]="option.id">
+                  {{ option.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Strike Calculation</mat-label>
+              <mat-select formControlName="strikeCalculation">
+                <mat-option *ngFor="let option of strikeCalculationOptions" [value]="option.id">
+                  {{ option.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-30">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Strike</mat-label>
+              <input formControlName="strike" matInput type="number"/>
+              <mat-icon
+                class="ml-10 text-grey"
+                matSuffix
+                matTooltip="Enter a percentage value (e.g 110 means 110%) for non fixed-spread options."
+              >info_outline
+              </mat-icon
+              >
+              <mat-error *ngIf="contract.get('strike')?.hasError('required')">Required.</mat-error>
+              <mat-error *ngIf="contract.get('strike')?.hasError('nonNegative')">Cannot be negative.</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Limit</mat-label>
+              <input formControlName="limit" matInput type="number"/>
+              <mat-icon
+                class="ml-10 text-grey"
+                matSuffix
+                matTooltip="Enter a percentage value (e.g 110 means 110%) for non fixed-spread options."
+              >info_outline
+              </mat-icon
+              >
+              <mat-error *ngIf="contract.get('limit')?.hasError('required')">Required.</mat-error>
+              <mat-error *ngIf="contract.get('limit')?.hasError('nonNegative')">Cannot be negative.</mat-error>
+            </mat-form-field>
+          </div>
+          <p class="mb-10 text-[0.8em]">Option Duration:</p>
+          <div class="grid grid-cols-3 gap-x-30">
+            <mat-form-field appearance="outline" class="col-span-3 sm:col-span-2">
+              <mat-label>Selling Months</mat-label>
+              <mtx-select
+                [clearable]="true"
+                [items]="sellingMonthsOptions"
+                [multiple]="true"
+                [required]="true"
+                [virtualScroll]="false"
+                appendTo="body"
+                bindLabel="label"
+                bindValue="id"
+                formControlName="sellingMonth"
+              ></mtx-select>
+              <mat-icon
+                class="ml-10 text-grey"
+                matSuffix
+                matTooltip="Months the contract is sold on - percentage based strike calculations are determined on the selling month."
+              >info_outline
+              </mat-icon
+              >
+              <mat-error *ngIf="contract.get('sellingMonth')?.hasError('required')">Required.</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-span-3 sm:col-span-1">
+              <mat-label>Contract Size</mat-label>
+              <input formControlName="contractSize" matInput type="number"/>
+              <mat-error *ngIf="contract.get('contractSize')?.hasError('required')">Required.</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-30">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Starting Delay</mat-label>
+              <mat-select formControlName="startingDelay">
+                <mat-option *ngFor="let option of startingDelayOptions" [value]="option.id">
+                  {{ option.label }}
+                </mat-option>
+              </mat-select>
+              <mat-icon
+                class="ml-10 text-grey"
+                matSuffix
+                matTooltip="The number of months between the selling month and the policy start date."
+              >info_outline
+              </mat-icon
+              >
+              <mat-error *ngIf="contract.get('startingDelay')?.hasError('required')">Required.</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Duration</mat-label>
+              <mat-select formControlName="duration">
+                <mat-option *ngFor="let option of durationOptions" [value]="option.id">
+                  {{ option.label }}
+                </mat-option>
+              </mat-select>
+              <mat-icon
+                class="ml-10 text-grey"
+                matSuffix
+                matTooltip="The number of months from the policy start date to the policy end date that is used to calculate the settlement price."
+              >info_outline
+              </mat-icon
+              >
+              <mat-error *ngIf="contract.get('duration')?.hasError('required')">Required.</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <mat-error *ngIf="contract.errors?.['callStrikeLimits']" class="text-[0.75em] mt-5"
+        >Limit must be greater than the strike for a Call option.
+        </mat-error
+        >
+        <mat-error *ngIf="contract.errors?.['putStrikeLimits']" class="text-[0.75em] mt-5"
+        >Strike must be greater than the limit for a Put option.
+        </mat-error
+        >
+      </div>
+    </div>
+  </form>
+</div>
+<div class="grid grid-cols-2 gap-x-30 pb-20 mt-20 lg:pr-20">
+  <button (click)="calculatePayOff()" [disabled]="form.invalid" color="primary" mat-flat-button>Calculate</button>
+  <button (click)="addContract()" color="accent" id="add-contract" mat-flat-button>Add Contract</button>
+</div>

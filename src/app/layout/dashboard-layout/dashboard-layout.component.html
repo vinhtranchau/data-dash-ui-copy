@@ -1,0 +1,27 @@
+<mat-drawer-container autosize class="h-full bg-slate-200">
+  <mat-drawer
+    [(opened)]="sidebarStatusService.isOpen"
+    [class.closed]="!sidebarStatusService.isOpen"
+    class="left-0 fixed !hidden md:!block border-0"
+    mode="side"
+  >
+    <dd-sidebar [closed]="!sidebarStatusService.isOpen"></dd-sidebar>
+  </mat-drawer>
+
+  <mat-drawer-content [class.closed]="!sidebarStatusService.isOpen">
+    <dd-navbar>
+      <!-- Desktop menu -->
+      <button (click)="sidebarToggle()" class="flex items-center text-slate-600 !hidden md:!block" mat-icon-button>
+        <mat-icon>menu</mat-icon>
+      </button>
+      <!-- Mobile menu -->
+      <button [matMenuTriggerFor]="sidebar.menu" class="flex items-center text-slate-600 md:!hidden" mat-icon-button>
+        <mat-icon>menu</mat-icon>
+      </button>
+      <dd-sidebar-mobile #sidebar="sidebarMenu"></dd-sidebar-mobile>
+    </dd-navbar>
+    <div class="h-[calc(100vh_-_60px)] overflow-y-clip">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

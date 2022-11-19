@@ -1,0 +1,273 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use 'sass:map';
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+@use '@ng-matero/extensions' as mtx;
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+$my-custom-level: mat.define-typography-level(
+  $font-family: Nunito Sans,
+  $font-weight: 400,
+  $font-size: 16px,
+  $line-height: 1,
+  $letter-spacing: normal,
+);
+
+@include mat.core($my-custom-level);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$mat-teal: (
+  50: #10cfc9,
+  100: #10cfc9,
+  200: #10cfc9,
+  300: #10cfc9,
+  400: #10cfc9,
+  500: #10cfc9,
+  600: #10cfc9,
+  700: #10cfc9,
+  800: #10cfc9,
+  900: #10cfc9,
+  A100: #10cfc9,
+  A200: #10cfc9,
+  A400: #10cfc9,
+  A700: #10cfc9,
+  contrast: (
+    50: #ffffff,
+    100: #ffffff,
+    200: #ffffff,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #ffffff,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);
+
+$mat-complementary: (
+  50: #07e69f,
+  100: #07e69f,
+  200: #07e69f,
+  300: #07e69f,
+  400: #07e69f,
+  500: #07e69f,
+  600: #07e69f,
+  700: #07e69f,
+  800: #07e69f,
+  900: #07e69f,
+  A100: #07e69f,
+  A200: #07e69f,
+  A400: #07e69f,
+  A700: #07e69f,
+  contrast: (
+    50: #ffffff,
+    100: #ffffff,
+    200: #ffffff,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #ffffff,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);
+
+$mat-midnight: (
+  50: #1d263a,
+  100: #1d263a,
+  200: #1d263a,
+  300: #1d263a,
+  400: #1d263a,
+  500: #1d263a,
+  600: #1d263a,
+  700: #1d263a,
+  800: #1d263a,
+  900: #1d263a,
+  A100: #1d263a,
+  A200: #1d263a,
+  A400: #1d263a,
+  A700: #1d263a,
+  contrast: (
+    50: #ffffff,
+    100: #ffffff,
+    200: #ffffff,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #ffffff,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);
+
+$mat-green: (
+  50: #a8e6ce,
+  100: #a8e6ce,
+  200: #a8e6ce,
+  300: #a8e6ce,
+  400: #a8e6ce,
+  500: #a8e6ce,
+  600: #a8e6ce,
+  700: #a8e6ce,
+  800: #a8e6ce,
+  900: #a8e6ce,
+  contrast: (
+    50: #355c7d,
+    100: #355c7d,
+    200: #355c7d,
+    300: #355c7d,
+    400: #355c7d,
+    500: #355c7d,
+    600: #355c7d,
+    700: #355c7d,
+    800: #355c7d,
+    900: #355c7d,
+  ),
+);
+
+$mat-lime: (
+  50: #dcedc2,
+  100: #dcedc2,
+  200: #dcedc2,
+  300: #dcedc2,
+  400: #dcedc2,
+  500: #dcedc2,
+  600: #dcedc2,
+  700: #dcedc2,
+  800: #dcedc2,
+  900: #dcedc2,
+  contrast: (
+    50: #355c7d,
+    100: #355c7d,
+    200: #355c7d,
+    300: #355c7d,
+    400: #355c7d,
+    500: #355c7d,
+    600: #355c7d,
+    700: #355c7d,
+    800: #355c7d,
+    900: #355c7d,
+  ),
+);
+
+$mat-beige: (
+  50: #ffd3b5,
+  100: #ffd3b5,
+  200: #ffd3b5,
+  300: #ffd3b5,
+  400: #ffd3b5,
+  500: #ffd3b5,
+  600: #ffd3b5,
+  700: #ffd3b5,
+  800: #ffd3b5,
+  900: #ffd3b5,
+  contrast: (
+    50: #355c7d,
+    100: #355c7d,
+    200: #355c7d,
+    300: #355c7d,
+    400: #355c7d,
+    500: #355c7d,
+    600: #355c7d,
+    700: #355c7d,
+    800: #355c7d,
+    900: #355c7d,
+  ),
+);
+
+$mat-pink: (
+  50: #ffaaa6,
+  100: #ffaaa6,
+  200: #ffaaa6,
+  300: #ffaaa6,
+  400: #ffaaa6,
+  500: #ffaaa6,
+  600: #ffaaa6,
+  700: #ffaaa6,
+  800: #ffaaa6,
+  900: #ffaaa6,
+  contrast: (
+    50: #ffffff,
+    100: #ffffff,
+    200: #ffffff,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+  ),
+);
+
+$mat-rose: (
+  50: #ff8c94,
+  100: #ff8c94,
+  200: #ff8c94,
+  300: #ff8c94,
+  400: #ff8c94,
+  500: #ff8c94,
+  600: #ff8c94,
+  700: #ff8c94,
+  800: #ff8c94,
+  900: #ff8c94,
+  contrast: (
+    50: #ffffff,
+    100: #ffffff,
+    200: #ffffff,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+  ),
+);
+
+$data-dash-ui-primary: mat.define-palette($mat-teal);
+$data-dash-ui-accent: mat.define-palette($mat-pink);
+
+// The warn palette is optional (defaults to red).
+$data-dash-ui-warn: mat.define-palette($mat-rose);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$data-dash-ui-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $data-dash-ui-primary,
+      accent: $data-dash-ui-accent,
+      warn: $data-dash-ui-warn,
+    ),
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($data-dash-ui-theme);
+
+// Material extensions
+@include mtx.all-component-themes($data-dash-ui-theme);
+@include mtx.all-experimental-component-themes($data-dash-ui-theme);

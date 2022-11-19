@@ -1,0 +1,18 @@
+<div class="pt-10">
+  <div class="rounded-3xl bg-white mx-30 pt-10 overflow-clip">
+    <dd-data-table-page
+      (action)="action($event)"
+      (add)="add()"
+      (loadData)="loadData()"
+      [columns]="columns"
+      [dataSource]="dataSource"
+      [displayedColumns]="displayedColumns"
+      [hasHeader]="true"
+      [isLoading]="isLoading"
+      [tableType]="PermissionType.HistoricalDataTable"
+      headerAddText="Add Historical Data"
+      tableHeight="calc(100vh - 180px)"
+    >
+    </dd-data-table-page>
+  </div>
+</div>

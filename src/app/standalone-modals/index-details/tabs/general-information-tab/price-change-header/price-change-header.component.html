@@ -1,0 +1,24 @@
+<div *ngIf="startPrice && endPrice && startDate && endDate">
+  <div
+    class="flex items-center"
+    [ngClass]="{
+      'text-green-400': endPrice > startPrice,
+      'text-red-400': endPrice < startPrice,
+      'text-grey': endPrice - startPrice === 0
+    }"
+  >
+    <div class="inline-block" matTooltip="Pan or zoom on the graph to set the starting and ending dates">
+      <span class="font-bold text-30"
+        >{{ endPrice > startPrice ? '+' : '' }}{{ endPrice - startPrice | getDecimal: 2 }}</span
+      >
+      <span class="font-medium text-20 ml-5"
+        >({{ (endPrice - startPrice) / startPrice | percentageChange: 2:false }})</span
+      >
+    </div>
+    <mat-icon *ngIf="endPrice > startPrice" class="!text-30 !h-30 !w-30 !font-black">north</mat-icon>
+    <mat-icon *ngIf="startPrice > endPrice" class="!text-30 !h-30 !w-30 !font-black">south</mat-icon>
+  </div>
+  <p class="text-grey text-[0.7em]">
+    {{ startDate }} ({{ startPrice | getDecimal: 2 }}) to {{ endDate }} ({{ endPrice | getDecimal: 2 }})
+  </p>
+</div>

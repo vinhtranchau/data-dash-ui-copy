@@ -1,0 +1,109 @@
+<dd-dialog-layout (save)="save()" [disabled]="form.invalid" [isLoading]="isLoading" title="Rolling Deal Configuration">
+  <form class="text-13" [formGroup]="form">
+    <div class="grid grid-cols-2 gap-x-15">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>SIC</mat-label>
+        <input formControlName="sic" matInput readonly />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Max Risk Capital Per SIC</mat-label>
+        <span matSuffix>$</span>
+        <input type="number" formControlName="maximum_risk_capital_per_index" matInput />
+      </mat-form-field>
+    </div>
+    <div class="grid grid-cols-2 gap-x-15">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Min Call Strike Ratio</mat-label>
+        <span matSuffix>%</span>
+        <input type="number" formControlName="minimum_call_strike_ratio" matInput />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Max Put Strike Ratio</mat-label>
+        <span matSuffix>%</span>
+        <input type="number" formControlName="maximum_put_strike_ratio" matInput />
+      </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-2 gap-x-15">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Min Spread Ratio</mat-label>
+        <span matPrefix>%</span>
+        <input type="number" formControlName="minimum_spread_ratio" matInput />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Max Spread Ratio</mat-label>
+        <span matPrefix>%</span>
+        <input type="number" formControlName="maximum_spread_ratio" matInput />
+      </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-2 gap-x-15">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Max Starting Delay</mat-label>
+        <span matSuffix>month</span>
+        <input type="number" formControlName="maximum_delay" matInput />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Max Duration</mat-label>
+        <span matSuffix>month</span>
+        <input type="number" formControlName="maximum_duration" matInput />
+      </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-2 gap-x-15">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Min Number of Fixations</mat-label>
+        <input type="number" formControlName="minimum_fixations" matInput />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Min Coverage</mat-label>
+        <span matSuffix>month</span>
+        <input type="number" formControlName="minimum_coverage_length" matInput />
+      </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-2 gap-x-15">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Max Coverage Length </mat-label>
+        <span matSuffix>month</span>
+        <input type="number" formControlName="maximum_contract_length" matInput />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Last Available Expiration Date</mat-label>
+        <span matSuffix>month</span>
+        <input type="number" formControlName="last_available_expiration_length" matInput />
+      </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-2 gap-x-15">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Min Volume Per Deal</mat-label>
+        <input type="number" formControlName="minimum_volume" matInput />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Max Volume Per Deal</mat-label>
+        <input type="number" formControlName="maximum_volume" matInput />
+      </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-2 gap-x-15">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Min Risk Capital Per Deal</mat-label>
+        <span matSuffix>$</span>
+        <input type="number" formControlName="minimum_risk_capital_per_deal" matInput />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Maximum Risk Capital Per Deal</mat-label>
+        <span matSuffix>$</span>
+        <input type="number" formControlName="maximum_risk_capital_per_deal" matInput />
+      </mat-form-field>
+    </div>
+  </form>
+</dd-dialog-layout>

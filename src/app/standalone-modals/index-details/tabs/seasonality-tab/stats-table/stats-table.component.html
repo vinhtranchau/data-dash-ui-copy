@@ -1,0 +1,42 @@
+<div class="h-full stats-table">
+  <table [dataSource]="displayedData" class="w-full -mx-25" mat-table>
+    <ng-container *ngFor="let column of columnOrder" [matColumnDef]="column">
+      <th *matHeaderCellDef mat-header-cell>
+        <div class="px-10 flex items-center justify-center">
+          <div class="font-bold text-grey">{{ column }}</div>
+        </div>
+      </th>
+      <td *matCellDef="let element; let i = index" class="text-center" mat-cell>
+        <ng-container>
+          <div *ngIf="column === indexColumn">
+            <div class="font-bold text-grey text-[0.85em]">{{ element[column] }}</div>
+          </div>
+
+          <div
+            *ngIf="column !== indexColumn"
+            [ngStyle]="{
+              backgroundColor: element[column] | backgroundColor: minNum:maxNum,
+              color: element[column] | fontColor: minNum:maxNum,
+              fontSize: '0.8em'
+            }"
+            class="flex items-center justify-center h-[48px]"
+          >
+            <div *ngIf="!hoverData || !hoverData[i][column]">
+              <div *ngIf="!isPercentage">{{ element[column] }}</div>
+              <div *ngIf="isPercentage">{{ element[column] | percentageChange: 2:false }}</div>
+            </div>
+            <div *ngIf="hoverData && hoverData[i][column]">
+              <div *ngIf="!isPercentage" [matTooltip]="hoverData[i][column]">{{ element[column] }}</div>
+              <div *ngIf="isPercentage" [matTooltip]="hoverData[i][column]">
+                {{ element[column] | percentageChange: 2:false }}
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="columnOrder" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: columnOrder" mat-row></tr>
+  </table>
+</div>

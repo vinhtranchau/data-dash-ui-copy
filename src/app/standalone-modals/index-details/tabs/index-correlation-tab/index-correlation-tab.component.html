@@ -1,0 +1,47 @@
+<div
+  [ngClass]="{
+    'md:h-[85vh]': !fullscreen,
+    'md:max-h-[1400px]': !fullscreen
+  }"
+  class="relative h-[calc(100vh_-_110px)] md:h-[calc(100vh_-_50px)]"
+>
+  <div>
+    <dd-data-table-page
+      (action)="action($event)"
+      (loadData)="loadData($event)"
+      (sort)="sort($event)"
+      [columns]="columns"
+      [dataSource]="dataSource"
+      [displayedColumns]="displayedColumns"
+      [hasHeader]="true"
+      [hasSort]="true"
+      [headerHasAddButton]="false"
+      [isLoading]="tableDataLoading"
+      [serverSideSearch]="true"
+      [stickyColumns]="stickyColumns"
+      [stickyPaginator]="false"
+      [tableHeight]="fullscreen ? 'calc(100vh - 180px)' : 'min(85vh - 130px, 1270px)'"
+      [total]="total"
+    >
+      <div class="w-full justify-end items-center hidden sm:flex">
+        <div class="mr-20">
+          <mat-icon
+            class="text-grey"
+            matTooltip="All pairwise correlations are calculated with monthly averages of index prices in their original currency on months where data is available on both pairs of indexes."
+            >info_outline
+          </mat-icon>
+        </div>
+        <button
+          (click)="openFilterDialog()"
+          [disabled]="tableDataLoading"
+          [matBadgeHidden]="!advancedIndexFilterService.indexFilter.filters.length"
+          [matBadge]="advancedIndexFilterService.indexFilter.filters.length"
+          mat-icon-button
+          matBadgeColor="accent"
+        >
+          <mat-icon>filter_list</mat-icon>
+        </button>
+      </div>
+    </dd-data-table-page>
+  </div>
+</div>

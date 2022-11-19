@@ -1,0 +1,66 @@
+<div class="relative text-[0.8em]">
+  <p class="font-bold mb-10">Additional Options</p>
+  <form *ngIf="indexDetails$ | async as index" [formGroup]="form">
+    <section class="flex flex-wrap gap-x-15 items-baseline mb-10">
+      <mat-checkbox color="primary" formControlName="12m_ma">12m MA</mat-checkbox>
+      <mat-checkbox color="primary" formControlName="24m_ma">24m MA</mat-checkbox>
+      <mat-checkbox color="primary" formControlName="trend">Trend</mat-checkbox>
+      <mat-checkbox
+        color="primary"
+        formControlName="historical_pdf"
+      >
+        PDF
+      </mat-checkbox>
+      <mat-checkbox *ngIf="hasExtension" color="primary" formControlName="extension">Extension</mat-checkbox>
+      <!-- Removed temporarily -->
+      <!-- <mat-checkbox
+        color="primary"
+        formControlName="historical_vol"
+        matTooltip="Historical exponentially weighted moving average volatility (monthly average)"
+      >
+        Volatility
+      </mat-checkbox> -->
+      <mat-checkbox
+        *ngIf="index.seasonality_verdict === SeasonalityVerdict.S"
+        color="primary"
+        formControlName="seasonality"
+      >
+        Seasonality
+      </mat-checkbox>
+      <mat-checkbox
+        *ngIf="index.sarima_model"
+        [matTooltip]="index.sarima_model | displayObject: ['AR', 'D', 'MA', 'SAR', 'SD', 'SMA', 'S']"
+        color="primary"
+        formControlName="sarima"
+        matTooltipPosition="above"
+      >
+        Sarima
+      </mat-checkbox>
+    </section>
+
+    <section class="grid grid-cols-2 gap-x-30 items-baseline">
+      <mat-form-field
+        appearance="outline"
+        class="col-span-2 sm:col-span-1"
+        matTooltip="Enter comma separated numbers"
+        matTooltipPosition="below"
+      >
+        <mat-label>Horizontal Lines</mat-label>
+        <input formControlName="horizontal_lines" matInput placeholder="E.g. 100, 200" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-span-2 sm:col-span-1">
+        <mat-label>Secondary Index</mat-label>
+        <mtx-select
+          [clearable]="true"
+          [items]="(indexUUIDs$ | async) || []"
+          [required]="false"
+          [virtualScroll]="true"
+          appendTo="body"
+          bindLabel="stable_index_code"
+          bindValue="id"
+          formControlName="secondary_index"
+        ></mtx-select>
+      </mat-form-field>
+    </section>
+  </form>
+</div>

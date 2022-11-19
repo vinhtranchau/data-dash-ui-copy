@@ -1,0 +1,42 @@
+<div class="px-80 py-20 w-600 h-500 flex flex-col justify-center items-center" *ngIf="!hasTimeout">
+  <div class="font-black text-dark text-[30px]">Please wait..</div>
+  <div class="flex justify-center items-center">
+    <img src="/assets/illustrations/learn-more.svg" class="w-300 h-300" alt="Image" />
+  </div>
+  <div class="text-[12px] text-slate-400">We are getting your quote ready. This may take up to a minute.</div>
+  <br />
+  <mat-progress-bar mode="indeterminate" color="primary"></mat-progress-bar>
+</div>
+
+<div class="px-80 py-20 w-600 h-500 flex flex-col justify-center items-center" *ngIf="hasTimeout">
+  <div class="font-black text-dark text-[30px]">Something went wrong!</div>
+  <div class="flex justify-center items-center">
+    <img src="/assets/illustrations/computer-blank.svg" class="w-300 h-300" alt="Image" />
+  </div>
+  <div class="text-[12px] text-slate-400">
+    We could not locate your quote. Please try again in a while or contact the admins.
+  </div>
+  <br />
+  <div class="grid grid-cols-2 gap-x-30">
+    <button
+      mat-flat-button
+      color="primary"
+      type="button"
+      class="w-full"
+      [routerLink]="[dataDashRoute.root, dataDashRoute.tradingCenter] | absolutePath"
+      (click)="close()"
+    >
+      View Indexes
+    </button>
+    <button
+      mat-flat-button
+      color="accent"
+      type="button"
+      class="w-full"
+      [routerLink]="[dataDashRoute.root, dataDashRoute.home] | absolutePath"
+      (click)="close()"
+    >
+      Back Home
+    </button>
+  </div>
+</div>

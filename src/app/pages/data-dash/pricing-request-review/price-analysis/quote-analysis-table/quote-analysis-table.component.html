@@ -1,0 +1,26 @@
+<div class="bg-white rounded-lg rounded-b-3xl p-10 my-10 text-[0.8em] relative">
+  <dd-data-table-page
+    [columns]="columns"
+    [displayedColumns]="displayColumns"
+    [dataSource]="datasource"
+    [isLoading]="isLoading"
+    [tableType]="TableType"
+    (action)="action($event)"
+    [expandable]="true"
+    [expandTemplate]="fixationsTemplate"
+    tableHeight="270px"
+  ></dd-data-table-page>
+  <dd-spinner *ngIf="isLoading" message="Loading quote data..."></dd-spinner>
+</div>
+
+<ng-template #fixationsTemplate let-fixations="element.fixations">
+  <dd-data-table
+    class="expanded-table"
+    [columns]="fixationTableColumns"
+    [dataSource]="fixations"
+    [displayedColumns]="fixationTableDisplayColumns"
+    [isLoading]="false"
+    [isDetailContent]="true"
+  >
+  </dd-data-table>
+</ng-template>

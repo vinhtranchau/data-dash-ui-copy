@@ -1,0 +1,31 @@
+<div class="mr-15">
+  <button
+    (click)="fetchNotifications()"
+    [matMenuTriggerFor]="notificationMenu"
+    class="rounded-full bg-white"
+    mat-icon-button
+  >
+    <mat-icon class="text-grey">notifications</mat-icon>
+    <div
+      *ngIf="notificationService.unreadCount > 0"
+      class="absolute top-[3px] right-[1px] rounded-full text-white bg-red-500 text-12 font-bold w-fit min-w-[18px] h-[18px] p-[1px] flex items-center justify-center"
+    >
+      {{ notificationService.unreadCount }}
+    </div>
+  </button>
+  <mat-menu #notificationMenu>
+    <div class="flex justify-between min-w-280 border-b border-b-gray-200 px-15 pt-5 pb-10">
+      <p class="text-13">Notifications</p>
+      <a (click)="readAll()" class="text-blue-400 text-12">Mark all as read</a>
+    </div>
+    <div *ngFor="let notification of notificationService.notificationMenu">
+      <dd-notification-menu-item [notification]="notification"></dd-notification-menu-item>
+    </div>
+
+    <div class="flex justify-center min-w-280 border-t border-b-gray-200 px-15 pt-10 pb-[2px]">
+      <a [routerLink]="[userRoute.root, userRoute.notifications] | absolutePath" class="text-blue-400 text-12"
+        >View all</a
+      >
+    </div>
+  </mat-menu>
+</div>

@@ -1,0 +1,13 @@
+<div class="h-full relative p-10">
+  <dd-error-handler [hasError]="!portfolio" message="Select an account to view history."></dd-error-handler>
+
+  <dd-spinner *ngIf="isLoading" message="Loading plots..."></dd-spinner>
+  <dd-basic-chart
+    *ngIf="portfolio"
+    [data]="data"
+    [hasLegend]="false"
+    [hasRangeSelector]="true"
+    [hasRangeSlider]="false"
+    [refreshLayout$]="refreshLayout$"
+  ></dd-basic-chart>
+</div>

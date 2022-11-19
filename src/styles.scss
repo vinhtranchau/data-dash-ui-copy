@@ -1,1 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+// Custom angular material theme configuration
+@import 'assets/theme/material-theme';
+
+// Tailwind css configuration
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'swiper/swiper.min.css';
+
+@import 'assets/theme';
+
+* {
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.overlay-container {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1100;
+  justify-items: end;
+}
+
+.mat-sort-header-container {
+  justify-content: center;
+  padding-left: 10px;
+}
+
+// Mobile full screen
+@media only screen and (max-width: 767px) {
+  .rootModal {
+    position: absolute !important;
+    bottom: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 100vh !important;
+    width: 100vw !important;
+    max-width: none !important;
+  }
+}
+
+.mat-checkbox-layout {
+  white-space: normal !important;
+}

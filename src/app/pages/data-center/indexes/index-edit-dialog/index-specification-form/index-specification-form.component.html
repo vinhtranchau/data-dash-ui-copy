@@ -1,0 +1,112 @@
+<div [formGroup]="form" class="mt-20">
+  <div class="grid grid-cols-5 gap-x-30">
+    <mat-form-field appearance="outline" class="col-span-5 sm:col-span-2">
+      <mat-label>Stable Index Code</mat-label>
+      <input formControlName="stable_index_code" matInput placeholder="US1"/>
+      <mat-error *ngIf="form.get('stable_index_code')?.hasError('required')">Required.</mat-error>
+      <mat-error *ngIf="form.get('stable_index_code')?.hasError('maxlength')">Too many characters!</mat-error>
+      <mat-error *ngIf="form.get('stable_index_code')?.hasError('stableIndexCodeExists')"
+      >SIC already exists!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-span-5 sm:col-span-3">
+      <mat-label>Index Provider Code</mat-label>
+      <input formControlName="index_provider_code" matInput/>
+      <mat-error *ngIf="form.get('index_provider_code')?.hasError('maxlength')">Too many characters!</mat-error>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Hierarchy</mat-label>
+    <mtx-select
+      [clearable]="false"
+      [items]="(hierarchies$ | async) || []"
+      [required]="true"
+      [virtualScroll]="true"
+      appendTo="body"
+      bindLabel="hierarchy_chain"
+      bindValue="id"
+      formControlName="product"
+      placeholder="Product -> Class -> Group -> Kingdom"
+    ></mtx-select>
+    <mat-error *ngIf="form.get('product')?.hasError('required')">Required.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Specification</mat-label>
+    <textarea formControlName="specification" matInput></textarea>
+    <mat-error *ngIf="form.get('specification')?.hasError('required')">Required.</mat-error>
+    <mat-error *ngIf="form.get('specification')?.hasError('maxlength')">Too many characters!</mat-error>
+  </mat-form-field>
+
+  <div class="grid grid-cols-5 gap-x-30">
+    <mat-form-field appearance="outline" class="col-span-5 sm:col-span-2">
+      <mat-label>Delivery Point</mat-label>
+      <textarea formControlName="delivery_point" matInput></textarea>
+      <mat-error *ngIf="form.get('delivery_point')?.hasError('maxlength')">Too many characters!</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-span-5 sm:col-span-3">
+      <mat-label>Specification Notes</mat-label>
+      <textarea formControlName="specification_notes" matInput></textarea>
+      <mat-error *ngIf="form.get('specification_notes')?.hasError('maxlength')">Too many characters!</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="grid grid-cols-5 gap-x-30">
+    <mat-form-field appearance="outline" class="col-span-5 sm:col-span-1">
+      <mat-label>Unit Multiplier</mat-label>
+      <input formControlName="unit_multiplier" matInput placeholder="" type="number"/>
+      <mat-error *ngIf="form.get('unit_multiplier')?.hasError('required')">Required.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-span-5 sm:col-span-1">
+      <mat-label>Unit</mat-label>
+      <mtx-select
+        [clearable]="false"
+        [items]="(units$ | async) || []"
+        [required]="true"
+        [virtualScroll]="true"
+        appendTo="body"
+        bindLabel="units"
+        bindValue="id"
+        formControlName="unit"
+      ></mtx-select>
+      <mat-error *ngIf="form.get('unit')?.hasError('required')">Required.</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-span-5 sm:col-span-1">
+      <mat-label>Nation</mat-label>
+      <mtx-select
+        [clearable]="false"
+        [items]="(nations$ | async) || []"
+        [required]="true"
+        [virtualScroll]="true"
+        appendTo="body"
+        bindLabel="code"
+        bindValue="id"
+        formControlName="nation"
+      ></mtx-select>
+      <mat-error *ngIf="form.get('nation')?.hasError('required')">Required.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-span-5 sm:col-span-1">
+      <mat-label>Currency</mat-label>
+      <mtx-select
+        [clearable]="false"
+        [items]="(currencies$ | async) || []"
+        [required]="true"
+        [virtualScroll]="true"
+        appendTo="body"
+        bindLabel="code"
+        bindValue="id"
+        formControlName="currency"
+      ></mtx-select>
+      <mat-error *ngIf="form.get('currency')?.hasError('required')">Required.</mat-error>
+    </mat-form-field>
+
+    <div class="flex items-center pb-25 col-span-5 sm:col-span-1">
+      <mat-slide-toggle color="primary" formControlName="is_currency_cents">is Cents</mat-slide-toggle>
+    </div>
+  </div>
+</div>

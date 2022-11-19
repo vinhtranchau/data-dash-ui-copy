@@ -1,0 +1,122 @@
+<ng-template #titleRenderer let-background="background">
+  <div class="mb-10 flex items-center">
+    <div
+      [ngClass]="{ 'bg-navy': background === 'dark', 'bg-midnight': background === 'light' }"
+      class="rounded w-[35px] h-[35px] flex items-center justify-center"
+    >
+      <img
+        [src]="index.product_id.class_hierarchy_id.icon || 'assets/images/logo.svg'"
+        alt="Image"
+        class="w-30 h-30 inline"
+      />
+    </div>
+    <div [ngClass]="{ 'text-white': background === 'dark', 'text-dark': background === 'light' }" class="ml-10">
+      <p class="font-medium text-15">
+        {{ index.product }}
+      </p>
+      <p class="text-[12px]">
+        {{ index.stable_index_code }}
+      </p>
+    </div>
+  </div>
+</ng-template>
+
+<div
+  [@onInit]
+  class="rounded-lg shadow-md mr-30 h-[200px] w-[350px] bg-white flex overflow-hidden relative hover:scale-x-[1.06] hover:scale-y-[1.02] hover:shadow-lg transition-all"
+  id="index-card"
+>
+  <a
+    [routerLink]="
+      [
+        dataDashRoute.root,
+        dataDashRoute.tradingCenter,
+        'trade',
+        index.id,
+        index.in_hedging_book ? contractType.Individual : contractType.RollingDeal
+      ] | absolutePath
+    "
+    class="absolute top-0 right-0 bottom-0 left-0 z-[51]"
+  ></a>
+  <div class="overflow-hidden w-[250px] relative transition-all" id="info-side">
+    <div
+      [ngStyle]="{
+        background: index.image
+          ? 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3) ), url(' + index.image + ')'
+          : index.product_id.class_hierarchy_id.image
+          ? 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3) ), url(' +
+            index.product_id.class_hierarchy_id.image +
+            ')'
+          : 'black'
+      }"
+      class="w-[250px] h-full bg-midnight absolute left-0 !bg-cover"
+    >
+      <div class="p-10 pr-20">
+        <ng-container *ngTemplateOutlet="titleRenderer; context: { background: 'dark' }"></ng-container>
+        <div class="text-[12px]">
+          <div class="flex">
+            <p class="text-white basis-[110px] grow-0 shrink-0">Index Provider</p>
+            <p class="text-slate-100 text-10">{{ index.index_provider }}</p>
+          </div>
+          <div class="flex">
+            <p class="text-white basis-[110px] grow-0 shrink-0">Specification</p>
+            <p class="text-slate-100 text-10">{{ index.specification | truncate: 60 }}</p>
+          </div>
+          <div class="flex">
+            <p class="text-white basis-[110px] grow-0 shrink-0">Delivery Point</p>
+            <p class="text-slate-100 text-10">{{ index.delivery_point }}</p>
+          </div>
+          <div class="flex">
+            <p class="text-white basis-[110px] grow-0 shrink-0">Currency & Unit</p>
+            <p class="text-slate-100 text-10">{{ index | currencyAndUnit: false }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="overflow-hidden w-[100px] relative transition-all" id="graph-side">
+    <div class="w-[350px] h-full absolute right-0">
+      <div class="absolute top-10 left-10 z-10">
+        <ng-container *ngTemplateOutlet="titleRenderer; context: { background: 'light' }"></ng-container>
+      </div>
+      <button
+        (click)="updateFavorite()"
+        class="absolute bottom-10 right-10 cursor-pointer z-[52] bg-transparent hover:scale-125"
+        color="primary"
+        mat-mini-fab-button
+        type="button"
+      >
+        <ng-container *ngIf="index.is_favorite; else elseTemplate">
+          <mat-icon class="text-yellow-400">star</mat-icon>
+        </ng-container>
+        <ng-template #elseTemplate>
+          <mat-icon>star_border</mat-icon>
+        </ng-template>
+      </button>
+      <div *ngIf="index.public_access_level < 6" class="w-full h-full relative">
+        <div class="absolute top-10 right-10 z-10">
+          <p class="text-[12px] text-dark text-right">{{ index.last_index_price | getDecimal: 3 | currency }}</p>
+          <p
+            [ngClass]="{ 'text-green-400': index.last_price_change > 0, 'text-red-400': index.last_price_change < 0 }"
+            class="text-10 text-dark text-right"
+          >
+            {{ index.last_price_movement }}
+          </p>
+        </div>
+        <dd-spinner [spinner]="spinner.loaders.loading" class="text-[0.8em]"></dd-spinner>
+        <dd-basic-chart
+          [data]="plotData"
+          [refreshLayout$]="refreshPlotLayout$"
+          [startingLayout]="startingLayout"
+          class="w-full"
+        ></dd-basic-chart>
+      </div>
+      <div
+        *ngIf="index.public_access_level === 6"
+        class="bg-white h-full w-full flex items-center justify-center pt-40"
+      >
+        <img class="scale-[0.85]" src="assets/illustrations/empty-card-panel.svg" />
+      </div>
+    </div>
+  </div>
+</div>

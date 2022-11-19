@@ -1,0 +1,51 @@
+<dd-dialog-layout (save)="save()" [disabled]="form.invalid" [isLoading]="isLoading" title="Update Quote Analysis">
+  <form class="text-13" [formGroup]="form">
+    <div class="grid grid-cols-2 gap-15">
+      <ng-container *ngIf="pageType === PageType.DS; else uwFields">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Algo Premium Ratio</mat-label>
+          <span matPrefix>%</span>
+          <input matInput type="number" formControlName="algo_premium_ratio" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>DS Premium Surcharge</mat-label>
+          <span matPrefix>%</span>
+          <input matInput type="number" formControlName="ds_premium_adjustment" />
+        </mat-form-field>
+      </ng-container>
+
+      <ng-template #uwFields>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>UW Premium Surcharge</mat-label>
+          <span matPrefix>%</span>
+          <input matInput type="number" formControlName="uw_premium_surcharge" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Commercial Discount</mat-label>
+          <span matPrefix>%</span>
+          <input matInput type="number" formControlName="commercial_discount" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Executable Volume</mat-label>
+          <input matInput type="number" formControlName="executable_volume" />
+        </mat-form-field>
+      </ng-template>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Valid From</mat-label>
+        <input [matDatepicker]="validFromDatePicker" formControlName="valid_from" matInput />
+        <mat-datepicker-toggle [for]="validFromDatePicker" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #validFromDatePicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Valid To</mat-label>
+        <input [matDatepicker]="validToDatePicker" formControlName="valid_to" matInput />
+        <mat-datepicker-toggle [for]="validToDatePicker" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #validToDatePicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </form>
+</dd-dialog-layout>

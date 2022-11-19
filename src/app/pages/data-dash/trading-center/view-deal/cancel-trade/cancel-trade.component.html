@@ -1,0 +1,21 @@
+<div class="px-30 py-20 w-500 flex flex-col justify-center items-center">
+  <div class="font-black text-dark text-[30px] text-center">Removed Trade</div>
+  <div class="flex justify-center items-center">
+    <img src="/assets/illustrations/turnover.svg" class="w-200 h-200"/>
+  </div>
+  <div class="text-center text-[12px] text-slate-400">You will no longer see this trade on your portfolio.</div>
+  <br />
+  <div class="w-full">
+    <button
+      class="!mb-20"
+      mat-flat-button
+      color="accent"
+      type="button"
+      class="w-full"
+      [routerLink]="[dataDashRoute.root] | absolutePath"
+      (click)="close()"
+    >
+      Back To Home
+    </button>
+  </div>
+</div>

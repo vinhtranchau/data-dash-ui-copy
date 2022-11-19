@@ -1,0 +1,32 @@
+<div class="flex flex-row-reverse my-10">
+  <button mat-flat-button color="primary" (click)="downloadPricingData()" *ngIf="permission.type !== PageType.Client">
+    Export Pricing Data <mat-icon>download</mat-icon>
+  </button>
+</div>
+<dd-spinner *ngIf="isLoading" message="Loading plots..."></dd-spinner>
+<div
+  class="bg-white rounded-lg p-10 mb-10 relative flex-grow w-full h-full"
+  *ngIf="dataX.length > 0 && dataY.length > 0"
+>
+  <dd-basic-chart
+    [data]="plotData"
+    [hasLegend]="true"
+    [hasRangeSelector]="true"
+    [hasRangeSlider]="true"
+    [disableDoubleClick]="true"
+    [refreshLayout$]="refreshLayout$"
+    [startingLayout]="startingLayout"
+  ></dd-basic-chart>
+</div>
+<div class="flex items-center justify-center w-full h-full" *ngIf="dataX.length == 0 && dataY.length == 0">
+  <div>
+    <img src="assets/illustrations/empty-card-panel.svg" class="w-470 h-300 mb-10" alt="empty card" />
+    <div
+      class="flex items-center justify-center text-slate-400 text-15 cursor-pointer"
+      matTooltip="Certain index providers place restrictions on how Stable is allowed to share their data. Please contact our Sales team for inquiries about this index."
+    >
+      <mat-icon>info_outline</mat-icon>
+      <span class="ml-5">Why is this index not showing?</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<div class="bg-white rounded-lg py-10 flex-grow relative h-full overflow-clip">
+  <dd-spinner *ngIf="isLoading" message="Loading deal config..."></dd-spinner>
+  <div *ngIf="dealConfig" class="h-full">
+    <h4 class="text-dark mb-10 px-20">Deal Config</h4>
+
+    <div class="text-[12px] h-[calc(100%_-_45px)] overflow-y-auto px-15 scroll">
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Direction:</div>
+        <div>{{ dealConfig.direction | textTransform }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Style:</div>
+        <div>{{ dealConfig.style | textTransform }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Quantity:</div>
+        <div>{{ dealConfig.quantity }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Strike:</div>
+        <div>{{ dealConfig.strike | number: '1.0-4' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Limit:</div>
+        <div>{{ dealConfig.limit | number: '1.0-4' }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Purchase Date:</div>
+        <div>{{ dealConfig.purchase_date | date }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Coverage Start:</div>
+        <div>{{ dealConfig.coverage_start | date }}</div>
+      </div>
+      <hr />
+
+      <div class="flex justify-between my-5 flex-wrap">
+        <div class="text-grey">Coverage End:</div>
+        <div>{{ dealConfig.coverage_end | date }}</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="panel !rounded-tl-3xl pt-10">
+  <h4 class="mb-10 px-20 text-dark">Trade-able Instruments</h4>
+
+  <div
+    class="relative overflow-y-auto min-h-[calc(100%_-_45px)] max-h-[calc(100%_-_45px)] scroll pl-15 pr-5 border-collapse"
+  >
+    <div *ngFor="let group of futureGroups" class="border mb-10">
+      <div class="flex items-center justify-between">
+        <h6 class="text-13 font-bold pl-10 pt-5">{{ group.name }}</h6>
+        <p class="text-12 mr-10" [matTooltip]="group.list[0].description">
+          {{ group.list[0].description | truncate: 20 }}
+        </p>
+      </div>
+
+      <div *ngFor="let future of group.list" class="border-collapse">
+        <div
+          class="grid grid-cols-4 text-11 font-bold pt-[2px] pl-10 border-t cursor-pointer hover:bg-dark hover:bg-opacity-20"
+          [ngClass]="{
+            'bg-opacity-100 bg-dark !text-white hover:bg-opacity-90':
+              future.contract_code === selectedFuture?.contract_code
+          }"
+          [class.text-energy]="future.delta > 0"
+          [class.text-carnation]="future.delta < 0"
+          [class.text-dark]="future.delta === 0"
+          (click)="select(future)"
+        >
+          <div>{{ future.contract_code }}</div>
+          <div>{{ future.delivery_month | date: 'MMM-YY' }}</div>
+          <div>{{ future.px_last }}</div>
+          <div class="flex justify-between items-center">
+            <div class="flex items-center">
+              <mat-icon *ngIf="future.delta !== 0" class="tiny text-13 mr-5 mb-[4px]">{{
+                future.delta > 0 ? 'arrow_upward' : 'arrow_downward'
+              }}</mat-icon>
+              <span>{{ future.delta | percent: '1.2-2' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <dd-spinner *ngIf="isLoading" message="Loading instruments..." bgClass="bg-white"></dd-spinner>
+  </div>
+</div>

@@ -1,0 +1,223 @@
+<table
+  (matSortChange)="sort.emit($event)"
+  [dataSource]="dataSource"
+  class="w-full mb-[-10px]"
+  [ngClass]="isDetailContent ? '!mb-10' : ''"
+  mat-table
+  matSort
+  multiTemplateDataRows
+>
+  <!-- Expand Button Column -->
+  <ng-container *ngIf="expandable" matColumnDef="expand">
+    <th *matHeaderCellDef aria-label="row actions" mat-header-cell></th>
+    <td *matCellDef="let element" mat-cell>
+      <button
+        (click)="expandedElement = expandedElement === element ? null : element; $event.stopPropagation()"
+        aria-label="expand row"
+        mat-icon-button
+      >
+        <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+        <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+  <!-- Checkbox Column -->
+  <ng-container *ngIf="selectable" matColumnDef="select">
+    <th *matHeaderCellDef mat-header-cell>
+      <mat-checkbox
+        (change)="$event ? toggleAllRows() : null"
+        *ngIf="selectable && multiSelect"
+        [checked]="selection.hasValue() && isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()"
+        color="primary"
+      >
+      </mat-checkbox>
+    </th>
+    <td *matCellDef="let row" mat-cell>
+      <!-- Checkbox for the multi select -->
+      <mat-checkbox
+        (change)="$event ? selection.toggle(row) : null"
+        (click)="$event.stopPropagation()"
+        *ngIf="selectable && multiSelect"
+        [checked]="selection.isSelected(row)"
+        color="primary"
+      >
+      </mat-checkbox>
+
+      <!-- Radio button for the single select -->
+      <mat-radio-button
+        (change)="$event ? selection.toggle(row) : null"
+        (click)="$event.stopPropagation()"
+        *ngIf="selectable && !multiSelect"
+        [checked]="selection.isSelected(row)"
+        color="primary"
+      ></mat-radio-button>
+    </td>
+  </ng-container>
+
+  <ng-container
+    *ngFor="let column of columns"
+    [matColumnDef]="column.name"
+    [sticky]="stickyColumns.includes(column.name)"
+  >
+    <ng-container *ngIf="hasSort && (!column.action || column.action === TableActionType.RouterLink); else noSort">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>
+        <div>
+          {{ column.title }}
+        </div>
+      </th>
+    </ng-container>
+
+    <ng-template #noSort>
+      <th *matHeaderCellDef mat-header-cell>
+        <div class="px-10">
+          {{ column.title }}
+        </div>
+      </th>
+    </ng-template>
+
+    <td
+      *matCellDef="let element"
+      [ngClass]="[element | conditionalFormat: column:formatConditions, isDetailContent ? 'text-neutral-400' : '']"
+      class="text-center"
+      mat-cell
+    >
+      <ng-container *ngIf="isLoading">
+        <span class="skeleton-box w-full"></span>
+      </ng-container>
+
+      <ng-container *ngIf="!isLoading">
+        <!-- Action buttons -->
+        <ng-container *ngIf="column.action">
+          <ng-container [ngSwitch]="column.action">
+            <div *ngSwitchCase="TableActionType.RouterLink">
+              <a
+                (click)="action.emit({ id: element[column.routerLink], action: column.action })"
+                class="hover:underline px-15 text-blue-400"
+              >
+                {{ element[column.content] }}
+              </a>
+            </div>
+            <div *ngSwitchDefault>
+              <button
+                (click)="
+                  action.emit({
+                    id: element[column.content],
+                    action: column.action
+                  })
+                "
+                [disabled]="!hasEditPermission && column.editOnly"
+                class="btn-small text-blue-400"
+                mat-icon-button
+              >
+                <mat-icon>{{ column.action }}</mat-icon>
+              </button>
+            </div>
+          </ng-container>
+        </ng-container>
+
+        <!-- When it is List -->
+        <div *ngIf="column.list">
+          {{ element[column.content].join(', ') }}
+        </div>
+
+        <!-- When it is template -->
+        <ng-container *ngIf="column.template">
+          <ng-container *ngTemplateOutlet="column.template; context: { element: this.element }"></ng-container>
+        </ng-container>
+
+        <!-- Contents -->
+        <div
+          *ngIf="!column.action && !column.list && !column.template"
+          [style.min-width.px]="column.width"
+          class="px-15"
+        >
+          <!-- When it is link -->
+          <ng-container *ngIf="column.link && element[column.content]">
+            <a
+              [href]="element[column.content]"
+              [matTooltip]="element[column.content]"
+              matTooltipPosition="after"
+              target="_blank"
+            >
+              <mat-icon>link</mat-icon>
+            </a>
+          </ng-container>
+
+          <!-- When it is normal text -->
+          <ng-container *ngIf="!column.link">
+            <ng-container [ngSwitch]="column.pipe">
+              <ng-container *ngSwitchCase="'text-transform'">
+                {{ element[column.content] | textTransform }}
+              </ng-container>
+              <ng-container *ngSwitchCase="'boolean'">
+                {{ element[column.content] | boolean | textTransform }}
+              </ng-container>
+              <ng-container *ngSwitchCase="'permissions'">
+                {{ element[column.content] | permissions }}
+              </ng-container>
+              <ng-container *ngSwitchCase="'date'">
+                {{ element[column.content] | timezone | date: 'YYYY-MM-dd':'+0000' }}
+              </ng-container>
+              <ng-container *ngSwitchCase="'truncate'">
+                <div [matTooltip]="element[column.content]" matTooltipPosition="after">
+                  {{ element[column.content] | truncate: column.truncateLimit }}
+                </div>
+              </ng-container>
+              <ng-container *ngSwitchCase="'percent'">
+                <div [matTooltip]="element[column.content]" matTooltipPosition="after">
+                  {{ element[column.content] | percent: '0.2-4' }}
+                </div>
+              </ng-container>
+              <ng-container *ngSwitchCase="'currency'">
+                <div [matTooltip]="element[column.content]" matTooltipPosition="after">
+                  {{ element[column.content] | currency }}
+                </div>
+              </ng-container>
+              <ng-container *ngSwitchCase="'number'">
+                {{ element[column.content] | getDecimal: 4 }}
+              </ng-container>
+              <ng-container *ngSwitchCase="'image'">
+                <div class="flex justify-center">
+                  <img
+                    [src]="element[column.content] || column.default"
+                    class="rounded-full w-[35px] h-[35px] object-cover"
+                    alt="Image"
+                  />
+                </div>
+              </ng-container>
+              <ng-container *ngSwitchDefault>{{ element[column.content] }}</ng-container>
+            </ng-container>
+          </ng-container>
+        </div>
+      </ng-container>
+    </td>
+  </ng-container>
+
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <td *matCellDef="let element" [attr.colspan]="displayedColumns.length" mat-cell>
+      <div [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" class="overflow-hidden">
+        <ng-container *ngTemplateOutlet="expandTemplate; context: { element: this.element }"></ng-container>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+  <tr
+    *matRowDef="let row; let element; columns: displayedColumns"
+    [ngClass]="{ 'expanded-row': expandedElement === element }"
+    mat-row
+  ></tr>
+  <tr *matRowDef="let row; columns: ['expandedDetail']" class="!h-0" mat-row></tr>
+
+  <!-- Row shown when there is no matching data that will be provided to the wrapper table. -->
+  <div *matNoDataRow class="absolute top-[100px] bottom-[100px] left-0 right-0">
+    <div *ngIf="!isLoading" class="flex items-center justify-center h-full w-full">
+      <div>
+        <img class="h-250 w-250" src="/assets/illustrations/computer-blank.svg" alt="Blank" />
+        <p class="text-dark text-15 text-center -mt-50">No Results Found.</p>
+      </div>
+    </div>
+  </div>
+</table>

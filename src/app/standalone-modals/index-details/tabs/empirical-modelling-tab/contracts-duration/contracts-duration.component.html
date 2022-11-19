@@ -1,0 +1,25 @@
+<div class="flex items-center lg:pl-60">
+  <span class="font-bold text-grey mr-10">Contracts Duration</span>
+  <mat-icon
+    class="text-grey"
+    matTooltip="Fill in at least one contract to preview the option maturities. The plot below will show an example of the selling month, policy start, and policy end date for each option."
+  >info_outline
+  </mat-icon
+  >
+</div>
+<br/>
+<div
+  [ngClass]="{
+    'md:h-[calc(85vh_-_100px)]': !fullscreen,
+    'md:max-h-[1300px]': !fullscreen
+  }"
+  class="h-[calc(100vh_-_150px)]"
+>
+  <dd-basic-chart
+    [data]="contractsPreviewData"
+    [hasLegend]="false"
+    [hasRangeSelector]="false"
+    [hasRangeSlider]="false"
+    [refreshLayout$]="refreshContractPreviewLayout$"
+  ></dd-basic-chart>
+</div>

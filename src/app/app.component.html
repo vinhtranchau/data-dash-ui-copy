@@ -1,3 +1,4 @@
+<!-- Force hard refreshing the website when a new update reported through the service worker -->
 <div *ngIf="hasUpdate" class="absolute bg-accent z-[1200] w-full">
   <div class="container flex items-center justify-between">
     <p class="text-dark py-20">
@@ -5,7 +6,7 @@
       progress will be lost).
     </p>
     <div>
-      <button (click)="reload()">Refresh</button>
+      <button (click)="reload()" color="primary" mat-flat-button>Refresh</button>
     </div>
   </div>
 </div>

@@ -1,0 +1,84 @@
+<dd-dialog-layout
+  (save)="save()"
+  [disabled]="form.invalid || isLoading"
+  [isLoading]="isLoading"
+  title="Upload Historical Data"
+>
+  <form [formGroup]="form">
+    <div class="grid grid-cols-6 gap-x-30">
+      <div class="col-span-6 md:col-span-3 mb-30 md:mb-0">
+        <div class="grid grid-cols-2 gap-x-30">
+          <div class="col-span-2 sm:col-span-1">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>SIC</mat-label>
+              <mtx-select
+                [clearable]="true"
+                [items]="(indexUUIDs$ | async) || []"
+                [required]="true"
+                [virtualScroll]="true"
+                appendTo="body"
+                bindLabel="stable_index_code"
+                bindValue="id"
+                formControlName="index_details_id"
+              ></mtx-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-span-2 sm:col-span-1">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Spider</mat-label>
+              <mtx-select
+                [clearable]="true"
+                [items]="(diSpiders$ | async) || []"
+                [required]="false"
+                [virtualScroll]="true"
+                appendTo="body"
+                bindLabel="spider"
+                bindValue="spider"
+                formControlName="spider"
+              ></mtx-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <mat-form-field appearance="outline" class="w-full" matTooltip="Select a spider first.">
+          <mat-label>Scrape ID</mat-label>
+          <mtx-select
+            [clearable]="true"
+            [items]="diScrapeIds[form.get('spider')?.value]"
+            [required]="false"
+            [virtualScroll]="true"
+            appendTo="body"
+            bindLabel="scrape_id"
+            bindValue="scrape_id"
+            formControlName="scrape_id"
+          ></mtx-select>
+        </mat-form-field>
+
+        <div class="flex justify-center">
+          <h3>- - - - - AND / OR - - - - -</h3>
+        </div>
+        <br/>
+        <dd-excel-uploader
+          (onFileUpload)="onFileUpload($event)"
+          [fileFormatExample]="homeUrl + '/media/excelfiles/upload_historical_data_template.xlsx'"
+        ></dd-excel-uploader>
+        <br/>
+        <div class="bg-secondary text-14 text-dark px-15 py-10 rounded">
+          <b>Note</b>: Submitted historical data will extend or overwrite any existing historical data of the index.
+        </div>
+      </div>
+      <div class="col-span-6 md:col-span-3 border">
+        <dd-data-table-page
+          [columns]="columns"
+          [dataSource]="dataSource"
+          [displayedColumns]="displayedColumns"
+          [hasHeader]="false"
+          [isLoading]="false"
+          tableHeight="420px"
+        >
+        </dd-data-table-page>
+      </div>
+    </div>
+  </form>
+</dd-dialog-layout>

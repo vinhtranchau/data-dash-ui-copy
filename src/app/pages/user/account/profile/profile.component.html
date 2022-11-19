@@ -1,0 +1,80 @@
+<div *ngIf="user$ | async as user" class="w-full h-full">
+  <div class="flex items-center justify-start text-dark mb-60">
+    <mat-icon class="scale-125">settings</mat-icon>
+    <p class="font-bold text-25 ml-20">Edit Account</p>
+  </div>
+  <div class="w-full">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Email</mat-label>
+      <input [disabled]="true" matInput [value]="user.email" />
+    </mat-form-field>
+  </div>
+  <br />
+  <div class="w-full">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Name</mat-label>
+      <input [(ngModel)]="name" [disabled]="isEditName" matInput />
+      <button (click)="editName()" *ngIf="isEditName" color="warn" mat-icon-button matSuffix>
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button (click)="saveName()" *ngIf="!isEditName" color="primary" mat-icon-button matSuffix>
+        <mat-icon>save</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <br />
+  <div class="w-full">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Current Password</mat-label>
+      <input
+        [(ngModel)]="currentPass"
+        [disabled]="isEditPassword"
+        [type]="hidePw ? 'password' : 'text'"
+        data-private
+        matInput
+      />
+      <button
+        (click)="hidePw = !hidePw"
+        [disabled]="isEditPassword"
+        [ngClass]="isEditPassword ? 'opacity-50' : 'opacity-100'"
+        color="accent"
+        mat-icon-button
+        matSuffix
+      >
+        <mat-icon>{{ hidePw ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+      <button (click)="editPassword()" *ngIf="isEditPassword" color="warn" mat-icon-button matSuffix>
+        <mat-icon>edit</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field *ngIf="!isEditPassword" appearance="outline" class="w-full">
+      <mat-label>New Password</mat-label>
+      <input
+        [(ngModel)]="newPass"
+        [disabled]="isEditPassword"
+        [type]="hideNewPw ? 'password' : 'text'"
+        data-private
+        matInput
+      />
+      <button (click)="savePassword()" *ngIf="!isEditPassword" color="warn" mat-icon-button matSuffix>
+        <mat-icon>save</mat-icon>
+      </button>
+      <button
+        (click)="hideNewPw = !hideNewPw"
+        [disabled]="isEditPassword"
+        [ngClass]="isEditPassword ? 'opacity-50' : 'opacity-100'"
+        color="accent"
+        mat-icon-button
+        matSuffix
+      >
+        <mat-icon>{{ hideNewPw ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <br />
+  <div class="w-full mb-20" *ngIf="isTrusted">
+    <mat-slide-toggle color="primary" (click)="toggle2FA()" [(ngModel)]="isTwoFAEnabled">Enable 2-FA</mat-slide-toggle>
+  </div>
+</div>

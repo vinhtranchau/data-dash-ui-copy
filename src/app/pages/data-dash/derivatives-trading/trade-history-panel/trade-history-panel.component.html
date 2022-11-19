@@ -1,0 +1,48 @@
+<div class="panel !rounded-bl-3xl flex flex-col overflow-hidden">
+  <div class="flex-grow bg-gray-100 overflow-auto scroll">
+    <table class="w-full border-collapse text-dark">
+      <thead class="text-14 bg-dark text-white sticky top-0">
+        <tr>
+          <th class="border-r border-b py-15">Date</th>
+          <th class="border-r border-b py-15">Instrument</th>
+          <th class="border-r border-b py-15">Type</th>
+          <th class="border-r border-b py-15">Side</th>
+          <th class="border-r border-b py-15">Price</th>
+          <th class="border-r border-b py-15">Amount</th>
+          <th class="border-r border-b py-15">Filled</th>
+          <th class="border-r border-b py-15">Total (USD)</th>
+          <th class="border-r border-b py-15">Status</th>
+          <th class="border-r border-b py-15">PnL</th>
+          <th class="border-b py-10">Exchange</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-b text-center text-13 font-medium bg-white" *ngFor="let item of history">
+          <td class="py-[7px] border-r">{{ item.date | date: 'medium' }}</td>
+          <td class="py-[7px] border-r">{{ item.instrument }}</td>
+          <td class="py-[7px] border-r">{{ item.type }}</td>
+          <td class="py-[7px] border-r text-energy" [class.text-carnation]="item.side === Side.Sell">
+            {{ item.side }}
+          </td>
+          <td class="py-[7px] border-r">{{ item.price | currency }}</td>
+          <td class="py-[7px] border-r">{{ item.amount | number }}</td>
+          <td class="py-[7px] border-r">{{ item.filled | percent }}</td>
+          <td class="py-[7px] border-r">{{ item.total | currency }}</td>
+          <td class="py-[7px] border-r">{{ item.status }}</td>
+          <td class="py-[7px] border-r">{{ item.pnl }}</td>
+          <td class="py-[7px]">{{ item.exchange }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <dd-spinner *ngIf="isLoading"></dd-spinner>
+  </div>
+  <div class="flex p-15 border-t">
+    <div class="mr-15">
+      <button mat-flat-button color="primary" class="font-bold">Order book</button>
+    </div>
+    <div>
+      <button mat-flat-button color="warn" class="font-bold">Trade history</button>
+    </div>
+  </div>
+</div>

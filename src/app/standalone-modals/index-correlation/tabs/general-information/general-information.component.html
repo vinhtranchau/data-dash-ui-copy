@@ -1,0 +1,50 @@
+<div
+  [ngClass]="{ 'md:h-[min(1350px,85vh_-_50px)]': !fullscreen }"
+  class="grid grid-cols-4 lg:grid-cols-5 px-20 md:px-30 py-20 gap-x-30 overflow-y-auto h-[calc(100vh_-_110px)] md:h-[calc(100vh_-_50px)]"
+>
+  <div class="col-span-4 sm:col-span-2 lg:col-span-1 mb-20 sm:mb-0">
+    <div
+      [ngClass]="{ '!h-[min(1300px,85vh_-_100px)]': !fullscreen }"
+      class="border rounded-lg relative h-[calc(100vh_-_100px)]"
+    >
+      <div class="px-10 py-10">
+        <a (click)="routeIndex(indexCorrelationStoreService.indexId1)" class="font-bold text-grey hover:underline">{{
+          indexCorrelationStoreService.indexDetails1?.stable_index_code
+          }}</a>
+      </div>
+      <dd-details-sidebar
+        [indexDetails$]="indexCorrelationStoreService.indexDetails1$.asObservable()"
+        [spinner]="indexCorrelationStoreService.spinner.loaders.indexDetails1"
+      ></dd-details-sidebar>
+    </div>
+  </div>
+  <div
+    [ngClass]="{ '!h-[min(1300px,85vh_-_100px)]': !fullscreen }"
+    class="col-span-4 order-first lg:order-1 lg:col-span-3 relative h-[calc(100vh_-_100px)]"
+  >
+    <dd-basic-chart
+      [data]="indexLinePlot"
+      [hasLegend]="true"
+      [hasRangeSelector]="true"
+      [hasRangeSlider]="true"
+      [refreshLayout$]="refreshIndexLinePlotLayout$"
+      [startingLayout]="indexLinePlotLayout"
+    ></dd-basic-chart>
+  </div>
+  <div class="col-span-4 sm:col-span-2 lg:col-span-1 lg:order-last">
+    <div
+      [ngClass]="{ '!h-[min(1300px,85vh_-_100px)]': !fullscreen }"
+      class="border rounded-lg relative h-[calc(100vh_-_100px)]"
+    >
+      <div class="px-10 py-10">
+        <a (click)="routeIndex(indexCorrelationStoreService.indexId2)" class="font-bold text-grey hover:underline">{{
+          indexCorrelationStoreService.indexDetails2?.stable_index_code
+          }}</a>
+      </div>
+      <dd-details-sidebar
+        [indexDetails$]="indexCorrelationStoreService.indexDetails2$.asObservable()"
+        [spinner]="indexCorrelationStoreService.spinner.loaders.indexDetails2"
+      ></dd-details-sidebar>
+    </div>
+  </div>
+</div>

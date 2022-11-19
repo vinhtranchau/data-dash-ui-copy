@@ -1,0 +1,74 @@
+<div [formGroup]="form" class="mt-20">
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Index Provider</mat-label>
+    <mtx-select
+      [clearable]="false"
+      [items]="(indexProviders$ | async) || []"
+      [required]="true"
+      [virtualScroll]="true"
+      appendTo="body"
+      bindLabel="name"
+      bindValue="id"
+      formControlName="index_provider"
+    ></mtx-select>
+    <mat-error *ngIf="form.get('index_provider')?.hasError('required')">Required.</mat-error>
+  </mat-form-field>
+
+  <div class="grid grid-cols-2 gap-x-30">
+    <mat-form-field appearance="outline" class="col-span-2 sm:col-span-1">
+      <mat-label>Index Provider Methodology</mat-label>
+      <textarea formControlName="index_provider_methodology" matInput></textarea>
+      <mat-error *ngIf="form.get('index_provider_methodology')?.hasError('maxlength')">Too many characters!</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-span-2 sm:col-span-1">
+      <mat-label>Source Publication Notes</mat-label>
+      <textarea formControlName="source_publication_notes" matInput></textarea>
+      <mat-error *ngIf="form.get('source_publication_notes')?.hasError('maxlength')">Too many characters!</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="grid grid-cols-2 gap-x-30">
+    <mat-form-field appearance="outline" class="col-span-2 sm:col-span-1">
+      <mat-label>Price Update Type</mat-label>
+      <mat-select formControlName="price_update_type">
+        <mat-option *ngFor="let priceUpdateType of priceUpdateTypeOptions" [value]="priceUpdateType.id">
+          {{ priceUpdateType.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="col-span-2 sm:col-span-1">
+      <mat-label>Price Update URL</mat-label>
+      <input formControlName="price_update_url" matInput placeholder="https://www.google.com"/>
+      <mat-error *ngIf="form.get('price_update_url')?.hasError('maxlength')">Too many characters!</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="grid grid-cols-2 gap-x-30">
+    <mat-form-field
+      appearance="outline"
+      class="col-span-2 sm:col-span-1"
+      matTooltip="Overwrites trusted access level set on the Index Provider"
+      matTooltipPosition="above"
+    >
+      <mat-label>Trusted Access</mat-label>
+      <mat-select formControlName="trusted_access" placeholder="Leave blank to use Index Provider default level.">
+        <mat-option *ngFor="let accessData of accessDataOptions" [value]="accessData.id">
+          {{ accessData.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field
+      appearance="outline"
+      class="col-span-2 sm:col-span-1"
+      matTooltip="Overwrites public access level set on the Index Provider"
+      matTooltipPosition="above"
+    >
+      <mat-label>Public Access</mat-label>
+      <mat-select formControlName="public_access" placeholder="Leave blank to use Index Provider default level.">
+        <mat-option *ngFor="let accessData of accessDataOptions" [value]="accessData.id">
+          {{ accessData.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>

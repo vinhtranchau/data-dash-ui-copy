@@ -1,0 +1,109 @@
+<div class="panel !rounded-r-3xl pt-10 relative overflow-y-auto h-full">
+  <dd-error-handler [hasError]="hasLoadError"></dd-error-handler>
+  <h4 class="px-15 text-dark">Order Book</h4>
+
+  <div class="relative h-300">
+    <dd-spinner *ngIf="isLoadingOrderBookPlot" message="Loading order book trade plot..."></dd-spinner>
+    <dd-basic-chart
+      [data]="plotData"
+      [hasLegend]="false"
+      [hasRangeSelector]="false"
+      [hasRangeSlider]="false"
+      [startingLayout]="startingLayout"
+      [refreshLayout$]="refreshLayout$"
+    ></dd-basic-chart>
+  </div>
+
+  <h4 class="mb-10 px-15 text-dark">Place a Trade</h4>
+  <form class="text-13 font-bold px-15" [formGroup]="form">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-15">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Price: </mat-label>
+        <input type="number" matInput formControlName="price" />
+        <mat-error *ngIf="form.get('price')?.hasError('required')">Required.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Stop: </mat-label>
+        <input type="number" matInput formControlName="stop" />
+        <mat-error *ngIf="form.get('stop')?.hasError('required')">Required.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-15">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Limit: </mat-label>
+        <input type="number" matInput formControlName="limit" />
+        <mat-error *ngIf="form.get('limit')?.hasError('required')">Required.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Quantity: </mat-label>
+        <input type="number" matInput formControlName="quantity" />
+        <mat-error *ngIf="form.get('quantity')?.hasError('required')">Required.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-15">
+      <button
+        mat-flat-button
+        color="primary"
+        class="font-bold"
+        type="button"
+        (click)="trade(Side.Buy)"
+        [disabled]="form.invalid"
+      >
+        Buy
+      </button>
+      <button
+        mat-flat-button
+        color="warn"
+        class="font-bold"
+        type="button"
+        (click)="trade(Side.Sell)"
+        [disabled]="form.invalid"
+      >
+        Sell
+      </button>
+    </div>
+  </form>
+
+  <div class="px-15 mt-20 relative h-100 mb-20">
+    <dd-spinner
+      *ngIf="isLoadingOrderBookStatus"
+      message="Loading order book information..."
+      bgClass="bg-white"
+    ></dd-spinner>
+
+    <table class="text-14 text-dark border border-collapse w-full">
+      <tbody>
+        <tr class="border">
+          <th class="border py-5">Margin:</th>
+          <th class="border py-5">{{ info.margin | currency }}</th>
+        </tr>
+
+        <tr>
+          <th class="border py-5">Available USD:</th>
+          <th class="border py-5">{{ info.available_usd | currency }}</th>
+        </tr>
+
+        <tr>
+          <th class="border py-5">Profit/Loss:</th>
+          <th class="border py-5">{{ info.pnl | currency }}</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Removed for now -->
+  <!-- <div class="px-15 mt-20" *ngIf="info && info.pnl && info.available_usd && info.margin">
+    <dd-status-bar [info]="info"></dd-status-bar>
+  </div> -->
+
+  <dd-spinner *ngIf="isLoadingPlots" message="Loading plots..." bgClass="bg-white"></dd-spinner>
+  <dd-spinner *ngIf="isProcessingTrade" message="Processing your request..." bgClass="bg-white"></dd-spinner>
+
+  <div class="absolute top-0 left-0 bottom-0 right-0 flex items-center justify-center" *ngIf="!future">
+    <div class="absolute top-0 left-0 right-0 bottom-0 bg-white bg-opacity-60"></div>
+  </div>
+</div>

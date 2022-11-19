@@ -1,0 +1,31 @@
+<dd-dialog-layout
+  (save)="save()"
+  [disabled]="form.invalid"
+  [isLoading]="dialogDisabled"
+  [title]="
+    data.hierarchyData?.id ? 'Update ' + (data.hierarchyType | titlecase) : 'Add ' + (data.hierarchyType | titlecase)
+  "
+>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>{{ data.hierarchyType | titlecase }}</mat-label>
+      <input formControlName="name" matInput type="text"/>
+      <mat-error *ngIf="form.get('name')?.hasError('required')">Required.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="data.hierarchyType !== HierarchyType.Kingdom" appearance="outline" class="w-full">
+      <mat-label>{{ data.parent | titlecase }}</mat-label>
+      <mtx-select
+        [clearable]="false"
+        [items]="parentOptions"
+        [required]="true"
+        [virtualScroll]="true"
+        appendTo="body"
+        bindLabel="name"
+        bindValue="id"
+        formControlName="parent"
+      ></mtx-select>
+      <mat-error *ngIf="form.get('parent')?.hasError('required')">Required.</mat-error>
+    </mat-form-field>
+  </form>
+</dd-dialog-layout>

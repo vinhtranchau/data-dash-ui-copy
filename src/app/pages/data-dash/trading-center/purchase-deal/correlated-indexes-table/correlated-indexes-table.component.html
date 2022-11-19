@@ -1,0 +1,23 @@
+<div class="rounded-br-3xl rounded-lg bg-white h-full pt-10 overflow-clip">
+  <mat-tab-group animationDuration="500ms" class="bg-white" mat-align-tabs="start">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <div>Similar Products</div>
+      </ng-template>
+      <ng-template matTabContent>
+        <dd-data-table-page
+          *ngIf="indexId"
+          [columns]="columns"
+          [displayedColumns]="displayedColumns"
+          [dataSource]="dataSource"
+          [isLoading]="isLoading"
+          [selectable]="true"
+          tableHeight="344px"
+          (action)="action($event)"
+          (loadData)="onLoadData($event)"
+          (changeSelection)="onChangeSelection($event)"
+        ></dd-data-table-page>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

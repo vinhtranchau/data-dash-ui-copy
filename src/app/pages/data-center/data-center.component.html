@@ -1,0 +1,30 @@
+<div class="px-30 py-20 overflow-y-auto h-[calc(100vh_-_50px)]">
+  <div class="font-black text-35 text-dark flex md:block justify-center text-center md:text-left">
+    <div>
+      <mat-icon class="mr-20 scale-150" color="warn">bathtub</mat-icon>
+      <span>Welcome to Data Center!</span>
+      <br/>
+      <p class="text-grey font-medium text-15 text-center md:text-left">Browse the collection of tables:</p>
+    </div>
+  </div>
+  <div class="flex flex-wrap justify-center md:justify-start items-center gap-x-30">
+    <div *ngFor="let item of navItems">
+      <mat-card
+        *ngIf="!item.disabled"
+        class="relative !rounded-3xl h-[150px] w-[260px] lg:w-[280px] xl:w-[300px] my-20 !shadow-md !transition-transform md:hover:scale-[1.04]"
+      >
+        <a [routerLink]="item.route" class="absolute top-0 bottom-0 right-0 left-0"></a>
+        <mat-card-title class="font-medium text-20">
+          <div class="flex items-center">
+            <mat-icon class="mr-10 text-dark">{{ item.icon }}</mat-icon>
+            <span>{{ item.title }}</span>
+          </div>
+        </mat-card-title>
+        <mat-card-content
+          [innerHTML]="item.description"
+          class="text-grey !text-[0.8em] overflow-y-auto"
+        ></mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

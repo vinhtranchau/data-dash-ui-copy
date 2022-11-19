@@ -1,0 +1,25 @@
+<div class="pt-10 px-30">
+  <div class="grid grid-cols-3 gap-20 mb-20">
+    <button
+      mat-flat-button
+      color="primary"
+      [routerLink]="[dataDashRoute.root, dataDashRoute.derivativesTrading] | absolutePath"
+    >
+      Place a new trade
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      [routerLink]="[dataDashRoute.root, dataDashRoute.hedgingHome] | absolutePath"
+    >
+      Hedge a position
+    </button>
+    <button mat-flat-button color="primary">Clearing bank</button>
+  </div>
+
+  <div class="grid grid-cols-3 gap-20 mb-20">
+    <button mat-flat-button color="primary">Portfolio analysis</button>
+    <button mat-flat-button color="primary">Margin analysis</button>
+    <button mat-flat-button color="primary">Risk report</button>
+  </div>
+</div>

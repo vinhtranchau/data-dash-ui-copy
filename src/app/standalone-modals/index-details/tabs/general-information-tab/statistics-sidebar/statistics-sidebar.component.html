@@ -1,0 +1,267 @@
+<ng-template #textRenderer let-isLast="isLast" let-label="label" let-style="style" let-value="value">
+  <div class="flex justify-between my-5 flex-wrap">
+    <div class="text-grey">{{ label }}:</div>
+    <div [ngClass]="style || ''">{{ value }}</div>
+  </div>
+  <hr *ngIf="!isLast" />
+</ng-template>
+
+<ng-template #headerRenderer let-label="label" let-value="value">
+  <div class="flex justify-between my-5 flex-wrap">
+    <div class="text-[0.85em]">
+      <span class="font-bold">{{ label }}</span> - {{ value }}
+    </div>
+  </div>
+  <hr />
+</ng-template>
+
+<dd-error-handler
+  [hasError]="!spinner.loaders.indexStatistics.isLoading && !(indexStatistics$ | async)"
+  message="Unable to load statistics"
+></dd-error-handler>
+<dd-spinner [spinner]="spinner.loaders.indexStatistics" bgClass="bg-white"></dd-spinner>
+
+<div class="overflow-auto h-[calc(100%_-_45px)] text-[0.8em]">
+  <div *ngIf="indexStatistics$ | async as statistics" class="px-10">
+    <ng-container
+      *ngTemplateOutlet="headerRenderer; context: { label: 'LATEST', value: statistics.latest_price_date }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Price', value: statistics.latest_price | number: '1.0-4' | null }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: {
+          label: 'Max Peak',
+          value: (statistics.max_price | number: '1.0-4' | null) + ' on ' + (statistics.max_price_date | null)
+        }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: {
+          label: 'Min Trough',
+          value: (statistics.min_price | number: '1.0-4' | null) + ' on ' + (statistics.min_price_date | null)
+        }
+      "
+    ></ng-container>
+
+    <br />
+
+    <ng-container
+      *ngTemplateOutlet="headerRenderer; context: { label: 'LAST WEEK', value: statistics.weekly_price_date }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: { label: 'Starting Price', value: statistics.weekly_price | number: '1.0-4' | null }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: {
+          label: 'Price Change (%)',
+          value:
+            (statistics.weekly_change > 0 ? '+' : '') +
+            (statistics.weekly_change | number: '1.0-2' | null) +
+            ' (' +
+            (statistics.weekly_percentage_change | percentageChange: 2:false) +
+            ')',
+          style:
+            statistics.weekly_percentage_change > 0
+              ? 'text-green-400'
+              : statistics.weekly_percentage_change < 0
+              ? 'text-red-400'
+              : ''
+        }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: { label: 'Average Price', value: statistics.weekly_average | number: '1.0-2' | null }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: {
+          label: 'Low - High Range',
+          value:
+            (statistics.weekly_low | number: '1.0-2' | null) + ' - ' + (statistics.weekly_high | number: '1.0-2' | null)
+        }
+      "
+    ></ng-container>
+
+    <br />
+
+    <ng-container
+      *ngTemplateOutlet="headerRenderer; context: { label: 'LAST MONTH', value: statistics.monthly_price_date }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: { label: 'Starting Price', value: statistics.monthly_price | number: '1.0-4' | null }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: {
+          label: 'Price Change (%)',
+          value:
+            (statistics.monthly_change > 0 ? '+' : '') +
+            (statistics.monthly_change | number: '1.0-2' | null) +
+            ' (' +
+            (statistics.monthly_percentage_change | percentageChange: 2:false) +
+            ')',
+          style:
+            statistics.monthly_percentage_change > 0
+              ? 'text-green-400'
+              : statistics.monthly_percentage_change < 0
+              ? 'text-red-400'
+              : ''
+        }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: { label: 'Average Price', value: statistics.monthly_average | number: '1.0-2' | null }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: {
+          label: 'Low - High Range',
+          value:
+            (statistics.monthly_low | number: '1.0-2' | null) +
+            ' - ' +
+            (statistics.monthly_high | number: '1.0-2' | null)
+        }
+      "
+    ></ng-container>
+
+    <br />
+
+    <ng-container
+      *ngTemplateOutlet="headerRenderer; context: { label: 'LAST YEAR', value: statistics.yearly_price_date }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: { label: 'Starting Price', value: statistics.yearly_price | number: '1.0-4' | null }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: {
+          label: 'Price Change (%)',
+          value:
+            (statistics.yearly_change > 0 ? '+' : '') +
+            (statistics.yearly_change | number: '1.0-2' | null) +
+            ' (' +
+            (statistics.yearly_percentage_change | percentageChange: 2:false) +
+            ')',
+          style:
+            statistics.yearly_percentage_change > 0
+              ? 'text-green-400'
+              : statistics.yearly_percentage_change < 0
+              ? 'text-red-400'
+              : ''
+        }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: { label: 'Average Price', value: statistics.yearly_average | number: '1.0-2' | null}
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: {
+          label: 'Low - High Range',
+          value:
+            (statistics.yearly_low | number: '1.0-2' | null) + ' - ' + (statistics.yearly_high | number: '1.0-2' | null)
+        }
+      "
+    ></ng-container>
+
+    <br />
+
+    <ng-container
+      *ngTemplateOutlet="headerRenderer; context: { label: 'ALL TIME', value: statistics.starting_price_date }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: { label: 'Starting Price', value: statistics.starting_price | number: '1.0-4' }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: {
+          label: 'Price Change (%)',
+          value:
+            (statistics.starting_change > 0 ? '+' : '') +
+            (statistics.starting_change | number: '1.0-2' | null) +
+            ' (' +
+            (statistics.starting_percentage_change | percentageChange: 2:false) +
+            ')',
+          style:
+            statistics.starting_percentage_change > 0
+              ? 'text-green-400'
+              : statistics.starting_percentage_change < 0
+              ? 'text-red-400'
+              : ''
+        }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: { label: 'Average Price', value: statistics.starting_average | number: '1.0-2' | null }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: {
+          isLast: true,
+          label: 'Low - High Range',
+          value:
+            (statistics.starting_low | number: '1.0-2' | null) +
+            ' - ' +
+            (statistics.starting_high | number: '1.0-2' | null)
+        }
+      "
+    ></ng-container>
+  </div>
+</div>

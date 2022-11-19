@@ -1,0 +1,38 @@
+<dd-dialog-layout (save)="save()" [disabled]="form.invalid" [isLoading]="dialogDisabled" title="Update User">
+  <form [formGroup]="form">
+    <div class="grid grid-cols-5 gap-x-40">
+      <div class="col-span-5 md:col-span-3 mb-30 md:mb-0">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Name</mat-label>
+          <input formControlName="name" matInput placeholder="John Doe" type="text"/>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Email</mat-label>
+          <input formControlName="email" matInput placeholder="john.doe@stableprice.com" type="email"/>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Permission Group</mat-label>
+          <mat-select formControlName="permission_id">
+            <mat-option *ngFor="let item of permissionGroups" [value]="item.id">{{
+              item.permissions_group
+              }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Slack ID</mat-label>
+          <input formControlName="slack_id" matInput placeholder="U01F3PYUH9V" type="text"/>
+        </mat-form-field>
+      </div>
+      <div class="col-span-5 md:col-span-2">
+        <b class="mb-15">Status</b>
+        <div class="grid gap-y-15">
+          <mat-slide-toggle color="primary" formControlName="is_trusted_user">Trusted User</mat-slide-toggle>
+          <mat-slide-toggle color="primary" formControlName="is_active">Allowed Access</mat-slide-toggle>
+          <mat-slide-toggle color="primary" formControlName="is_email_validated">Validated Email</mat-slide-toggle>
+          <mat-slide-toggle color="primary" formControlName="is_onboarded_completely">Onboarded Completely</mat-slide-toggle>
+        </div>
+      </div>
+    </div>
+  </form>
+</dd-dialog-layout>

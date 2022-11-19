@@ -1,0 +1,38 @@
+<div
+  [ngClass]="{
+    'md:h-[85vh]': !fullscreen,
+    'md:max-h-[1400px]': !fullscreen
+  }"
+  class="px-20 md:px-30 py-20 overflow-auto relative h-[calc(100vh_-_110px)] md:h-[calc(100vh_-_50px)]"
+>
+  <dd-error-handler
+    [hasError]="primaryDataLoaded && !indexDetailsStoreService.indexPrices.length"
+    message="No prices available"
+  ></dd-error-handler>
+  <dd-spinner [spinner]="spinner.loaders.empiricalModellingResults" bgClass="bg-white"></dd-spinner>
+  <div class="grid grid-cols-8 gap-x-30">
+    <div class="col-span-8 lg:col-span-4">
+      <dd-configure-contracts-form
+        (calculate)="calculatePayoffs($event)"
+        (formChange)="formChange$.next($event)"
+        [fullscreen]="fullscreen"
+      ></dd-configure-contracts-form>
+    </div>
+    <div
+      [ngClass]="{
+        'md:h-[calc(85vh_-_50px)]': !fullscreen,
+        'md:max-h-[1350px]': !fullscreen
+      }"
+      class="w-full overflow-auto relative col-span-8 lg:col-span-4 h-[calc(100vh_-_100px)]"
+    >
+      <dd-contracts-duration [formChange$]="formChange$" [fullscreen]="fullscreen"></dd-contracts-duration>
+    </div>
+  </div>
+  <div *ngIf="empiricalModellingResults" id="empirical-modelling-results">
+    <div class="bg-accent px-30 py-10 mt-30">WARNING: These models have yet to be fully validated.</div>
+    <dd-historical-payoff [loadHistoricalPayoffPlot$]="calculate$"></dd-historical-payoff>
+    <dd-net-position [loadNetPositionPlots$]="calculate$"></dd-net-position>
+    <dd-empirical-stats [loadStatsTable$]="calculate$"></dd-empirical-stats>
+    <dd-simulation-stats [loadStatsTable$]="calculate$"></dd-simulation-stats>
+  </div>
+</div>

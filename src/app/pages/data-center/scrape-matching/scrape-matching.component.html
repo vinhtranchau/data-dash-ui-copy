@@ -1,0 +1,32 @@
+<div class="pt-10">
+  <div class="rounded-3xl bg-white mx-30 pt-10 overflow-clip">
+    <dd-data-table-page
+      (action)="action($event)"
+      (add)="add()"
+      (loadData)="loadData($event)"
+      [columns]="columns"
+      [dataSource]="dataSource"
+      [displayedColumns]="displayedColumns"
+      [hasHeader]="true"
+      [isLoading]="isLoading"
+      [serverSideSearch]="true"
+      [tableType]="PermissionType.ScrapeMatchingTable"
+      [total]="total"
+      headerAddText="Match Indexes"
+      tableHeight="calc(100vh - 228px)"
+    >
+      <div class="w-full flex items-center w-full sm:w-fit">
+        <button
+          (click)="uploadManualScrapes()"
+          [disabled]="!hasEditPermission"
+          class="w-full"
+          color="accent"
+          mat-flat-button
+        >
+          <mat-icon class="mr-5"> cloud_upload</mat-icon>
+          <span>Manual</span> <span class="inline sm:hidden md:inline"> Scrapes</span>
+        </button>
+      </div>
+    </dd-data-table-page>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="h-full relative overflow-y-auto no-scroll" infiniteScroll [scrollWindow]="false" (scrolled)="onScroll()">
+  <div class="flex justify-between items-center px-30">
+    <h2 class="font-black text-35 text-dark ml-10 mb-10">Browse Indexes</h2>
+    <form [formGroup]="form" class="z-10">
+      <section class="flex flex-wrap gap-x-15 items-baseline">
+        <!-- Temporarily removed filter -->
+        <!-- <mat-checkbox color="primary" formControlName="includeRollingDeals" class="text-15">Rolling Deals</mat-checkbox>
+        <mat-checkbox color="primary" formControlName="includeHedgingBook" class="text-15">Individual Quotes</mat-checkbox> -->
+        <mat-form-field appearance="outline" class="w-300">
+          <mat-label>Search Indexes</mat-label>
+          <input matInput formControlName="searchTerm" placeholder="e.g. milk" />
+          <button mat-icon-button matSuffix>
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+      </section>
+    </form>
+  </div>
+  <div *ngIf="!isLoading && !classes.length">
+    <div class="flex justify-center items-center p-30">
+      <img src="/assets/illustrations/empty-search-results.svg" alt="Empty Search Result" />
+    </div>
+    <p class="text-medium text-center py-50 text-dark">No results found.</p>
+  </div>
+
+  <div class="h-[calc(100vh_-_150px)]">
+    <div *ngFor="let classHierarchy of classes">
+      <dd-product-row [classHierarchy]="classHierarchy" [tradeIndexType]="tradeIndexType"></dd-product-row>
+    </div>
+  </div>
+</div>

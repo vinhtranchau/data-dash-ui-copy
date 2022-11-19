@@ -1,0 +1,19 @@
+<div cdkDrag cdkDragRootElement=".cdk-overlay-pane" class="relative">
+  <mat-toolbar cdkDragHandle class="bg-warn cursor-move">
+    <mat-toolbar-row class="flex justify-between">
+      <span class="font-bold text-white">{{ data.title }}</span>
+      <button [mat-dialog-close]="false" aria-label="Close dialog" class="text-white" mat-icon-button>
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-dialog-content>
+    <div [innerHTML]="data.content"></div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="flex justify-end">
+    <button [mat-dialog-close]="false" aria-label="Cancel" color="warn" mat-flat-button>Cancel</button>
+    <button [mat-dialog-close]="true" aria-label="Save" color="primary" mat-flat-button>Confirm</button>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,41 @@
+<div class="py-20">
+  <mat-tab-group [selectedIndex]="0" class="bg-white">
+    <mat-tab label="Historical Pay Off Plot">
+      <ng-template matTabContent>
+        <div class="relative h-[600px] mt-20 w-full">
+          <dd-basic-chart
+            [data]="historicalPayoffPlotData"
+            [hasLegend]="true"
+            [hasRangeSelector]="true"
+            [hasRangeSlider]="true"
+            [refreshLayout$]="refreshHistoricalPayoffPlotLayout$"
+            [startingLayout]="historicalPayoffPlotLayout"
+          ></dd-basic-chart>
+        </div>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Historical Pay Off Data">
+      <ng-template matTabContent>
+        <div class="h-[600px] mt-20 w-full">
+          <dd-data-table-page
+            [columns]="historicalPayoffColumns"
+            [dataSource]="historicalPayoffDataSource"
+            [displayedColumns]="historicalPayoffDisplayedColumns"
+            [hasHeader]="true"
+            [headerHasAddButton]="false"
+            [headerHasSearchFilter]="false"
+            [isLoading]="false"
+            tableHeight="500px"
+          >
+            <div class="w-full flex justify-end items-center pb-20 pr-[-30px]">
+              <button (click)="downloadHistoricalPayoffData()" class="w-full sm:w-fit" color="accent" mat-flat-button>
+                <mat-icon class="mr-5"> cloud_download</mat-icon>
+                Export
+              </button>
+            </div>
+          </dd-data-table-page>
+        </div>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

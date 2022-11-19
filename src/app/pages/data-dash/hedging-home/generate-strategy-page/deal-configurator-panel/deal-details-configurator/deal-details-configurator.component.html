@@ -1,0 +1,115 @@
+<div class="overflow-y-auto h-340 px-20 py-10">
+  <h4 class="text-dark mb-15">Deal Configurator</h4>
+  <dd-error-handler [hasError]="!index" message="Select an index or position."></dd-error-handler>
+
+  <form [formGroup]="form" class="text-14">
+    <div class="grid grid-cols-3 gap-15">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Direction</mat-label>
+        <mat-select formControlName="direction">
+          <mat-option *ngFor="let option of dealDirectionOptions" [value]="option.id">{{ option.label }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Style</mat-label>
+        <mat-select formControlName="style">
+          <mat-option *ngFor="let option of dealStyleOptions" [value]="option.id">{{ option.label }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Quantity</mat-label>
+        <input formControlName="quantity" matInput type="number" />
+        <mat-error *ngIf="form.get('quantity')?.hasError('pattern')">Must be a whole number.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-2 gap-20">
+      <div class="grid grid-cols-2 gap-15">
+        <!-- No need Stop at the moment... -->
+        <!-- https://stablehq.slack.com/archives/D03CNH6MMPX/p1662111428104189?thread_ts=1661835401.186319&cid=D03CNH6MMPX -->
+        <!--      <mat-form-field appearance="outline" class="w-full">-->
+        <!--        <mat-label>Stop</mat-label>-->
+        <!--        <input type="number" matInput min="0" formControlName="stop" />-->
+        <!--      </mat-form-field>-->
+
+        <mat-form-field
+          [class.order-1]="form.get('direction')?.value === DealDirection.Call"
+          [class.order-2]="form.get('direction')?.value === DealDirection.Put"
+          appearance="outline"
+          class="w-full"
+        >
+          <mat-label>Strike</mat-label>
+          <input formControlName="strike" matInput min="0" type="number" />
+          <mat-error *ngIf="form.get('strike')?.hasError('max')"
+            >Max Strike: {{ maxStrikeLimit | number: '1.2-2' }}</mat-error
+          >
+          <mat-error *ngIf="form.get('strike')?.hasError('min')">Cannot be negative.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field
+          [class.order-1]="form.get('direction')?.value === DealDirection.Put"
+          [class.order-2]="form.get('direction')?.value === DealDirection.Call"
+          appearance="outline"
+          class="w-full"
+        >
+          <mat-label>Limit</mat-label>
+          <input formControlName="limit" matInput min="0" type="number" />
+          <mat-error *ngIf="form.get('limit')?.hasError('max')"
+            >Max Limit: {{ maxStrikeLimit | number: '1.2-2' }}</mat-error
+          >
+          <mat-error *ngIf="form.get('limit')?.hasError('min')">Cannot be negative.</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="flex flex-col">
+        <mtx-slider
+          (valueChange)="onSliderValueChange($event)"
+          [max]="maxStrikeLimit"
+          [min]="0"
+          [step]="0.01"
+          [value]="
+            form.get('direction')?.value === DealDirection.Put
+              ? [form.get('limit')?.value, form.get('strike')?.value]
+              : [form.get('strike')?.value, form.get('limit')?.value]
+          "
+          color="primary"
+          thumbLabel
+        ></mtx-slider>
+        <mat-error *ngIf="form.errors?.['callStrikeLimits']" class="text-[0.75em] mt-10"
+          >Limit must be greater than the strike for a Call option.
+        </mat-error>
+        <mat-error *ngIf="form.errors?.['putStrikeLimits']" class="text-[0.75em] mt-10"
+          >Strike must be greater than the limit for a Put option.
+        </mat-error>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-20">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Purchase Date</mat-label>
+        <input [matDatepicker]="purchaseDatePicker" formControlName="purchase_date" matInput />
+        <mat-datepicker-toggle [for]="purchaseDatePicker" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #purchaseDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Coverage Start</mat-label>
+        <input [matDatepicker]="coverageStartPicker" formControlName="coverage_start" matInput />
+        <mat-datepicker-toggle [for]="coverageStartPicker" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #coverageStartPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Coverage End</mat-label>
+        <input [matDatepicker]="coverageEndPicker" formControlName="coverage_end" matInput />
+        <mat-datepicker-toggle [for]="coverageEndPicker" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #coverageEndPicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <mat-error *ngIf="form.errors?.['invalidDates']" class="text-[0.75em] mt-5"
+      >Dates must follow the order Purchase Date < Coverage Start < Coverage End
+    </mat-error>
+  </form>
+</div>

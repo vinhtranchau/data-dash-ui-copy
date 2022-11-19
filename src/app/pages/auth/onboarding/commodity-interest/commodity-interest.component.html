@@ -1,0 +1,72 @@
+<ng-content></ng-content>
+<form [formGroup]="form" class="relative">
+  <dd-error-handler
+    [hasError]="!company && !isLoading"
+    message="Please fill in your company information first."
+  ></dd-error-handler>
+  <div class="overflow-y-auto h-[270px]">
+    <div formArrayName="commodities">
+      <div *ngFor="let commodity of commodities?.controls; let i = index">
+        <div [formGroupName]="i" [id]="'commodity-' + i">
+          <div class="grid grid-cols-6 gap-x-15">
+            <div class="col-span-4">
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Commodity {{ i + 1 }}</mat-label>
+                <mtx-select
+                  [clearable]="true"
+                  [items]="hierarchyOptions"
+                  [multiple]="false"
+                  [required]="false"
+                  [virtualScroll]="true"
+                  appendTo="body"
+                  bindLabel="name"
+                  bindValue="id"
+                  formControlName="klass_id"
+                ></mtx-select>
+              </mat-form-field>
+            </div>
+            <div class="col-span-1 flex items-center justify-center pb-20">
+              <mat-checkbox color="primary" formControlName="is_buy">Buy</mat-checkbox>
+            </div>
+            <div class="col-span-1 flex items-center justify-center pb-20">
+              <mat-checkbox color="primary" formControlName="is_sell">Sell</mat-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <mat-error *ngIf="form.errors?.['duplicatedProducts']" class="text-[0.75em] mt-5"
+    >Please enter each commodity only once.
+  </mat-error>
+
+  <p
+    class="text-blue-400 text-12 cursor-pointer mt-30 text-right"
+    *ngIf="!hasFreeTextField"
+    (click)="hasFreeTextField = true"
+  >
+    Can't find the commodity you are interested in?
+  </p>
+  <div *ngIf="hasFreeTextField" class="mt-30">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Enter any other Commodities</mat-label>
+      <input placeholder="Apples" matInput type="text" formControlName="freeTextField" />
+    </mat-form-field>
+  </div>
+
+  <div class="grid-cols-2 grid gap-x-30 mt-15">
+    <button class="w-full !mb-20" color="accent" mat-flat-button type="button" (click)="addCommodity()">
+      Add More
+    </button>
+    <button
+      [disabled]="form.invalid || isLoading"
+      class="w-full !mb-20"
+      color="primary"
+      mat-flat-button
+      type="button"
+      (click)="continue()"
+    >
+      {{ continueText }}
+    </button>
+  </div>
+</form>

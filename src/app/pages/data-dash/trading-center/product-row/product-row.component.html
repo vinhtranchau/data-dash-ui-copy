@@ -1,0 +1,25 @@
+<div *ngIf="!isLoading && indexes && indexes.length" class="relative min-h-150">
+  <div class="font-bold text-15 mx-35 flex items-center justify-between mb-10">
+    <div>
+      <span class="m-5">{{ classHierarchy.name }}</span>
+      <span class="rounded-full bg-white text-10 font-light py-[3px] text-slate-400 mr-5 px-10">
+        {{ indexes.length }} {{ indexes.length > 1 ? 'Indexes' : 'Index' }}
+      </span>
+    </div>
+    <div *ngIf="hasScrollButtons">
+      <button mat-button class="w-fit" (click)="scrollRow(-1)"><mat-icon>chevron_left</mat-icon></button>
+      <button mat-button class="w-fit" (click)="scrollRow(1)"><mat-icon>chevron_right</mat-icon></button>
+    </div>
+  </div>
+  <div
+    class="flex justify-start items-center -mt-110 -mb-150 pt-110 pb-200 min-h-150 no-scroll overflow-x-auto px-35"
+    [id]="'class-row-' + classHierarchy.id"
+  >
+    <div *ngFor="let index of indexes">
+      <dd-index-card-v2 [index]="index"></dd-index-card-v2>
+    </div>
+  </div>
+</div>
+<div class="relative min-h-150" *ngIf="isLoading">
+  <dd-spinner message="Loading {{ classHierarchy.name }} indexes..."></dd-spinner>
+</div>

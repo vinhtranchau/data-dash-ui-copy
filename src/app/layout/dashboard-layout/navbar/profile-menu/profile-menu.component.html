@@ -1,0 +1,40 @@
+<div class="flex items-center">
+  <button [matMenuTriggerFor]="profileMenu" mat-icon-button>
+    <div *ngIf="user$ | async as user" class="relative h-40 w-40">
+      <img
+        [src]="user.avatar || 'assets/images/default-avatar.jpeg'"
+        alt="Avatar"
+        class="rounded-full w-full h-full object-cover"
+      />
+    </div>
+  </button>
+  <mat-menu #profileMenu>
+    <menu
+      [routerLink]="[dataDashRoute.root, dataDashRoute.home] | absolutePath"
+      class="text-slate-400 hover:!text-dark hover:!bg-slate-200"
+      mat-menu-item
+      routerLinkActive="!bg-slate-200 !text-dark"
+    >
+      <mat-icon class="!text-dark">home</mat-icon>
+      Home
+    </menu>
+    <menu
+      [routerLink]="[userRoute.root, userRoute.account, 1] | absolutePath"
+      class="text-slate-400 hover:!text-dark hover:!bg-slate-200"
+      mat-menu-item
+      routerLinkActive="!bg-slate-200 !text-dark"
+    >
+      <mat-icon class="!text-dark">account_circle</mat-icon>
+      Account
+    </menu>
+    <menu
+      (click)="logout()"
+      class="text-slate-400 hover:!text-dark hover:!bg-slate-200"
+      mat-menu-item
+      routerLinkActive="!bg-slate-200 !text-dark"
+    >
+      <mat-icon class="!text-dark">logout</mat-icon>
+      Logout
+    </menu>
+  </mat-menu>
+</div>

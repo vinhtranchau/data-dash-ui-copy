@@ -1,0 +1,31 @@
+<div class="relative px-30 h-[calc(100vh_-_60px)]" *ngIf="tradeRequest">
+  <dd-error-handler
+    [hasError]="hasError"
+    message="An error has occured, please contact the admins."
+    bgClass="bg-slate-200"
+  ></dd-error-handler>
+  <dd-spinner [spinner]="spinner.loaders.tradeRequest"></dd-spinner>
+  <div class="h-[160px] pt-10">
+    <dd-index-details-header [indexDetails]="tradeRequest.index"></dd-index-details-header>
+  </div>
+  <div class="grid grid-cols-7 gap-x-10">
+    <div class="col-span-5">
+      <div class="bg-white rounded-lg rounded-bl-3xl p-10 my-10 h-[calc(100vh-250px)] relative">
+        <dd-spinner [spinner]="spinner.loaders.indexPrices"></dd-spinner>
+        <dd-basic-chart
+          [data]="plotData"
+          [hasLegend]="true"
+          [hasRangeSelector]="false"
+          [hasRangeSlider]="true"
+          [refreshLayout$]="refreshLayout$"
+          [startingLayout]="startingLayout"
+        ></dd-basic-chart>
+      </div>
+    </div>
+    <div class="col-span-2" *ngIf="tradeRequest">
+      <div class="h-[calc(100vh_-_250px)] my-10">
+        <dd-deal-config [tradeRequest]="tradeRequest"></dd-deal-config>
+      </div>
+    </div>
+  </div>
+</div>

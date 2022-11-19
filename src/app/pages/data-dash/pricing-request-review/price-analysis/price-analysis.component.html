@@ -1,0 +1,59 @@
+<dd-spinner *ngIf="loader.isLoading" [message]="loader.message"></dd-spinner>
+<div class="relative px-30 h-[calc(100vh_-_60px)] overflow-y-auto scroll">
+  <div class="h-[160px] pt-10" *ngIf="deal">
+    <dd-index-details-header [indexDetails]="deal.index"></dd-index-details-header>
+  </div>
+  <div class="grid grid-cols-10 gap-x-10">
+    <div class="col-span-7">
+      <dd-index-price-graph
+        *ngIf="deal"
+        [deal]="deal"
+        [permission]="permission"
+        [index]="deal.index"
+      ></dd-index-price-graph>
+    </div>
+    <div class="col-span-3">
+      <ng-container *ngIf="deal">
+        <div class="flex flex-row-reverse my-10">
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="onDownloadDealData()"
+            *ngIf="permission.type === PageType.DS || permission.type === PageType.UW"
+          >
+            Export Deal Data
+            <mat-icon>download</mat-icon>
+          </button>
+        </div>
+
+        <dd-deal-detail-form [deal]="deal"></dd-deal-detail-form>
+        <!-- If page is Client, then just show only review button -->
+        <dd-quote-review-form *ngIf="permission.type === PageType.Client" [deal]="deal"></dd-quote-review-form>
+        <!-- If page is DS or UW, shows publishing check form -->
+        <dd-quote-publishing-check-form
+          *ngIf="permission.type === PageType.DS || permission.type === PageType.UW"
+          [permission]="permission"
+          [deal]="deal"
+          (updateQuotePublishingCheck)="quotePublishingCheck = $event"
+          (sendQuoteToUW)="onSendQuoteToUW()"
+          (confirmQuote)="onConfirmQuote()"
+          (sendToCustomer)="onSendToCustomer()"
+        ></dd-quote-publishing-check-form>
+      </ng-container>
+    </div>
+  </div>
+
+  <ng-container *ngIf="deal">
+    <ng-container *ngIf="permission.type === PageType.UW">
+      <h4 class="text-midnight mt-15">Quote Documents</h4>
+      <dd-quote-files-form [deal]="deal" (uploadFinished)="loadRollingDeal()"></dd-quote-files-form>
+    </ng-container>
+
+    <h4 class="text-midnight mt-15">{{ permission.type === PageType.Client ? 'Quote Details' : 'Quote Analysis' }}</h4>
+    <dd-quote-analysis-table
+      [permission]="permission"
+      [deal]="deal"
+      (updateQuoteAnalysis)="onUpdateQuoteAnalysis($event)"
+    ></dd-quote-analysis-table>
+  </ng-container>
+</div>

@@ -1,0 +1,18 @@
+<table class="table-auto border w-full mb-10" *ngIf="alert">
+  <tbody>
+    <tr class="border-b">
+      <th class="px-15 py-5 border-r bg-slate-100">Stable Assigned Date</th>
+      <th class="px-15 py-5 border-r bg-slate-100">Old Price</th>
+      <th class="px-15 py-5 bg-slate-100">New Price</th>
+    </tr>
+    <ng-container *ngFor="let data of extraData">
+      <tr class="border-b">
+        <td class="px-15 py-5 border-r">{{ data.stable_assigned_date | date: 'YYYY-MM-dd' }}</td>
+        <td class="px-15 py-5 border-r">{{ data.price_old | number: '1.0-4' }}</td>
+        <td class="px-15 py-5 whitespace-pre-wrap">
+          {{ data.price | number: '1.0-4' }}
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>

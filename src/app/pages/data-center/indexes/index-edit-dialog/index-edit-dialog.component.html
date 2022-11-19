@@ -1,0 +1,30 @@
+<dd-dialog-layout
+  (save)="save()"
+  [disabled]="form.invalid"
+  [isLoading]="isLoading"
+  [title]="data ? 'Update index details' : 'Onboard new index'"
+>
+  <form [formGroup]="form">
+    <mat-stepper [linear]="false" formArrayName="steps" orientation="vertical">
+      <mat-step [stepControl]="form.get('steps')?.get([0])!" formGroupName="0" state="index">
+        <ng-template matStepLabel>Section 1. About the Index Specifications.</ng-template>
+        <dd-index-specification-form [form]="indexSpecificationForm" [index]="data"></dd-index-specification-form>
+      </mat-step>
+
+      <mat-step formGroupName="1">
+        <ng-template matStepLabel>Section 2. About the Index Provider.</ng-template>
+        <dd-index-provider-form [form]="indexProviderForm"></dd-index-provider-form>
+      </mat-step>
+
+      <mat-step formGroupName="2">
+        <ng-template matStepLabel>Section 3. About the Data.</ng-template>
+        <dd-index-data-form [form]="indexDataForm" [index]="data"></dd-index-data-form>
+      </mat-step>
+
+      <mat-step formGroupName="3">
+        <ng-template matStepLabel>Section 4. About Stable Grading.</ng-template>
+        <dd-index-grading-form [form]="indexGradingForm"></dd-index-grading-form>
+      </mat-step>
+    </mat-stepper>
+  </form>
+</dd-dialog-layout>

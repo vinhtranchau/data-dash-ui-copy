@@ -1,0 +1,33 @@
+<div class="px-30 py-20 w-500 flex flex-col justify-center items-center">
+  <div class="font-black text-dark text-[30px] text-center">Great Job!</div>
+  <div class="flex justify-center items-center">
+    <img src="/assets/illustrations/request-quote-illustration.svg" class="w-300 h-300" alt="Image" />
+  </div>
+  <div class="text-center text-[12px] text-slate-400">
+    We are working on your quote, you will be notified when it is ready. Browse more indexes next or view your
+    portfolio.
+  </div>
+  <br />
+  <div class="grid grid-cols-2 gap-x-30">
+    <button
+      mat-flat-button
+      color="primary"
+      type="button"
+      class="w-full"
+      [routerLink]="[dataDashRoute.root, dataDashRoute.tradingCenter] | absolutePath"
+      (click)="close()"
+    >
+      View Indexes
+    </button>
+    <button
+      mat-flat-button
+      color="accent"
+      type="button"
+      class="w-full"
+      [routerLink]="[dataDashRoute.root, dataDashRoute.home] | absolutePath"
+      (click)="close()"
+    >
+      Back Home
+    </button>
+  </div>
+</div>

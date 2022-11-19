@@ -1,0 +1,64 @@
+<div class="w-full h-full">
+  <div class="flex items-center justify-start text-dark mb-30">
+    <mat-icon class="scale-125">subscriptions</mat-icon>
+    <div class="flex items-center justify-center">
+      <span class="font-bold text-25 ml-20"> Edit Alert Subscriptions </span>
+      <mat-icon
+        class="ml-5 text-grey"
+        matTooltip="Select your preferences for which index alerts to receive notifications for (optionally filtered to certain indexes or products)."
+        >info_outline</mat-icon
+      >
+    </div>
+  </div>
+  <form (ngSubmit)="submit()" [formGroup]="form">
+    <div class="h-420 overflow-y-auto overflow-x-hidden mb-40 scroll">
+      <div class="mb-20">
+        <div class="flex items-center justify-end my-10">
+          <mat-checkbox color="primary" formControlName="all_indexes" class="text-12"
+            >Subscribe for all indexes</mat-checkbox
+          >
+        </div>
+        <div *ngIf="form.get('all_indexes')?.value === false">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Select Indexes</mat-label>
+            <mtx-select
+              [clearable]="true"
+              [items]="(storeService.indexUUIDs$ | async) || []"
+              [required]="false"
+              [virtualScroll]="true"
+              [multiple]="true"
+              appendTo="body"
+              bindLabel="stable_index_code"
+              bindValue="id"
+              [formControlName]="alertSubscriptionObjects.IndexDetails"
+            ></mtx-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Select Products</mat-label>
+            <mtx-select
+              [clearable]="true"
+              [items]="(storeService.hierarchies$ | async) || []"
+              [required]="false"
+              [virtualScroll]="true"
+              [multiple]="true"
+              appendTo="body"
+              bindLabel="name"
+              bindValue="id"
+              [formControlName]="alertSubscriptionObjects.ProductHierarchy"
+            ></mtx-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngFor="let alert of alertType">
+        <div class="flex items-center justify-between w-full mb-25 font-medium text-grey">
+          <div class="flex justify-center items-center">
+            <span>{{ alert | textTransform }}</span>
+            <mat-icon class="ml-5" [matTooltip]="alertExplanation[alert]">info_outline</mat-icon>
+          </div>
+          <mat-slide-toggle color="primary" [formControlName]="alert"></mat-slide-toggle>
+        </div>
+      </div>
+    </div>
+    <button [disabled]="form.invalid" class="w-full" color="primary" mat-flat-button>Save Preferences</button>
+  </form>
+</div>

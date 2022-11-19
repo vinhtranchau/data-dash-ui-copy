@@ -1,0 +1,50 @@
+<div class="h-full relative overflow-y-auto no-scroll">
+  <div class="flex justify-between items-center px-30">
+    <h2 class="font-black text-35 text-dark ml-10 mb-10">
+      {{ isUW ? 'Underwriter ' : 'Data Science ' }}Price review requests
+    </h2>
+    <form [formGroup]="statusFilter" class="text-13" *ngIf="isUW">
+      <mat-form-field appearance="outline" class="mt-15">
+        <mat-label>Status Filter</mat-label>
+        <mat-select formControlName="status">
+          <mat-option [value]="null">All</mat-option>
+          <mat-option *ngFor="let option of rollingDealStatusOptions" [value]="option.id">{{
+            option.label
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div class="pt-10">
+    <div class="rounded-3xl bg-white mx-30 pt-10 overflow-clip">
+      <dd-data-table-page
+        (loadData)="loadData($event)"
+        [columns]="columns"
+        [displayedColumns]="displayedColumns"
+        [dataSource]="dataSource"
+        [isLoading]="isLoading"
+        [total]="total"
+        [pageSize]="pageSize"
+        tableHeight="calc(100vh - 220px)"
+      >
+      </dd-data-table-page>
+      <dd-spinner message="Loading data..." *ngIf="isLoading"></dd-spinner>
+    </div>
+  </div>
+</div>
+
+<ng-template #priceAnalysisButtonCell let-element="element">
+  <div class="py-10">
+    <button
+      class="border"
+      type="button"
+      mat-stroked-button
+      color="primary"
+      [routerLink]="element.id"
+      *ngIf="(!isUW && !element.is_ds_check_passed) || (isUW && element.is_ds_check_passed)"
+    >
+      View Price Analysis
+    </button>
+  </div>
+</ng-template>

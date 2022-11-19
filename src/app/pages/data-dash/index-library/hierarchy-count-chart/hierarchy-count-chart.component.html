@@ -1,0 +1,9 @@
+<div class="rounded-3xl bg-white p-20 mt-20">
+  <div class="md:h-[90px]">
+    <div class="text-dark font-bold text-20">Hierarchy Count</div>
+  </div>
+  <div class="h-[100vw] md:h-[500px] w-full relative">
+    <dd-spinner [spinner]="spinner.loaders.sunburstChart"></dd-spinner>
+    <dd-basic-chart [data]="sunburstChartData" [refreshLayout$]="refreshSunburstChartLayout$"></dd-basic-chart>
+  </div>
+</div>

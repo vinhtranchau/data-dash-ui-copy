@@ -1,0 +1,8 @@
+<table class="table-auto border w-full mb-10" *ngIf="alert">
+  <tbody>
+    <tr class="border-b">
+      <td class="px-15 py-5 border-r">Last Index Price Update</td>
+      <td class="px-15 py-5">{{ extraData.last_price_update_date | date: 'YYYY-MM-dd' }}</td>
+    </tr>
+  </tbody>
+</table>

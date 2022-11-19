@@ -1,0 +1,20 @@
+<div class="rounded-3xl bg-white overflow-clip mx-30 pt-10">
+  <dd-data-table-page
+    (action)="action($event)"
+    (loadData)="loadData($event)"
+    [columns]="columns"
+    [dataSource]="dataSource"
+    [displayedColumns]="displayedColumns"
+    [hasHeader]="true"
+    [headerHasAddButton]="false"
+    [isLoading]="tableDataLoading"
+    [pageSize]="5"
+    [serverSideSearch]="true"
+    [stickyColumns]="stickyColumns"
+    [stickyPaginator]="false"
+    [total]="total"
+    tableHeight="300px"
+  >
+    <ng-content></ng-content>
+  </dd-data-table-page>
+</div>

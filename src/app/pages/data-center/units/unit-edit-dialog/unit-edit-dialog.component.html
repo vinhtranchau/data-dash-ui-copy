@@ -1,0 +1,31 @@
+<dd-dialog-layout
+  (save)="save()"
+  [disabled]="form.invalid"
+  [isLoading]="isLoading"
+  [title]="data.id ? 'Update Unit' : 'Add Unit'"
+>
+  <form [formGroup]="form">
+    <div class="grid grid-cols-2 gap-x-30">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Units</mat-label>
+        <input formControlName="units" matInput/>
+        <mat-error *ngIf="form.get('units')?.hasError('required')">Required.</mat-error>
+        <mat-error *ngIf="form.get('units')?.hasError('maxlength')">Too many characters!</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Units Plural</mat-label>
+        <input formControlName="units_plural" matInput/>
+        <mat-error *ngIf="form.get('units_plural')?.hasError('required')">Required.</mat-error>
+        <mat-error *ngIf="form.get('units_plural')?.hasError('maxlength')">Too many characters!</mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Abbreviations</mat-label>
+      <input formControlName="abbreviations" matInput/>
+      <mat-error *ngIf="form.get('abbreviations')?.hasError('required')">Required.</mat-error>
+      <mat-error *ngIf="form.get('abbreviations')?.hasError('maxlength')">Too many characters!</mat-error>
+    </mat-form-field>
+  </form>
+</dd-dialog-layout>

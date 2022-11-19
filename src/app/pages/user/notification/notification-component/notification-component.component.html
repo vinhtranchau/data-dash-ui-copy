@@ -1,0 +1,13 @@
+<mat-list-item
+  (click)="clickNotification()"
+  (mouseenter)="clearNotification()"
+  class="cursor-pointer hover:bg-slate-400 hover:bg-opacity-20"
+  [ngClass]="{ 'bg-blue-50': !notification.is_read }"
+>
+  <mat-icon mat-list-icon class="text-teal">{{ notification.notification_type | notificationType }}</mat-icon>
+  <div mat-line class="text-dark text-13 text-medium">{{ notification.title }}</div>
+  <div mat-line class="text-grey text-10">{{ notification.description }}</div>
+  <div>
+    <span class="text-grey text-12">{{ notification.created_at | timezone | date: 'short' }}</span>
+  </div>
+</mat-list-item>

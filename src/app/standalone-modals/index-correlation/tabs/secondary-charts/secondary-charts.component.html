@@ -1,0 +1,34 @@
+<div
+  [ngClass]="{ 'md:h-[min(1350px,85vh_-_50px)]': !fullscreen }"
+  class="relative overflow-y-auto h-[calc(100vh_-_110px)] md:h-[calc(100vh_-_50px)]"
+>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-30 px-20 md:px-30 py-20">
+    <div
+      [ngClass]="{ 'h-[min(1300px,85vh_-_100px)]': !fullscreen, 'h-[calc(100vh_-_100px)]': fullscreen }"
+      class="col-span-1 relative"
+    >
+      <dd-error-handler [hasError]="(scatterPlot.length > 0) && (scatterPlot[0].x?.length === 0)" message="No overlapping dates"></dd-error-handler>
+      <dd-basic-chart
+        [data]="scatterPlot"
+        [hasLegend]="true"
+        [hasRangeSelector]="false"
+        [hasRangeSlider]="false"
+        [refreshLayout$]="refreshScatterPlotLayout$"
+        [startingLayout]="scatterPlotLayout"
+      ></dd-basic-chart>
+    </div>
+    <div
+      [ngClass]="{ 'h-[min(1300px,85vh_-_100px)]': !fullscreen, 'h-[calc(100vh_-_100px)]': fullscreen }"
+      class="col-span-1"
+    >
+      <dd-basic-chart
+        [data]="seasonalityPlot"
+        [hasLegend]="true"
+        [hasRangeSelector]="false"
+        [hasRangeSlider]="false"
+        [refreshLayout$]="refreshSeasonalityPlotLayout$"
+        [startingLayout]="seasonalityPlotLayout"
+      ></dd-basic-chart>
+    </div>
+  </div>
+</div>

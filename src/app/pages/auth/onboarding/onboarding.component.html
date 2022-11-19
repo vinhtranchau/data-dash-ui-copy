@@ -1,0 +1,19 @@
+<div class="w-[900px] min-h-[700px] relative bg-white md:rounded-3xl md:shadow-md">
+  <dd-side-panel></dd-side-panel>
+  <div class="py-60 px-100 ml-300">
+    <dd-introduction *ngIf="onboardingStage === 1" (nextStage)="nextStage($event)"></dd-introduction>
+    <dd-company-details *ngIf="onboardingStage === 2" (nextStage)="nextStage($event)">
+      <div class="font-medium text-20">Where do you work?</div>
+      <br/>
+    </dd-company-details>
+    <dd-commodity-interest *ngIf="onboardingStage === 3" (nextStage)="nextStage($event)">
+      <div class="font-medium text-20">What are your favourite commodities?</div>      
+      <div class="flex justify-center items-center">
+        <img src="/assets/illustrations/commodities-shipment.svg" class="w-[150px] h-[150px]"/>
+      </div>
+      <div class="text-[12px] text-slate-400 mb-20">
+        These include commodities that you either buy or sell and consider key to your business.
+      </div>
+    </dd-commodity-interest>
+  </div>
+</div>

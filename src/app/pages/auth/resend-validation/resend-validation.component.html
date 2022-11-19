@@ -1,0 +1,24 @@
+<div class="w-[900px] min-h-[700px] relative bg-white md:rounded-3xl md:shadow-md">
+  <dd-side-panel></dd-side-panel>
+  <div class="py-60 px-100 ml-300">
+    <div class="text-35 font-bold mb-10">Validate Email</div>
+    <p class="text-[12px] text-grey mb-30">Enter your email to get another validation code.</p>
+
+    <form (ngSubmit)="sendLink()" [formGroup]="form" class="">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Email</mat-label>
+        <input formControlName="email" matInput placeholder="john.doe@stableprice.com" type="email"/>
+        <mat-error *ngIf="form.controls.email?.hasError('required')">Email is required.</mat-error>
+        <mat-error *ngIf="form.controls.email?.hasError('email')">Invalid email address form.</mat-error>
+      </mat-form-field>
+
+      <button [disabled]="form.invalid || isLoading" class="w-full" color="primary" mat-flat-button>
+        {{ isLoading ? 'Submitting...' : 'Send reset link' }}
+      </button>
+
+      <p class="text-[12px] text-grey mt-30 text-right">
+        Go back to <a class="text-blue-400 underline" routerLink="/login">Sign in</a>
+      </p>
+    </form>
+  </div>
+</div>

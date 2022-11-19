@@ -1,0 +1,83 @@
+<div class="py-20">
+  <mat-tab-group [selectedIndex]="0" class="bg-white">
+    <mat-tab label="Net Position Simulation Stats">
+      <div class="w-full">
+        <dd-data-table-page
+          [columns]="statsTableRowOneColumns"
+          [dataSource]="netPositionSimulationRowOne"
+          [displayedColumns]="statsTableRowOneDisplayedColumns"
+          [hasHeader]="false"
+          [isLoading]="false"
+          tableHeight="105px"
+        >
+        </dd-data-table-page>
+        <dd-data-table-page
+          [columns]="statsTableRowTwoColumns"
+          [dataSource]="netPositionSimulationRowTwo"
+          [displayedColumns]="statsTableRowTwoDisplayedColumns"
+          [hasHeader]="false"
+          [isLoading]="false"
+          tableHeight="105px"
+        >
+        </dd-data-table-page>
+      </div>
+    </mat-tab>
+    <mat-tab label="Pay Off Simulation Stats">
+      <ng-template mat-tab-label>
+        <span class="mr-10">Pay Off Simulation Stats</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <div class="w-full">
+          <dd-data-table-page
+            [columns]="statsTableRowOneColumns"
+            [dataSource]="payOffSimulationRowOne"
+            [displayedColumns]="statsTableRowOneDisplayedColumns"
+            [hasHeader]="false"
+            [isLoading]="false"
+            tableHeight="105px"
+          >
+          </dd-data-table-page>
+          <dd-data-table-page
+            [columns]="statsTableRowTwoColumns"
+            [dataSource]="payOffSimulationRowTwo"
+            [displayedColumns]="statsTableRowTwoDisplayedColumns"
+            [hasHeader]="false"
+            [isLoading]="false"
+            tableHeight="105px"
+          >
+          </dd-data-table-page>
+        </div>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span class="mr-10">Positive Pay Off Simulation Stats</span>
+        <mat-icon class="text-grey" matTooltip="Simulated statistics are from a best-fit distribution with N=10,000"
+          >info_outline
+        </mat-icon>
+      </ng-template>
+      <ng-template matTabContent>
+        <div class="w-full">
+          <dd-data-table-page
+            [columns]="statsTableRowOneColumns"
+            [dataSource]="positivePayOffSimulationRowOne"
+            [displayedColumns]="statsTableRowOneDisplayedColumns"
+            [hasHeader]="false"
+            [isLoading]="false"
+            tableHeight="105px"
+          >
+          </dd-data-table-page>
+          <dd-data-table-page
+            [columns]="statsTableRowTwoColumns"
+            [dataSource]="positivePayOffSimulationRowTwo"
+            [displayedColumns]="statsTableRowTwoDisplayedColumns"
+            [hasHeader]="false"
+            [isLoading]="false"
+            tableHeight="105px"
+          >
+          </dd-data-table-page>
+        </div>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

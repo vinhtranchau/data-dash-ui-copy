@@ -1,0 +1,31 @@
+<dd-spinner message="Please wait..." *ngIf="isLoading"></dd-spinner>
+<div class="bg-white rounded-lg px-10 pt-30 pb-10 my-10 text-[0.8em]">
+  <div class="mb-40 flex">
+    <h3 class="text-midnight mr-10">Quote Status:</h3>
+    <h3>{{ deal.status | textTransform }}</h3>
+  </div>
+
+  <!-- Showing documents -->
+  <div *ngIf="isAccepted; else actionButtons">
+    <a
+      class="flex items-center hover:text-primary"
+      [href]="item"
+      target="_blank"
+      *ngFor="let item of deal.quote_files; let i = index"
+    >
+      <mat-icon>link</mat-icon>
+      <span class="ml-10">Document {{ i + 1 }}</span></a
+    >
+  </div>
+  <!-- Showing action buttons -->
+  <ng-template #actionButtons>
+    <div class="flex justify-between">
+      <button type="button" mat-flat-button color="primary" (click)="acceptQuote()" [disabled]="!isPending">
+        {{ acceptButtonLabel }}
+      </button>
+      <button type="button" mat-flat-button color="primary" (click)="requestRepricing()" [disabled]="!isPending">
+        Request Repricing
+      </button>
+    </div>
+  </ng-template>
+</div>

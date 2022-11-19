@@ -1,0 +1,54 @@
+<dd-header-mobile title="Index Comparison"></dd-header-mobile>
+<div class="relative">
+  <mat-tab-group [selectedIndex]="0" animationDuration="500ms" class="bg-white" mat-align-tabs="start">
+    <mat-tab [disabled]="indexCorrelationStoreService.spinner.loaders.indexComparisonCharts.isLoading">
+      <ng-template mat-tab-label>
+        <div>General Comparison</div>
+      </ng-template>
+      <ng-template matTabContent>
+        <dd-general-information [fullscreen]="fullscreen" [isMonthly$]="isMonthly$"></dd-general-information>
+      </ng-template>
+    </mat-tab>
+    <mat-tab [disabled]="indexCorrelationStoreService.spinner.loaders.indexComparisonCharts.isLoading">
+      <ng-template mat-tab-label>
+        <div>Secondary Charts</div>
+      </ng-template>
+      <ng-template matTabContent>
+        <dd-secondary-charts [fullscreen]="fullscreen" [isMonthly$]="isMonthly$"></dd-secondary-charts>
+      </ng-template>
+    </mat-tab>
+    <mat-tab [disabled]="indexCorrelationStoreService.spinner.loaders.indexComparisonCharts.isLoading">
+      <ng-template mat-tab-label>
+        <div>Basis Plots</div>
+      </ng-template>
+      <ng-template matTabContent>
+        <dd-basis-plots [fullscreen]="fullscreen" [isAdj]="false" [isMonthly$]="isMonthly$"></dd-basis-plots>
+      </ng-template>
+    </mat-tab>
+    <mat-tab [disabled]="indexCorrelationStoreService.spinner.loaders.indexComparisonCharts.isLoading">
+      <ng-template mat-tab-label>
+        <span class="mr-10">Adj Basis Plots</span>
+        <mat-icon
+          class="text-grey"
+          matTooltip="The Adjusted Basis is the difference between the primary index and the secondary index,
+          where the adjusted secondary index is the secondary index value multiplied by a constant
+          that minimises the L2-Norm of the adjusted basis.
+          Adjusted Basis = SIC1 - f(SIC2), where f(x) = wx and w is calibrated to minimise ||Adjusted Basis||"
+        >info_outline
+        </mat-icon
+        >
+      </ng-template>
+      <ng-template matTabContent>
+        <dd-basis-plots [fullscreen]="fullscreen" [isAdj]="true" [isMonthly$]="isMonthly$"></dd-basis-plots>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+  <mat-slide-toggle
+    (change)="switchMonthlyFrequency()"
+    [(ngModel)]="isMonthly"
+    class="absolute top-10 right-10 z-10 !hidden lg:!block"
+    color="primary"
+  >
+    <span class="text-[0.9em]">Use Monthly Averages</span>
+  </mat-slide-toggle>
+</div>

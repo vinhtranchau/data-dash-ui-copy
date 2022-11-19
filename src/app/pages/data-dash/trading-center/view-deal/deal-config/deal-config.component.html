@@ -1,0 +1,69 @@
+<div class="rounded-lg rounded-br-3xl bg-white px-30 py-20 h-full" *ngIf="tradeRequest">
+  <div class="font-bold text-25 text-dark mb-10">Trade Config</div>
+  <div class="text-[12px]">
+    <p><span class="font-medium mr-5">Direction: </span>{{ tradeRequest.direction | titlecase }}</p>
+    <p class="mb-5"><span class="font-medium mr-5">Style: </span>{{ tradeRequest.style | titlecase }}</p>
+    <p>
+      <span class="font-medium mr-5">Strike: </span>{{ tradeRequest.strike | number: '1.2-4' }}
+      {{ tradeRequest.index | currencyAndUnit: false }}
+    </p>
+    <p class="mb-5">
+      <span class="font-medium mr-5">Limit: </span>{{ tradeRequest.limit | number: '1.2-4' }}
+      {{ tradeRequest.index | currencyAndUnit: false }}
+    </p>
+    <p>
+      <span class="font-medium mr-5">Trade Date: </span>
+      {{ tradeRequest.purchase_watch_status_time | timezone | date: 'YYYY-MM-dd':'+0000' }}
+    </p>
+    <p><span class="font-medium mr-5">Coverage Start: </span>{{ tradeRequest.coverage_start_in }}</p>
+    <p class="mb-5"><span class="font-medium mr-5">Coverage End: </span>{{ tradeRequest.coverage_end_in }}</p>
+    <p class="mb-5"><span class="font-medium mr-5">Quantity: </span>{{ tradeRequest.desired_quantity }}</p>
+    <div
+      *ngIf="[statusType.Purchase, statusType.Live, statusType.Settled, statusType.Watch].includes(tradeRequest.status)"
+    >
+      <p>
+        <span class="font-medium mr-5">Premiums (per unit): </span
+        >{{ tradeRequest.premium | number: '1.2-4' | currency }}
+      </p>
+      <p class="mb-5">
+        <span class="font-medium mr-5"><span class="font-medium mr-5">Total Premiums: </span></span
+        >{{ tradeRequest.total_premiums | number: '1.2-4' | currency }}
+      </p>
+    </div>
+    <div *ngIf="[statusType.Purchase, statusType.Live, statusType.Settled].includes(tradeRequest.status)">
+      <p>
+        <span class="font-medium mr-5">Claims (per unit): </span
+        >{{ tradeRequest.claims_paid || '0' | number: '1.2-4' | currency }}
+      </p>
+      <p class="mb-5">
+        <span class="font-medium mr-5">Total Claims: </span
+        >{{ tradeRequest.total_claims_paid | number: '1.2-4' | currency }}
+      </p>
+    </div>
+    <div *ngIf="tradeRequest.status === statusType.Bid">
+      <p>
+        <span class="font-medium mr-5">Bid Price (per unit): </span
+        >{{ tradeRequest.bid_price || '0' | number: '1.2-4' | currency }}
+      </p>
+      <p>
+        <span class="font-medium mr-5">Bid Expiry: </span
+        >{{ tradeRequest.bid_expiration_time! | timezone | date: 'YYYY-MM-dd':'+0000' }}
+      </p>
+      <p><span class="font-medium mr-5">Filled Quantity: </span>{{ tradeRequest.bid_filled_quantity | number }}</p>
+      <p class="mb-5">
+        <span class="font-medium mr-5">Allow Partial Execution: </span
+        >{{ tradeRequest.bid_is_partial_execution_enabled! | boolean }}
+      </p>
+    </div>
+    <p><span class="font-medium mr-5">Status: </span>{{ tradeRequest.status | titlecase }}</p>
+  </div>
+  <div class="my-10 grid grid-cols-2 gap-x-10">
+    <button mat-flat-button color="primary" type="button" class="w-full">View Documents</button>
+    <button mat-flat-button color="accent" type="button" class="w-full">Open Report</button>
+  </div>
+  <div class="my-10" *ngIf="[statusType.Watch, statusType.Bid].includes(tradeRequest.status)">
+    <button mat-flat-button color="warn" type="button" class="w-full" (click)="cancelTrade()">
+      {{ 'Remove ' + (tradeRequest.status | titlecase) }}
+    </button>
+  </div>
+</div>

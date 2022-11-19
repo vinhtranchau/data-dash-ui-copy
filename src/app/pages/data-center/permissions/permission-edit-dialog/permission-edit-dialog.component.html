@@ -1,0 +1,235 @@
+<dd-dialog-layout
+  (save)="save()"
+  [disabled]="form.invalid"
+  [isLoading]="dialogDisabled"
+  [title]="data.id ? 'Update Permissions' : 'Add Group'"
+>
+  <form [formGroup]="form">
+    <div class="grid grid-cols-3">
+      <mat-form-field appearance="outline" class="col-span-2">
+        <mat-label>Group Name</mat-label>
+        <input formControlName="permissions_group" matInput type="text" />
+        <mat-error *ngIf="form.get('permissions_group')?.hasError('required')">Required.</mat-error>
+        <mat-error *ngIf="form.get('permissions_group')?.hasError('forbiddenInput')">Name cannot be Admin.</mat-error>
+        <mat-error *ngIf="form.get('permissions_group')?.hasError('maxlength')">Too many characters!</mat-error>
+      </mat-form-field>
+      <div class="flex items-center justify-end mb-20 col-span-1">
+        <mat-slide-toggle color="primary" formControlName="can_generate_api_key">API Key</mat-slide-toggle>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-30">
+      <div class="md:border-r-2 md:pr-30">
+        <div class="grid grid-cols-2 gap-x-30">
+          <div class="flex items-start">
+            <b>Data Center</b>
+            <mat-icon
+              class="ml-10 text-grey"
+              matTooltip="Data Center tables such as index Details, Currency, Nation, etc needs to have View access for some pages of Data Dash to work."
+              >info_outline
+            </mat-icon>
+          </div>
+          <div class="flex items-center justify-end mb-20">
+            <mat-slide-toggle color="primary" formControlName="data_center_access">DC Access</mat-slide-toggle>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-30">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Index Details</mat-label>
+            <mat-select formControlName="index_details_table">
+              <mat-option *ngFor="let option of PermissionLevelOptions" [value]="option.id">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Users</mat-label>
+            <mat-select formControlName="users_table">
+              <mat-option *ngFor="let option of PermissionLevelOptions" [value]="option.id">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-30">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Permissions Groups</mat-label>
+            <mat-select formControlName="group_permissions_table">
+              <mat-option *ngFor="let option of PermissionLevelOptions" [value]="option.id">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Index Providers</mat-label>
+            <mat-select formControlName="index_provider_table">
+              <mat-option *ngFor="let option of PermissionLevelOptions" [value]="option.id">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-30">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Hierarchies</mat-label>
+            <mat-select formControlName="hierarchy_table">
+              <mat-option *ngFor="let option of PermissionLevelOptions" [value]="option.id">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Nations</mat-label>
+            <mat-select formControlName="nation_table">
+              <mat-option *ngFor="let option of PermissionLevelOptions" [value]="option.id">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-30">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Currencies</mat-label>
+            <mat-select formControlName="currency_table">
+              <mat-option *ngFor="let option of PermissionLevelOptions" [value]="option.id">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Units</mat-label>
+            <mat-select formControlName="unit_table">
+              <mat-option *ngFor="let option of PermissionLevelOptions" [value]="option.id">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-30">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Index Extensions</mat-label>
+            <mat-select formControlName="index_extension_data_table">
+              <mat-option *ngFor="let option of PermissionLevelOptions" [value]="option.id">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Scrape Matchings</mat-label>
+            <mat-select formControlName="scrape_matching_table">
+              <mat-option *ngFor="let option of PermissionLevelOptions" [value]="option.id">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-30">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Historical Data</mat-label>
+            <mat-select formControlName="historical_data_table">
+              <mat-option *ngFor="let option of PermissionLevelOptions" [value]="option.id">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div>
+        <div class="grid grid-cols-2 gap-x-30">
+          <b>Data Dash</b>
+          <div class="flex items-center justify-end mb-20">
+            <mat-slide-toggle color="primary" formControlName="data_dash_access">DD Access</mat-slide-toggle>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-30">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Index Library</mat-label>
+            <mat-select formControlName="index_library">
+              <mat-option *ngFor="let option of PermissionLevelOptions" [value]="option.id">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Trading Center</mat-label>
+            <mat-select formControlName="trading_center">
+              <mat-option *ngFor="let option of PermissionLevelOptions" [value]="option.id">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-30">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Index Alerts</mat-label>
+            <mat-select formControlName="index_alerts">
+              <mat-option *ngFor="let option of PermissionLevelOptions" [value]="option.id">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Derivatives Trading</mat-label>
+            <mat-select formControlName="derivatives_trading">
+              <mat-option *ngFor="let option of PermissionLevelOptions" [value]="option.id">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-30">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Hedging Home</mat-label>
+            <mat-select formControlName="hedging_home">
+              <mat-option *ngFor="let option of PermissionLevelOptions" [value]="option.id">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Portfolio Summary</mat-label>
+            <mat-select formControlName="portfolio_summary">
+              <mat-option *ngFor="let option of PermissionLevelOptions" [value]="option.id">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-30">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Underwriter Access</mat-label>
+            <mat-select formControlName="under_writer_access">
+              <mat-option *ngFor="let option of PermissionLevelOptions" [value]="option.id">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Rolling Deal Configuration</mat-label>
+            <mat-select formControlName="rolling_deal_configuration">
+              <mat-option *ngFor="let option of PermissionLevelOptions" [value]="option.id">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </form>
+</dd-dialog-layout>

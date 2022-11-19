@@ -1,0 +1,124 @@
+<div class="px-20 py-10 my-10 rounded-b-3xl rounded-lg bg-white relative min-h-270 overflow-y-auto">
+  <dd-error-handler [hasError]="!indexUUID" message="Select an index or position."></dd-error-handler>
+
+  <form [formGroup]="form" class="text-14">
+    <h3 class="text-dark mb-10">Hedge Controls</h3>
+    <div class="max-w-800 grid grid-cols-3 gap-25">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Risk Measure</mat-label>
+        <mat-select formControlName="risk_measure">
+          <mat-option *ngFor="let option of riskMeasureOptions" [value]="option.value">{{ option.label }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Style</mat-label>
+        <mat-select formControlName="hedging_style">
+          <mat-option *ngFor="let option of styleOptions" [value]="option.value">{{ option.label }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Method</mat-label>
+        <mat-select formControlName="method">
+          <mat-option *ngFor="let option of methodOptions" [value]="option.value">{{ option.label }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-3 gap-25 max-w-800">
+      <ng-container *ngIf="form.get('risk_measure')?.value as riskMeasure">
+        <ng-container>
+          <ng-template #confidenceLevelTextTemplate>
+            <mat-form-field appearance="outline">
+              <mat-label>Confident Level</mat-label>
+              <input formControlName="confidence_level" matInput />
+            </mat-form-field>
+          </ng-template>
+
+          <div
+            *ngIf="
+              riskMeasure === RiskMeasure.VaR || riskMeasure === RiskMeasure.ES_CVaR;
+              else confidenceLevelTextTemplate
+            "
+            class="flex flex-col"
+          >
+            <mat-label class="mr-15">Confidence Level:</mat-label>
+            <mat-slider
+              [max]="1"
+              [min]="0"
+              [step]="0.01"
+              [thumbLabel]="true"
+              color="primary"
+              formControlName="confidence_level"
+            ></mat-slider>
+          </div>
+        </ng-container>
+
+        <ng-container>
+          <mat-form-field appearance="outline">
+            <mat-label>Threshold</mat-label>
+            <ng-template #thresholdTextTemplate>
+              <input formControlName="threshold" matInput />
+            </ng-template>
+            <input
+              *ngIf="riskMeasure === RiskMeasure.DownsideDeviation; else thresholdTextTemplate"
+              [min]="-1"
+              formControlName="threshold"
+              matInput
+              type="number"
+            />
+            <mat-error *ngIf="form.get('threshold')?.hasError('min')">Must be greater than -1.</mat-error>
+          </mat-form-field>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="form.get('hedging_style')?.value as style">
+        <mat-form-field appearance="outline">
+          <mat-label>Rebalancing Interval</mat-label>
+          <ng-template #intervalTextTemplate>
+            <input formControlName="rebalancing_interval" matInput />
+          </ng-template>
+          <input
+            *ngIf="style === Style.Dynamic; else intervalTextTemplate"
+            [min]="1"
+            formControlName="rebalancing_interval"
+            matInput
+            type="number"
+          />
+          <mat-error
+            *ngIf="
+              form.get('rebalancing_interval')?.hasError('pattern') || form.get('rebalancing_interval')?.hasError('min')
+            "
+            >Must be a positive integer.
+          </mat-error>
+        </mat-form-field>
+      </ng-container>
+    </div>
+
+    <div class="flex flex-col">
+      <mat-label class="mb-15">Benchmark Engine:</mat-label>
+      <mat-radio-group formControlName="scenario_generator">
+        <mat-radio-button
+          *ngFor="let option of scenarioGeneratorOptions"
+          [value]="option.value"
+          class="mr-15"
+          color="warn"
+          >{{ option.label }}</mat-radio-button
+        >
+      </mat-radio-group>
+    </div>
+
+    <div class="mt-20 mb-10">
+      <button
+        (click)="submit()"
+        [disabled]="!isDealConfiguratorValid || !form.valid"
+        color="primary"
+        mat-raised-button
+        type="button"
+      >
+        Generate Hedging Strategy
+      </button>
+    </div>
+  </form>
+</div>

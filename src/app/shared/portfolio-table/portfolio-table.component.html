@@ -1,0 +1,45 @@
+<div class="relative py-[11px]">
+  <mat-tab-group animationDuration="500ms" class="bg-white" mat-align-tabs="start">
+    <!-- Temporarily remove bid and watch tabs -->
+    <!-- <mat-tab>
+      <ng-template mat-tab-label>
+        <div>Bids</div>
+      </ng-template>
+      <ng-template matTabContent>
+        <dd-filtered-table
+          [tableHeight]="tableHeight"
+          [displayedColumns]="bidColumns"
+          [statuses]="bidStatuses"
+          [sicFilter]="sicFilter"
+          [hasSearch]="hasSearch"
+        ></dd-filtered-table>
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <div>Watched Levels</div>
+      </ng-template>
+      <ng-template matTabContent>
+        <dd-filtered-table
+          [tableHeight]="tableHeight"
+          [displayedColumns]="watchColumns"
+          [statuses]="watchStatuses"
+          [sicFilter]="sicFilter"
+          [hasSearch]="hasSearch"
+        ></dd-filtered-table>
+      </ng-template>
+    </mat-tab> -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <div>Deal Summary</div>
+      </ng-template>
+      <ng-template matTabContent>
+        <dd-rolling-deals
+          [tableHeight]="tableHeight"
+          [sicFilter]="sicFilter"
+          [hasSearch]="hasSearch"
+        ></dd-rolling-deals>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

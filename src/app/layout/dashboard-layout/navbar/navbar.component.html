@@ -1,0 +1,12 @@
+<div class="flex items-center justify-between bg-slate-200 h-60 px-20">
+  <div>
+    <ng-content></ng-content>
+  </div>
+  <div class="flex items-center">
+    <!-- Temporarily removed -->
+    <!-- <p *ngIf="!localStorageService.getUser().is_trusted_user" class="text-15 text-grey mr-20">Available Credits: $1,342.00</p> -->
+    <dd-platform-toggle></dd-platform-toggle>
+    <dd-notification-menu></dd-notification-menu>
+    <dd-profile-menu></dd-profile-menu>
+  </div>
+</div>

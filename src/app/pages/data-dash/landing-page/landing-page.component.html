@@ -1,0 +1,6 @@
+<div *ngIf="isTrustedUser">
+  <dd-trusted-home></dd-trusted-home>
+</div>
+<div *ngIf="!isTrustedUser">
+  <dd-client-home></dd-client-home>
+</div>

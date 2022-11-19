@@ -1,0 +1,182 @@
+<div
+  [ngClass]="{
+    'md:h-[85vh]': !fullscreen,
+    'md:max-h-[1400px]': !fullscreen
+  }"
+  class="relative h-[calc(100vh_-_110px)] md:h-[calc(100vh_-_50px)]"
+>
+  <dd-error-handler
+    [hasError]="!indexDetailsStoreService.indexPrices.length && !spinner.loaders.seasonalStatistics.isLoading"
+    message="No prices available"
+  ></dd-error-handler>
+  <dd-spinner [spinner]="spinner.loaders.seasonalStatistics" bgClass="bg-white"></dd-spinner>
+
+  <dd-scrollable-content>
+    <dd-slide id="monthly-box-plot" title="Monthly Boxplot">
+      <div
+        [ngClass]="{
+          'md:!h-[calc(85vh_-_100px)]': !fullscreen,
+          'md:!max-h-[1300px]': !fullscreen
+        }"
+        class="relative h-[calc(100vh_-_190px)] md:h-[calc(100vh_-_150px)]"
+      >
+        <dd-basic-chart
+          [data]="seasonalData"
+          [hasLegend]="true"
+          [refreshLayout$]="refreshSeasonalLayout$"
+        ></dd-basic-chart>
+      </div>
+    </dd-slide>
+    <dd-slide hint="Some years may not have data available from all months" id="yearly-trends" title="Yearly Trends">
+      <div
+        [ngClass]="{
+          'md:!h-[calc(85vh_-_250px)]': !fullscreen,
+          'md:!max-h-[1150px]': !fullscreen
+        }"
+        class="relative h-[calc(100vh_-_410px)] md:h-[calc(100vh_-_300px)]"
+      >
+        <dd-basic-chart
+          [data]="yearlySeasonalData"
+          [hasLegend]="true"
+          [refreshLayout$]="refreshYearlySeasonalLayout$"
+        ></dd-basic-chart>
+      </div>
+      <form [formGroup]="form" additional class="flex flex-col mb-10">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Seasonal Years</mat-label>
+          <mtx-select
+            [clearable]="true"
+            [items]="possibleYearOptions"
+            [multiple]="true"
+            [required]="false"
+            [virtualScroll]="false"
+            bindLabel="label"
+            bindValue="id"
+            formControlName="lines"
+          ></mtx-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Seasonal Years Range</mat-label>
+          <mtx-select
+            [clearable]="true"
+            [items]="possibleYearOptions"
+            [multiple]="true"
+            [required]="false"
+            [virtualScroll]="false"
+            bindLabel="label"
+            bindValue="id"
+            formControlName="fills"
+          ></mtx-select>
+          <mat-icon
+            class="ml-10"
+            matSuffix
+            matTooltip="The lower (and upper) boundaries of the seasonal range is given as the minimum (and maximum) monthly averages per month of all years selected."
+            >info_outline
+          </mat-icon>
+        </mat-form-field>
+      </form>
+    </dd-slide>
+    <dd-slide id="monthly-statistics" title="Monthly Statistics">
+      <div
+        [ngClass]="{ 'md:!h-[calc(85vh_-_80px)]': !fullscreen, 'md:!max-h-[1320px]': !fullscreen }"
+        class="overflow-auto h-[calc(100vh_-_190px)] md:h-[calc(100vh_-_130px)]"
+      >
+        <dd-stats-table
+          *ngIf="seasonalStatistics$ | async as seasonalStatistics"
+          [columnOrder]="monthlyStatsColumns"
+          [data]="seasonalStatistics.monthly_stats_records"
+          [hoverData]="seasonalStatistics.monthly_stats_date_records"
+          indexColumn="Statistic"
+        ></dd-stats-table>
+      </div>
+    </dd-slide>
+    <dd-slide id="price-change-ratios-mean" title="Price Change Ratios (Mean)">
+      <div
+        [ngClass]="{
+          'md:!h-[calc(85vh_-_80px)]': !fullscreen,
+          'md:!max-h-[1320px]': !fullscreen
+        }"
+        class="h-[calc(100vh_-_190px)] md:h-[calc(100vh_-_130px)]"
+      >
+        <div
+          [ngClass]="{
+            'md:!h-[calc(85vh_-_180px)]': !fullscreen,
+            'md:!max-h-[1220px]': !fullscreen
+          }"
+          class="overflow-auto h-[calc(100vh_-_360px)] md:h-[calc(100vh_-_230px)]"
+        >
+          <dd-stats-table
+            *ngIf="seasonalStatistics$ | async as seasonalStatistics"
+            [columnOrder]="priceChangeRatioColumns"
+            [data]="seasonalStatistics.price_change_ratio_mean_records"
+            [displayRows$]="displayMeanRows$"
+            [filterRows]="true"
+            [isPercentage]="true"
+            indexColumn="Maturity"
+          ></dd-stats-table>
+        </div>
+        <div class="py-20">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Select Maturities</mat-label>
+            <mtx-select
+              (ngModelChange)="displayMeanRows$.next($event)"
+              [(ngModel)]="pcrMeanMaturities"
+              [clearable]="true"
+              [items]="priceChangeRatioOptions"
+              [multiple]="true"
+              [required]="false"
+              [virtualScroll]="false"
+              bindLabel="label"
+              bindValue="id"
+            ></mtx-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </dd-slide>
+    <dd-slide id="price-change-ratios-std" title="Price Change Ratios (Std)">
+      <div
+        [ngClass]="{
+          'md:!h-[calc(85vh_-_80px)]': !fullscreen,
+          'md:!max-h-[1320px]': !fullscreen
+        }"
+        class="h-[calc(100vh_-_190px)] md:h-[calc(100vh_-_130px)]"
+      >
+        <div
+          [ngClass]="{
+            'md:!h-[calc(85vh_-_180px)]': !fullscreen,
+            'md:!max-h-[1220px]': !fullscreen
+          }"
+          class="overflow-auto h-[calc(100vh_-_360px)] md:h-[calc(100vh_-_230px)]"
+        >
+          <dd-stats-table
+            *ngIf="seasonalStatistics$ | async as seasonalStatistics"
+            [columnOrder]="priceChangeRatioColumns"
+            [data]="seasonalStatistics.price_change_ratio_std_records"
+            [displayRows$]="displayStdRows$"
+            [filterRows]="true"
+            [isPercentage]="true"
+            indexColumn="Maturity"
+          ></dd-stats-table>
+        </div>
+        <div class="py-20">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Select Maturities</mat-label>
+            <mtx-select
+              (ngModelChange)="displayStdRows$.next($event)"
+              [(ngModel)]="pcrStdMaturities"
+              [clearable]="true"
+              [items]="priceChangeRatioOptions"
+              [multiple]="true"
+              [required]="false"
+              [virtualScroll]="false"
+              bindLabel="label"
+              bindValue="id"
+            ></mtx-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- Adding manual space to bottom for section intercepting -->
+      <div class="min-h-50"></div>
+    </dd-slide>
+  </dd-scrollable-content>
+</div>

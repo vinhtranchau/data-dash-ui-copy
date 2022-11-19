@@ -1,0 +1,26 @@
+<div class="flex w-full items-center border-b px-30 flex-wrap md:flex-nowrap">
+  <div *ngIf="hasAddButton" class="flex justify-start items-center py-5 mr-0 sm:mr-30 w-full sm:w-fit">
+    <button
+      (click)="add.emit()"
+      [disabled]="!hasEditPermission || isLoading"
+      class="w-full"
+      color="primary"
+      mat-flat-button
+    >
+      <mat-icon> add</mat-icon>
+      {{ addText }}
+    </button>
+  </div>
+
+  <div class="flex grow">
+    <ng-content></ng-content>
+  </div>
+
+  <form *ngIf="hasSearchFilter" [formGroup]="form" class="text-14 py-5 ml-0 sm:ml-30 w-full sm:w-fit">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Search</mat-label>
+      <input formControlName="search" matInput type="text" />
+      <mat-icon matSuffix> search</mat-icon>
+    </mat-form-field>
+  </form>
+</div>

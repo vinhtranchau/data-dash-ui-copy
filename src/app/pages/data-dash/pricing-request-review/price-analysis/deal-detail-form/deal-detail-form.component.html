@@ -1,0 +1,61 @@
+<ng-template #textRenderer let-isLast="isLast" let-label="label" let-style="style" let-value="value">
+  <div class="flex my-5 px-10">
+    <div class="min-w-150 text-midnight font-bold">{{ label }}:</div>
+    <div [ngClass]="style || ''">{{ value }}</div>
+  </div>
+  <hr *ngIf="!isLast" />
+</ng-template>
+
+<div class="bg-white rounded-lg py-10 my-10 text-[0.8em] min-h-280">
+  <ng-container *ngIf="deal">
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Name', value: deal.created_by.name }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Company', value: deal.created_by.company_name }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'SIC', value: deal.index.stable_index_code }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Specification', value: deal.index.specification }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Index Provider', value: deal.index.index_provider_id.name }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Product', value: deal.index.product_id.name }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: { label: 'Units', value: deal.index.unit_multiplier + ' ' + deal.index.unit_id.units }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Direction', value: deal.direction | titlecase }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: { label: 'Fixation Dates', value: (deal.fixations | fixationDates).join(', ') }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Starting Delay (T+)', value: deal.starting_delay_month }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Duration', value: deal.months_duration, isLast: true }"
+    ></ng-container>
+  </ng-container>
+</div>

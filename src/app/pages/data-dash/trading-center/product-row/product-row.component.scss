@@ -1,0 +1,12 @@
+swiper::ng-deep {
+  .swiper-slide {
+    width: 240px;
+    &:hover {
+      z-index: 9999;
+    }
+  }
+}
+
+.swiper-btn-hidden {
+  display: none !important;
+}

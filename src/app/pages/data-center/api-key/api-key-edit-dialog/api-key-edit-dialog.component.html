@@ -1,0 +1,66 @@
+<dd-dialog-layout
+  (save)="save()"
+  [disabled]="form.invalid"
+  [isLoading]="isLoading"
+  [title]="data.id ? 'Update API Key' : 'Add API Key'"
+>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Name</mat-label>
+      <input formControlName="name" matInput />
+      <mat-error *ngIf="form.get('name')?.hasError('required')">Required.</mat-error>
+      <mat-error *ngIf="form.get('name')?.hasError('maxlength')">Too many characters!</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Description</mat-label>
+      <input formControlName="description" matInput />
+      <mat-error *ngIf="form.get('description')?.hasError('required')">Required.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full" *ngIf="data.id">
+      <mat-label>API Key</mat-label>
+      <input formControlName="key" matInput />
+      <button matSuffix mat-icon-button (click)="copyApiKey()">
+        <mat-icon>content_paste</mat-icon>
+      </button>
+    </mat-form-field>
+  </form>
+  <div cdkDropListGroup class="grid grid-cols-2 gap-x-10">
+    <div>
+      <h4 class="text-dark mb-10">Remaining APIs</h4>
+      <div
+        cdkDropList
+        [cdkDropListData]="remainingPermissions"
+        (cdkDropListDropped)="movePermissions($event)"
+        class="permission-list"
+      >
+        <div *ngFor="let item of remainingPermissions" cdkDrag class="single-permission">
+          <div class="drag-drop-custom-placeholder" *cdkDragPlaceholder></div>
+          <div [matTooltip]="item.description" matTooltipPosition="left" class="w-full h-full">{{ item.title }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h4 class="text-dark mb-10">Granted APIs</h4>
+      <div
+        cdkDropList
+        [cdkDropListData]="grantedPermissions"
+        (cdkDropListDropped)="movePermissions($event)"
+        class="permission-list"
+      >
+        <div *ngFor="let item of grantedPermissions" cdkDrag class="single-permission">
+          <div class="drag-drop-custom-placeholder" *cdkDragPlaceholder></div>
+          <div [matTooltip]="item.description" matTooltipPosition="right" class="w-full h-full">{{ item.title }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a
+    class="text-[12px] cursor-pointer underline mt-10 text-right block text-blue"
+    [href]="environment.baseUrl + '/api/schema/swagger-ui/#/DD%20api%20(using%20api%20key)'"
+    target="_blank"
+    >API Documentation</a
+  >
+</dd-dialog-layout>

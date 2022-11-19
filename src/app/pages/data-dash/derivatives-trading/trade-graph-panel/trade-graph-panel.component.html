@@ -1,0 +1,24 @@
+<div class="panel relative py-10">
+  <dd-error-handler
+    [hasError]="hasLoadError"
+    message="Failed to load futures data, please contact the admins."
+  ></dd-error-handler>
+
+  <div class="relative h-full w-full">
+    <dd-spinner *ngIf="isLoading || isLoadingForecast" message="Loading plots..." bgClass="bg-white"></dd-spinner>
+    <dd-basic-chart
+      [data]="data"
+      [hasLegend]="false"
+      [hasRangeSelector]="false"
+      [hasRangeSlider]="true"
+      [refreshLayout$]="refreshLayout$"
+    ></dd-basic-chart>
+  </div>
+
+  <div class="absolute top-0 left-0 bottom-0 right-0 flex items-center justify-center" *ngIf="!future">
+    <div class="absolute top-0 left-0 right-0 bottom-0 bg-white bg-opacity-60"></div>
+    <p class="relative z-10 text-dark font-medium text-15">
+      Select a contract from the trade-able instruments to begin.
+    </p>
+  </div>
+</div>

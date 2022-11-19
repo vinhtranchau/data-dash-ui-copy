@@ -1,0 +1,13 @@
+<div class="relative">
+  <div class="min-h-400 pb-10">
+    <dd-data-table-page
+      [columns]="columns"
+      [displayedColumns]="displayedColumns"
+      [dataSource]="dataSource"
+      [isLoading]="isLoading"
+      [selectable]="true"
+      (changeSelection)="onChangeSelection($event)"
+      tableHeight="400px"
+    ></dd-data-table-page>
+  </div>
+</div>

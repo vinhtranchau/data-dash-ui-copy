@@ -1,0 +1,24 @@
+<table class="table-auto border w-full mb-10" *ngIf="alert">
+  <tbody>
+    <tr class="border-b">
+      <td class="px-15 py-5 border-r">Stable Assigned Date</td>
+      <td class="px-15 py-5">{{ extraData.stable_assigned_date | date: 'YYYY-MM-dd' }}</td>
+    </tr>
+    <tr class="border-b">
+      <td class="px-15 py-5 border-r">Index Price</td>
+      <td class="px-15 py-5">{{ extraData.price | number: '1.0-4' }}</td>
+    </tr>
+    <tr class="border-b">
+      <td class="px-15 py-5 border-r">Price Change</td>
+      <td class="px-15 py-5 whitespace-pre-wrap">
+        {{ extraData.price_change | getDecimal }} ({{ extraData.price_change_percentage | percentageChange }})
+      </td>
+    </tr>
+    <tr class="border-b">
+      <td class="px-15 py-5 border-r">Price Change Standard Deviation</td>
+      <td class="px-15 py-5 whitespace-pre-wrap">
+        {{ extraData.standard_deviation | percentageChange: 3:false }}
+      </td>
+    </tr>
+  </tbody>
+</table>

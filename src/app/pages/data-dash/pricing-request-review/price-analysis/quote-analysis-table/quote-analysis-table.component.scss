@@ -1,0 +1,6 @@
+.expanded-table::ng-deep {
+  thead {
+    z-index: 1;
+    position: relative;
+  }
+}

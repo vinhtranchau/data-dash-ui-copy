@@ -1,0 +1,42 @@
+<div class="px-30 py-20 h-[calc(100vh_-_60px)]">
+  <div class="flex flex-wrap justify-between gap-x-30">
+    <div class="text-center font-black text-35 text-dark">
+      <mat-icon class="mr-20 ml-5 scale-150" color="warn">notifications</mat-icon>
+      <span>Notifications</span>
+    </div>
+    <div class="mb-15">
+      <div class="flex justify-end mb-5">
+        <mat-button-toggle-group name="filter" aria-label="Notification Filter">
+          <mat-button-toggle value="all" (click)="changeFilter(notificationFilter.All)" class="w-80">All</mat-button-toggle>
+          <mat-button-toggle value="unread" (click)="changeFilter(notificationFilter.Unread)" class="w-80">Unread</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+      <a class="text-blue-400 text-right text-12 block" (click)="readAll()">Mark all as read</a>
+    </div>
+  </div>
+  <div class="rounded-3xl bg-white overflow-clip relative h-[calc(100vh_-_200px)]">
+    <div
+      class="h-[calc(100vh_-_200px)] overflow-y-auto"
+      infiniteScroll
+      [scrollWindow]="false"
+      [infiniteScrollDistance]="1"
+      (scrolled)="onScroll()"
+    >
+      <mat-list class="!pt-0">
+        <ng-container *ngFor="let notification of notifications; let last = last">
+          <dd-notification-component [notification]="notification"></dd-notification-component>
+          <mat-divider *ngIf="!last"></mat-divider>
+        </ng-container>
+        <div class="relative min-h-200 p-50" *ngIf="isLoading">
+          <dd-spinner message="Loading notifications..." bgClass="bg-white"></dd-spinner>
+        </div>
+        <div *ngIf="!isLoading && notifications.length === 0">
+          <div class="flex justify-center items-center p-50">
+            <img src="/assets/illustrations/empty-search-results.svg" />
+          </div>
+          <p class="text-medium text-center py-50 text-dark">Nothing to see here.</p>
+        </div>
+      </mat-list>
+    </div>
+  </div>
+</div>

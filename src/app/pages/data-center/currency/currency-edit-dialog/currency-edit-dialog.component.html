@@ -1,0 +1,22 @@
+<dd-dialog-layout
+  (save)="save()"
+  [disabled]="form.invalid"
+  [isLoading]="isLoading"
+  [title]="data.id ? 'Update Currency' : 'Add Currency'"
+>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Code</mat-label>
+      <input formControlName="code" matInput/>
+      <mat-error *ngIf="form.get('code')?.hasError('required')">Required.</mat-error>
+      <mat-error *ngIf="form.get('code')?.hasError('maxlength')">Too many characters!</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Name</mat-label>
+      <input formControlName="name" matInput/>
+      <mat-error *ngIf="form.get('name')?.hasError('required')">Required.</mat-error>
+      <mat-error *ngIf="form.get('name')?.hasError('maxlength')">Too many characters!</mat-error>
+    </mat-form-field>
+  </form>
+</dd-dialog-layout>

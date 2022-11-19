@@ -1,0 +1,17 @@
+<div class="flex flex-col relative">
+  <form [formGroup]="form" class="pt-10">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Position</mat-label>
+      <mtx-select
+        [clearable]="true"
+        [items]="positions || []"
+        [required]="true"
+        [virtualScroll]="true"
+        appendTo="body"
+        bindLabel="label"
+        bindValue="futures_code"
+        formControlName="position"
+      ></mtx-select>
+    </mat-form-field>
+  </form>
+</div>

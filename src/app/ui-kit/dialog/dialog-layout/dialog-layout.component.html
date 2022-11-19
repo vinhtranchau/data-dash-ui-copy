@@ -1,0 +1,38 @@
+<div cdkDrag cdkDragRootElement=".cdk-overlay-pane" class="relative">
+  <mat-toolbar cdkDragHandle class="cursor-move" color="primary">
+    <mat-toolbar-row class="flex justify-between">
+      <span class="font-bold">{{ title }}</span>
+      <button [mat-dialog-close]="false" aria-label="Close dialog" mat-icon-button>
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div class="p-30 overflow-auto max-h-[calc(100vh_-_170px)] md:max-h-[80vh]">
+    <ng-content></ng-content>
+  </div>
+
+  <mat-dialog-actions class="flex flex-wrap justify-between items-center sticky bottom-0 !px-30">
+    <div class="mt-10 w-full sm:w-fit">
+      <ng-content select="[extensions]"></ng-content>
+    </div>
+
+    <div class="flex gap-x-15 mt-10 w-full sm:w-fit">
+      <button [mat-dialog-close]="false" aria-label="Cancel" class="w-full sm:w-fit" color="warn" mat-flat-button>
+        Cancel
+      </button>
+      <button
+        (click)="save.emit()"
+        [disabled]="disabled"
+        aria-label="Save"
+        class="w-full sm:w-fit"
+        color="primary"
+        mat-flat-button
+      >
+        Save
+      </button>
+    </div>
+  </mat-dialog-actions>
+
+  <dd-spinner *ngIf="isLoading"></dd-spinner>
+</div>

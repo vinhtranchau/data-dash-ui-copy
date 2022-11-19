@@ -1,0 +1,9 @@
+<div class="overflow-y-auto h-[calc(100vh_-_60px)] px-30">
+  <dd-spinner *ngIf="isLoading" message="Generating strategies..." bgClass="bg-white"></dd-spinner>
+  <dd-deal-configurator-panel (changeDealConfig)="onChangeDealConfig($event)"></dd-deal-configurator-panel>
+  <dd-hedging-controls-panel
+    (generateHedgingStrategy)="onGenerateHedgingStrategy($event)"
+    [indexUUID]="indexUUID"
+    [isDealConfiguratorValid]="dealConfigForm?.valid || false"
+  ></dd-hedging-controls-panel>
+</div>

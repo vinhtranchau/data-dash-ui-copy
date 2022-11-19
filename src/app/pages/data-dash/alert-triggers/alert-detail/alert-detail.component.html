@@ -1,0 +1,79 @@
+<div class="relative h-[calc(100vh_-_60px)] overflow-y-auto">
+  <dd-spinner *ngIf="!alert" message="Loading alert details..." bgClass="bg-white"></dd-spinner>
+  <div class="bg-white mx-30 my-20 relative" *ngIf="alert">
+    <div class="flex items-center w-full justify-start mb-20">
+      <div mat-list-icon class="w-50 h-50 rounded-full bg-teal text-white flex items-center justify-center">
+        <mat-icon>{{ alert.log_type | alertType }}</mat-icon>
+      </div>
+      <div class="flex flex-wrap items-baseline flex-col ml-10">
+        <div class="flex items-center justify-start">
+          <a
+            class="text-blue-400 font-medium text-20 cursor-pointer"
+            [href]="
+              [
+                standaloneModalRoute.root,
+                standaloneModalRoute.indexDetails,
+                alert.index_details_id.id,
+                '0',
+                'fullscreen'
+              ] | absolutePath: {}
+            "
+            target="_blank"
+            >{{ alert.index_details_id.stable_index_code }}</a
+          >
+          <span class="mx-5 text-dark"> - </span>
+          <span class="text-dark font-medium text-20">{{ alert.log_type | enumToLabel }}</span>
+          <mat-icon class="ml-5 text-grey cursor-pointer" [matTooltip]="AlertExplanation[alert.log_type]"
+            >info_outline</mat-icon
+          >
+        </div>
+        <span class="text-grey text-15">{{ alert.created_at | date: 'YYYY-MM-dd' }}</span>
+      </div>
+      <div class="grow"></div>
+      <div class="flex items-center ml-10" *ngIf="alert.triggered_by">
+        <div class="mr-10">
+          <p class="text-13 font-medium text-right">{{ alert.triggered_by.name }}</p>
+          <p class="text-12 text-grey text-right">{{ alert.triggered_by.email }}</p>
+        </div>
+        <div class="relative h-40 w-40">
+          <img
+            [src]="alert.triggered_by.avatar || 'assets/images/default-avatar.jpeg'"
+            class="rounded-full w-full h-full object-cover"
+            alt="Avatar"
+          />
+        </div>
+      </div>
+    </div>
+
+    <ng-container [ngSwitch]="alert.log_type">
+      <dd-historic-price-correction-details
+        *ngSwitchCase="AlertType.ALERT_TYPE_HISTORICAL_PRICE_CORRECTION"
+        [alert]="alert"
+      ></dd-historic-price-correction-details>
+      <dd-abnormal-price-movement-details
+        *ngSwitchCase="AlertType.ALERT_TYPE_ABNORMAL_PRICE_MOVEMENT"
+        [alert]="alert"
+      ></dd-abnormal-price-movement-details>
+      <dd-missing-price-update-details
+        *ngSwitchCase="AlertType.ALERT_TYPE_MISSING_PRICE_UPDATE"
+        [alert]="alert"
+      ></dd-missing-price-update-details>
+      <dd-index-details-changed-details
+        *ngSwitchCase="AlertType.ALERT_TYPE_INDEX_DETAILS_CHANGED"
+        [alert]="alert"
+      ></dd-index-details-changed-details>
+      <dd-new-index-onboarded-details
+        *ngSwitchCase="AlertType.ALERT_TYPE_NEW_INDEX_ONBOARDED"
+        [alert]="alert"
+      ></dd-new-index-onboarded-details>
+      <dd-scrape-matching-changed-details
+        *ngSwitchCase="AlertType.ALERT_TYPE_SCRAPE_MATCHING_CHANGED"
+        [alert]="alert"
+      ></dd-scrape-matching-changed-details>
+      <dd-scrape-matching-deleted-details
+        *ngSwitchCase="AlertType.ALERT_TYPE_SCRAPE_MATCHING_DELETED"
+        [alert]="alert"
+      ></dd-scrape-matching-deleted-details>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="bg-white rounded-lg py-10 px-20 my-10 text-[0.8em]">
+  <dd-spinner *ngIf="isUploading" message="Uploading file..." bgClass="bg-white"></dd-spinner>
+  <div class="flex flex-wrap">
+    <a
+      class="flex items-center hover:text-primary mr-15"
+      [href]="item.url"
+      target="_blank"
+      *ngFor="let item of deal.quote_files; let i = index"
+    >
+      <mat-icon>link</mat-icon>
+      <span class="ml-10">{{ item.file_name }}</span></a
+    >
+  </div>
+
+  <p *ngIf="!deal.quote_files?.length">No documents uploaded yet.</p>
+
+  <div class="flex flex-row-reverse mt-10">
+    <button mat-flat-button color="primary" (click)="!isUploading ? fileUpload.click() : {}" [disabled]="isUploading">
+      Upload Documents
+    </button>
+  </div>
+  <input #fileUpload (change)="selectFile($event)" accept="application/pdf" class="hidden" type="file" multiple />
+</div>

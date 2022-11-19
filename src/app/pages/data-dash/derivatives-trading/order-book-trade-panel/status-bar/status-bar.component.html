@@ -1,0 +1,30 @@
+<div>
+  <h6 class="font-medium text-14 text-dark">Fund:</h6>
+  <div class="relative flex text-10 font-bold border border-collapse h-20 text-white">
+    <div
+      class="flex items-center justify-center bg-carnation pt-[2px] oveflow-hidden"
+      [style.width.%]="(margin / total) * 100"
+    >
+      <span>Margin</span>
+    </div>
+    <span class="absolute -bottom-20 text-carnation" [style.left.%]="(margin / total) * 100">{{
+      margin | currency
+    }}</span>
+    <div
+      class="flex items-center justify-center bg-energy pt-[2px] oveflow-hidden"
+      [style.width.%]="(available / total) * 100"
+    >
+      <span>Available</span>
+    </div>
+    <span class="absolute -bottom-20 text-energy mr-15" [style.left.%]="(available / total) * 100">{{
+      available | currency
+    }}</span>
+    <div
+      class="flex items-center justify-center bg-cerulean pt-[2px] oveflow-hidden"
+      [style.width.%]="(pnl / total) * 100"
+    >
+      <span>PnL</span>
+    </div>
+    <span class="absolute -bottom-20 text-cerulean right-0">{{ available | currency }}</span>
+  </div>
+</div>

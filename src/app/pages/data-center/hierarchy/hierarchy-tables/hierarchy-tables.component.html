@@ -1,0 +1,18 @@
+<dd-data-table-page
+  (action)="action($event)"
+  (add)="add()"
+  (loadData)="loadData($event)"
+  [columns]="columns"
+  [dataSource]="dataSource"
+  [displayedColumns]="displayedColumns"
+  [hasHeader]="true"
+  [hasTabs]="true"
+  [headerAddText]="'Add ' + (hierarchyType | titlecase)"
+  [headerHasAddButton]="(hierarchyType && true) || false"
+  [isLoading]="isLoading"
+  [serverSideSearch]="true"
+  [tableType]="PermissionType.HierarchyTable"
+  [total]="total"
+  tableHeight="calc(100vh - 264px)"
+>
+</dd-data-table-page>

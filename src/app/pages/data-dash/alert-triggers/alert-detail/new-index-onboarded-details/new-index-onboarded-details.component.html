@@ -1,0 +1,11 @@
+<div>
+  <span>View new Index: </span>
+  <a
+    class="text-blue-400 underline cursor-pointer ml-5"
+    [routerLink]="
+      [standaloneModalRoute.root, standaloneModalRoute.indexDetails, alert.index_details_id.id, '0', 'fullscreen']
+        | absolutePath
+    "
+    >{{ alert.index_details_id.stable_index_code }}</a
+  >
+</div>

@@ -1,27 +1,52 @@
-# DataDashUiCopy
+# Data Dash Admin Panel
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.6.
+Data Dash is the Admin panel that allows users to manage relevant, targeted and local indexes in a single platform with advanced analytics graphs and functionalities.
 
-## Development server
+## Documentation
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Here you can find the fundamentals and explore advanced topics of the project.
 
-## Code scaffolding
+* [Getting Started](./docs/GETTING_STARTED.md)
+* [Architecture](./docs/ARCHITECTURE.md)
+* [Coding Style](./docs/CODING_STYLE.md)
+* [Coding Practice](./docs/CODING_PRACTICE.md)
+* [Naming Conventions](./docs/NAMING.md)
+* [Git Conventions](./docs/GIT_CONVENTION.md)
+* [Pull Requests](./docs/PULL_REQUEST.md)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Development Setup
 
-## Build
+### Prerequisites
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+* Install [Node.js](https://nodejs.org/en/) which includes [Node Package Manager](https://docs.npmjs.com/getting-started). Recommended Node version is ^14.0.0
+* Better to install [Angular CLI](https://angular.io/cli) on your local to use commands and run server directly using `ng` commands.
 
-## Running unit tests
+### Start the Development
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+#### Branch rules
 
-## Running end-to-end tests
+We use `master` branch for the staging server and `prod` branch for the production server. Git push to the `master` branch or `prod` branch will be automatically pushed to the live servers.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+To start the development, check out the `develop` branch and do all works on it, and should be merged into `master` after the team review.
 
-## Further help
+#### Commands
+
+```bash
+# Install npm packages
+$ npm install
+
+# Run development server
+$ npm start
+
+# Build for the staging. The build artifacts will be stored in the `dist/` directory.
+$ npm run build:staging
+
+# Build for the production
+$ npm run build
+```
+
+### Code scaffolding
+
+Simply you can use Angular CLI for generating all entities of the Angular. You can use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

@@ -1,0 +1,24 @@
+<mat-button-toggle-group *ngIf="hasDataCenterAccess" class="mr-25 text-14 font-medium h-40 items-center">
+  <mat-button-toggle
+    (click)="closeDialog()"
+    [class.pointer-events-none]="!hasDataCenterAccess"
+    [disabled]="!hasDataCenterAccess"
+    [routerLink]="[dataCenterRoute.root] | absolutePath"
+    class="text-grey"
+    routerLinkActive="mat-button-toggle-checked"
+  >
+    <mat-icon class="text-20 md:mr-10 toggle-icon">storage</mat-icon>
+    <p class="hidden md:inline">Data Center</p>
+  </mat-button-toggle>
+  <mat-button-toggle
+    (click)="closeDialog()"
+    [class.pointer-events-none]="!hasDataDashAccess"
+    [disabled]="!hasDataDashAccess"
+    [routerLink]="[dataDashRoute.root, dataDashRoute.home] | absolutePath"
+    class="text-grey"
+    routerLinkActive="mat-button-toggle-checked"
+  >
+    <mat-icon class="text-20 md:mr-10 toggle-icon">dashboard</mat-icon>
+    <p class="hidden md:inline">Data Dash</p>
+  </mat-button-toggle>
+</mat-button-toggle-group>

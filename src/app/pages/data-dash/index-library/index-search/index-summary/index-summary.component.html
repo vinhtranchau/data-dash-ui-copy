@@ -1,0 +1,201 @@
+<ng-template #cardActions let-icon="icon" let-tab="tab" let-tooltip="tooltip">
+  <button
+    (click)="routeIndex(tab)"
+    [matTooltip]="tooltip"
+    class="z-30 hover:bg-gray-100"
+    color="accent"
+    mat-icon-button
+    matTooltipPosition="above"
+  >
+    <mat-icon>{{ icon }}</mat-icon>
+  </button>
+</ng-template>
+
+<div class="my-20 px-20 md:px-50">
+  <mat-card
+    class="!transition-transform !shadow-md relative !rounded-3xl border md:border-0 md:hover:border md:hover:border-gray-200 md:hover:border-solid md:hover:scale-[1.04]"
+  >
+    <a (click)="routeIndex(0)" class="absolute bottom-0 left-0 top-0 right-0 z-20"></a>
+    <div class="flex justify-between flex-col md:flex-row">
+      <div class="max-w-[600px] min-w-[275px]">
+        <mat-card-header>
+          <img [src]="index.image || 'assets/images/logo.svg'" class="object-contain" mat-card-avatar />
+          <mat-card-title class="flex">
+            <span class="mr-10">{{ index.stable_index_code }}</span>
+            <div class="inline-block">
+              <ng-container
+                *ngTemplateOutlet="
+                  cardActions;
+                  context: {
+                    icon: 'query_stats',
+                    tooltip: 'General Information',
+                    tab: '0'
+                  }
+                "
+              ></ng-container>
+              <ng-container
+                *ngTemplateOutlet="
+                  cardActions;
+                  context: {
+                    icon: 'equalizer',
+                    tooltip: 'Seasonality',
+                    tab: '1'
+                  }
+                "
+              ></ng-container>
+              <ng-container
+                *ngTemplateOutlet="
+                  cardActions;
+                  context: {
+                    icon: 'ssid_chart',
+                    tooltip: 'Correlations',
+                    tab: '2'
+                  }
+                "
+              ></ng-container>
+              <ng-container
+                *ngTemplateOutlet="
+                  cardActions;
+                  context: {
+                    icon: 'insights',
+                    tooltip: 'Empirical Modelling',
+                    tab: '3'
+                  }
+                "
+              ></ng-container>
+              <ng-container>
+                <button
+                  (click)="updateFavorite()"
+                  class="z-30 hover:bg-gray-100"
+                  color="accent"
+                  mat-icon-button
+                  matTooltip="Favorite"
+                  matTooltipPosition="above"
+                  type="button"
+                >
+                  <ng-container *ngIf="index.is_favorite; else elseTemplate">
+                    <mat-icon class="text-yellow-400">star</mat-icon>
+                  </ng-container>
+                  <ng-template #elseTemplate>
+                    <mat-icon color="accent">star_border</mat-icon>
+                  </ng-template>
+                </button>
+              </ng-container>
+            </div>
+          </mat-card-title>
+          <mat-card-subtitle
+            >{{ index.product }} | {{ index.index_provider }} | {{ index.delivery_point }}</mat-card-subtitle
+          >
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="mb-10">
+            {{ index.specification | truncate: 200 }}
+          </div>
+          <div class="mb-10">
+            <p class="text-grey" style="font-size: 12px">Automated Checks:</p>
+            <div class="inline-flex items-center justify-items-start gap-x-10 relative z-30">
+              <div
+                [matTooltip]="'Red List: ' + index.red_list | titlecase"
+                [ngClass]="{ 'bg-red-500': index.red_list !== 'green', 'bg-green-500': index.red_list === 'green' }"
+                class="dot"
+                matTooltipPosition="above"
+              ></div>
+              <div
+                [matTooltip]="'DS Check: ' + index.total_data_quality_check | titlecase"
+                [ngClass]="{
+                  'bg-red-500': index.total_data_quality_check !== 'pass',
+                  'bg-green-500': index.total_data_quality_check === 'pass'
+                }"
+                class="dot"
+                matTooltipPosition="above"
+              ></div>
+              <div
+                [matTooltip]="'Tier: ' + index.tier | textTransform"
+                [ngClass]="{
+                  'bg-red-500': index.tier !== 'tier_1' && index.tier !== 'tier_2',
+                  'bg-green-500': index.tier === 'tier_1' || index.tier == 'tier_2'
+                }"
+                class="dot"
+                matTooltipPosition="above"
+              ></div>
+              <div
+                [matTooltip]="'Underwriter Approval: ' + index.underwriter_approval | textTransform"
+                [ngClass]="{
+                  'bg-red-500': index.underwriter_approval !== 'approved',
+                  'bg-green-500': index.underwriter_approval === 'approved'
+                }"
+                class="dot"
+                matTooltipPosition="above"
+              ></div>
+              <div
+                [matTooltip]="'Index Provider Status: ' + index.index_provider_status | titlecase"
+                [ngClass]="{
+                  'bg-red-500': index.index_provider_status !== 'live',
+                  'bg-green-500': index.index_provider_status === 'live'
+                }"
+                class="dot"
+                matTooltipPosition="above"
+              ></div>
+              <div
+                [matTooltip]="'Index State: ' + index.index_state | textTransform"
+                [ngClass]="{
+                  'bg-red-500': index.index_state !== 'active',
+                  'bg-green-500': index.index_state === 'active'
+                }"
+                class="dot"
+                matTooltipPosition="above"
+              ></div>
+              <div
+                [matTooltip]="'Index Type: ' + index.index_type | textTransform"
+                [ngClass]="{
+                  'bg-red-500': index.index_type !== 'stable_contract',
+                  'bg-green-500': index.index_type === 'stable_contract'
+                }"
+                class="dot"
+                matTooltipPosition="above"
+              ></div>
+            </div>
+          </div>
+          <div>
+            <p class="text-grey" style="font-size: 12px">Index Approvals:</p>
+            <div class="inline-flex items-center justify-items-start gap-x-10 relative z-30">
+              <div
+                [matTooltip]="'CFP Ready: ' + (index.cfp_ready | boolean)"
+                [ngClass]="{
+                  'bg-red-500': !index.cfp_ready,
+                  'bg-green-500': index.cfp_ready
+                }"
+                class="dot"
+              ></div>
+              <div
+                [matTooltip]="'Hedging Book: ' + (index.in_hedging_book | boolean)"
+                [ngClass]="{
+                  'bg-red-500': !index.in_hedging_book,
+                  'bg-green-500': index.in_hedging_book
+                }"
+                class="dot"
+              ></div>
+              <div
+                [matTooltip]="'Rolling Deal: ' + (index.is_rolling_deal | boolean)"
+                [ngClass]="{
+                  'bg-red-500': !index.is_rolling_deal,
+                  'bg-green-500': index.is_rolling_deal
+                }"
+                class="dot"
+              ></div>
+            </div>
+          </div>
+        </mat-card-content>
+      </div>
+      <div [style]="{ height: '300px', width: '100%', 'max-width': '700px' }" class="relative">
+        <dd-spinner [spinner]="spinner.loaders.loading" class="text-[0.8em]" bgClass="bg-white"></dd-spinner>
+        <dd-error-handler
+          [hasError]="!indexPrices.x?.length && !spinner.loaders.loading.isLoading"
+          message="No prices available"
+        ></dd-error-handler>
+        <dd-basic-chart [data]="data" [refreshLayout$]="refreshPlotLayout$" class="w-full"></dd-basic-chart>
+      </div>
+    </div>
+  </mat-card>
+</div>

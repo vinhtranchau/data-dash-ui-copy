@@ -1,0 +1,54 @@
+<div class="bg-white rounded-lg p-10 my-10 text-[0.8em]">
+  <h2 class="text-midnight">Quote Publishing Checks</h2>
+  <form [formGroup]="form">
+    <section class="flex gap-20 items-baseline my-20">
+      <mat-checkbox color="primary" formControlName="is_ds_check_passed">Data Science</mat-checkbox>
+      <ng-container *ngIf="permission.type === PageType.UW">
+        <mat-checkbox color="primary" formControlName="is_sales_check_passed" [disabled]="deal | uwDisabled"
+          >Sales</mat-checkbox
+        >
+        <mat-checkbox color="primary" formControlName="is_underwriter_check_passed" [disabled]="deal | uwDisabled"
+          >Underwriting</mat-checkbox
+        >
+      </ng-container>
+    </section>
+
+    <div class="flex flex-row-reverse gap-15">
+      <ng-container *ngIf="permission.type !== PageType.UW">
+        <!-- Step 1: Send Quote from DS to UW -->
+        <button type="button" mat-flat-button color="primary" [disabled]="form.invalid" (click)="sendQuoteToUW.emit()">
+          Send Quote to UW
+        </button>
+      </ng-container>
+      <ng-container *ngIf="permission.type === PageType.UW">
+        <!-- Step 3: Send Quote to Customer from UW to Client -->
+        <!-- Only available when all checks are passed -->
+        <button
+          type="button"
+          mat-flat-button
+          color="primary"
+          [disabled]="
+            form.invalid ||
+            !deal.is_ds_check_passed ||
+            !deal.is_underwriter_check_passed ||
+            !deal.is_sales_check_passed ||
+            (deal | uwDisabled)
+          "
+          (click)="sendToCustomer.emit()"
+        >
+          Send to Customer
+        </button>
+        <!-- Step 2: Update quote from UW page -->
+        <button
+          type="button"
+          mat-flat-button
+          color="primary"
+          [disabled]="form.invalid || (deal | uwDisabled)"
+          (click)="confirmQuote.emit()"
+        >
+          Confirm Quote
+        </button>
+      </ng-container>
+    </div>
+  </form>
+</div>

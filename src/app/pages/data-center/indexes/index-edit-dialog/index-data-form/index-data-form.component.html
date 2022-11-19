@@ -1,0 +1,148 @@
+<div [formGroup]="form" class="w-full mt-20">
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Price Frequency</mat-label>
+    <mat-select formControlName="price_frequency">
+      <mat-option *ngFor="let priceFrequency of priceFrequencyOptions" [value]="priceFrequency.id">
+        {{ priceFrequency.label }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('price_frequency')?.hasError('required')">Required.</mat-error>
+  </mat-form-field>
+  <div class="grid grid-cols-2 gap-x-30">
+    <mat-form-field appearance="outline" class="col-span-2 sm:col-span-1">
+      <mat-label>Publishing Delay Multiplier</mat-label>
+      <div class="grid grid-cols-12">
+        <input class="col-span-4" formControlName="publishing_delay_min_multiplier" matInput type="number"/>
+        <div class="col-span-3">-</div>
+        <input class="col-span-5" formControlName="publishing_delay_max_multiplier" matInput type="number"/>
+      </div>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-span-2 sm:col-span-1">
+      <mat-label>Publishing Delay Units</mat-label>
+      <mat-select formControlName="publishing_delay_units">
+        <mat-option *ngFor="let publishingDelay of publishingDelayUnitOptions" [value]="publishingDelay.id">
+          {{ publishingDelay.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="grid grid-cols-5 gap-x-30">
+    <div [ngClass]="{ 'sm:col-span-2': form.get('proxy_type')?.value }" class="col-span-5">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Proxy Type</mat-label>
+        <mat-select formControlName="proxy_type">
+          <mat-option *ngFor="let proxyType of proxyTypeOptions" [value]="proxyType.id">
+            {{ proxyType.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-span-5 sm:col-span-3">
+      <!-- Shows each input box per selected proxy type -->
+      <mat-form-field *ngIf="form.get('proxy_type')?.value === 'index'" appearance="outline" class="w-full">
+        <mat-label>Proxy Index</mat-label>
+        <mtx-select
+          [clearable]="true"
+          [items]="(indexUUIDs$ | async) || []"
+          [multiple]="true"
+          [virtualScroll]="true"
+          appendTo="body"
+          bindLabel="stable_index_code"
+          bindValue="id"
+          formControlName="proxy_index"
+        ></mtx-select>
+        <mat-error *ngIf="form.get('proxy_index')?.hasError('required')">Required.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field
+        *ngIf="form.get('proxy_type')?.value === 'factor' || form.get('proxy_type')?.value === 'future'"
+        appearance="outline"
+        class="w-full"
+      >
+        <mat-label>Proxy Factor</mat-label>
+        <input formControlName="proxy_factor" matInput/>
+        <mat-error *ngIf="form.get('proxy_factor')?.hasError('maxlength')">Too many characters!</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <mat-form-field *ngIf="form.get('proxy_type')?.value" appearance="outline" class="w-full">
+    <mat-label>Proxy Notes</mat-label>
+    <textarea formControlName="proxy_notes" matInput></textarea>
+    <mat-error *ngIf="form.get('proxy_notes')?.hasError('maxlength')">Too many characters!</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Index Calculation</mat-label>
+    <input formControlName="index_calculation" matInput/>
+    <mat-error *ngIf="form.get('index_calculation')?.hasError('maxlength')">Too many characters!</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Business Day Convention</mat-label>
+    <textarea formControlName="business_day_convention" matInput></textarea>
+    <mat-error *ngIf="form.get('business_day_convention')?.hasError('maxlength')">Too many characters!</mat-error>
+  </mat-form-field>
+
+  <div class="flex items-center mb-10">
+    <p class="text-grey">Bundle Formula</p>
+  </div>
+
+  <div class="" formArrayName="bundle_formula">
+    <div *ngFor="let bundleIndex of bundleFormula?.controls; let i = index">
+      <div [formGroupName]="i" class="grid grid-cols-6 gap-x-30">
+        <div class="col-span-6 sm:col-span-5">
+          <div class="grid grid-cols-1 sm:grid-cols-10 gap-x-30">
+            <div class="col-span-1 sm:col-span-3">
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Coefficient {{ i + 1 }}</mat-label>
+                <input
+                  [required]="i > 0"
+                  formControlName="bundle_coefficient"
+                  matInput
+                  matTooltip="Coefficient can be negative"
+                  type="number"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-span-1 sm:col-span-7">
+              <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Underlying Index {{ i + 1 }}</mat-label>
+                <mtx-select
+                  [clearable]="true"
+                  [items]="(indexUUIDs$ | async) || []"
+                  [multiple]="false"
+                  [required]="i > 0"
+                  [virtualScroll]="true"
+                  appendTo="body"
+                  bindLabel="stable_index_code"
+                  bindValue="id"
+                  formControlName="bundle_stable_index_code"
+                ></mtx-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-span-6 sm:col-span-1 flex items-center pb-20 w-full sm:w-fit">
+          <button (click)="removeBundle(i)" *ngIf="!index && i > 0" class="w-full" color="warn" mat-flat-button
+                  type="button">
+            <mat-icon>delete</mat-icon>
+          </button>
+
+          <button (click)="addBundle()" *ngIf="!index && i === 0" class="w-full" color="primary" mat-flat-button
+                  type="button">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Display Formula</mat-label>
+    <textarea formControlName="bundle_display_formula" matInput></textarea>
+  </mat-form-field>
+</div>

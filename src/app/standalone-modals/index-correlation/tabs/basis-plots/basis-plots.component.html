@@ -1,0 +1,46 @@
+<div
+  [ngClass]="{ 'md:h-[min(1350px,85vh_-_50px)]': !fullscreen }"
+  class="relative px-20 md:px-30 py-20 overflow-y-auto h-[calc(100vh_-_110px)] md:h-[calc(100vh_-_50px)]"
+>
+  <dd-error-handler [hasError]="basisY.length === 0" message="No overlapping dates to form basis"></dd-error-handler>
+  <div [ngClass]="{ 'h-[min(650px,42.5vh_-_50px)]': !fullscreen, 'h-[calc(50vh_-_50px)]': fullscreen }">
+    <dd-basic-chart
+      [data]="basisPlot"
+      [hasLegend]="true"
+      [hasRangeSelector]="false"
+      [hasRangeSlider]="false"
+      [refreshLayout$]="refreshBasisPlotLayout$"
+      [startingLayout]="basisPlotLayout"
+    ></dd-basic-chart>
+  </div>
+  <div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-30">
+      <div
+        [ngClass]="{ 'h-[min(650px,42.5vh_-_50px)]': !fullscreen, 'h-[calc(50vh_-_50px)]': fullscreen }"
+        class="relative"
+      >
+        <dd-basic-chart
+          [data]="basisHistogramPlot"
+          [hasLegend]="true"
+          [hasRangeSelector]="false"
+          [hasRangeSlider]="false"
+          [refreshLayout$]="refreshBasisHistogramPlotLayout$"
+          [startingLayout]="basisHistogramLayout"
+        ></dd-basic-chart>
+      </div>
+      <div
+        [ngClass]="{ 'h-[min(650px,42.5vh_-_50px)]': !fullscreen, 'h-[calc(50vh_-_50px)]': fullscreen }"
+        class="relative"
+      >
+        <dd-basic-chart
+          [data]="basisAcfPlot"
+          [hasLegend]="true"
+          [hasRangeSelector]="false"
+          [hasRangeSlider]="false"
+          [refreshLayout$]="refreshBasisAcfPlotLayout$"
+          [startingLayout]="basisAcfLayout"
+        ></dd-basic-chart>
+      </div>
+    </div>
+  </div>
+</div>

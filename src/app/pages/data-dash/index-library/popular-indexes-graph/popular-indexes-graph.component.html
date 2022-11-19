@@ -1,0 +1,23 @@
+<div class="rounded-3xl bg-white p-20 mt-20">
+  <div class="flex flex-wrap justify-between gap-x-30">
+    <div class="text-dark font-bold text-20 pb-10">Most Viewed Indexes</div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label> Time Frame</mat-label>
+        <mat-select (selectionChange)="changePeriod($event.value)" [(value)]="selectedValue" color="primary">
+          <mat-option *ngFor="let option of PeriodPopularOptions" [value]="option.id">
+            {{ option.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="w-full h-[500px] relative">
+    <dd-spinner [spinner]="spinner.loaders.indexPopular"></dd-spinner>
+    <dd-basic-chart
+      [data]="indexPopularData"
+      [hasLegend]="false"
+      [refreshLayout$]="refreshPopularIndexLayout$"
+    ></dd-basic-chart>
+  </div>
+</div>

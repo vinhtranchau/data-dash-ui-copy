@@ -1,0 +1,8 @@
+<dd-dialog-layout title="Request Repricing" (save)="submit()" [disabled]="form.invalid">
+  <form [formGroup]="form" class="text-13">
+    <p class="mb-10">Please provide a reason for the reprice request.</p>
+    <mat-form-field appearance="outline" class="w-full -mb-30">
+      <textarea matInput formControlName="reject_reason" class="min-h-80"></textarea>
+    </mat-form-field>
+  </form>
+</dd-dialog-layout>

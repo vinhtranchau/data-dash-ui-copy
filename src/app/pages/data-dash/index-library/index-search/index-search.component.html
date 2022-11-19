@@ -1,0 +1,25 @@
+<div class="py-20">
+  <div class="px-20 md:px-50">
+    <dd-search-bar
+      (search)="search($event)"
+      [searchTerm]="searchTerm"
+      class="w-full"
+      label="SIC Search"
+      placeholder="e.g. US88 or Pork"
+    ></dd-search-bar>
+  </div>
+  <cdk-virtual-scroll-viewport [itemSize]="itemSize" class="cdk-scroll">
+    <div *cdkVirtualFor="let index of indexSearchService.indexes; templateCacheSize: 0">
+      <dd-index-summary [index]="index"></dd-index-summary>
+    </div>
+    <!-- To push the loading spinner to middle -->
+    <div *ngIf="indexSearchService.indexes.length === 0 && isLoading" style="height: 50vh"></div>
+    <dd-spinner *ngIf="indexSearchService.indexes.length === 0 && isLoading" message="Loading results..."></dd-spinner>
+    <div *ngIf="!isLoading && endOfResults">
+      <div class="flex justify-center items-center p-30">
+        <img src="/assets/illustrations/empty-search-results.svg" />
+      </div>
+      <p class="text-medium text-center py-50 text-dark">No more results found.</p>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</div>

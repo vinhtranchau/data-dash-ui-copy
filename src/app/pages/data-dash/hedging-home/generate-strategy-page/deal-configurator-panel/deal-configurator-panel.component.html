@@ -1,0 +1,29 @@
+<div class="px-20 py-20 my-10 rounded-lg rounded-t-3xl bg-white relative h-420 flex flex-col">
+  <div class="grid grid-cols-5 gap-x-10 w-full h-full">
+    <div class="col-span-2">
+      <mat-tab-group (selectedTabChange)="onTabChange()" class="w-full">
+        <mat-tab label="Select Index">
+          <dd-index-select-tab (changeIndex)="onChangeIndex($event)"></dd-index-select-tab>
+        </mat-tab>
+        <mat-tab [disabled]="true" label="Existing Positions">
+          <dd-position-select-tab (changePosition)="onChangePosition($event)"></dd-position-select-tab>
+        </mat-tab>
+      </mat-tab-group>
+      <div class="h-240">
+        <div class="border rounded h-full">
+          <dd-index-details [index]="index" [isLoading]="isIndexDetailLoading"></dd-index-details>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-span-3">
+      <div class="flex-grow flex flex-col pl-15 h-full">
+        <div class="border rounded flex-grow relative">
+          <dd-deal-details-configurator
+            (changeDealConfigForm)="onChangeDealConfigForm($event)"
+          ></dd-deal-details-configurator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,193 @@
+<div class="rounded-lg bg-white px-20 py-20 min-h-570 h-[calc(100vh_-_660px)] overflow-y-auto scroll">
+  <div class="flex items-center justify-between flex-wrap mb-10">
+    <div class="flex items-center mb-10" *ngIf="isTradingEngineOnline">
+      <div class="dot bg-green-500 mr-10"></div>
+      <span class="text-10 text-grey">System live and ready to trade</span>
+    </div>
+    <div class="flex items-center mb-10" *ngIf="!isTradingEngineOnline">
+      <div class="dot bg-red-500 mr-10"></div>
+      <span class="text-10 text-grey">System is offline</span>
+    </div>
+  </div>
+  <dd-switch-contract
+    [indexDetails]="indexDetails"
+    [startingContractType]="contractType.Individual"
+  ></dd-switch-contract>
+  <form [formGroup]="form" class="text-13">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Direction</mat-label>
+      <mat-select formControlName="direction">
+        <mat-option *ngFor="let option of optionTypesOptions" [value]="option.id">
+          {{ option.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="grid grid-cols-2 gap-x-30">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Coverage Start</mat-label>
+        <mat-select formControlName="start_month_delta">
+          <mat-option *ngFor="let option of coverageStartOptions" [value]="option.id">
+            {{ option.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Coverage End</mat-label>
+        <mat-select formControlName="end_month_delta">
+          <mat-option *ngFor="let option of coverageEndOptions" [value]="option.id"> {{ option.label }} </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-2 gap-x-30">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Strike</mat-label>
+        <input formControlName="strike" matInput type="number" />
+        <mat-error *ngIf="form.get('strike')?.hasError('max')">Max Strike: {{ maxStrike | number: '1.2-2' }}</mat-error>
+        <mat-error *ngIf="form.get('strike')?.hasError('min')">Cannot be negative.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Limit</mat-label>
+        <input formControlName="limit" matInput type="number" />
+        <mat-error *ngIf="form.get('limit')?.hasError('max')">Max Limit: {{ maxStrike | number: '1.2-2' }}</mat-error>
+        <mat-error *ngIf="form.get('limit')?.hasError('min')">Cannot be negative.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="!tradeId || !hasFinishedQuoting" class="mb-20">
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        class="w-full"
+        [disabled]="!form.valid || !hasEditPermission || !isTradingEngineOnline"
+        (click)="requestQuote()"
+      >
+        Request Quote
+      </button>
+      <div *ngIf="!hasEditPermission" class="text-[0.75em] mt-5 text-red-500">
+        Trading will be enabled shortly. Please wait while Stable verifies your account.
+      </div>
+      <mat-error *ngIf="form.errors?.['invalidStrikeLimit']" class="text-[0.75em] mt-5">{{
+        form.get('direction')?.value === 'call'
+          ? 'Limit must be greater than strike.'
+          : 'Strike must be greater than limit.'
+      }}</mat-error>
+    </div>
+
+    <div *ngIf="tradeId && hasFinishedQuoting" id="request-quote-start">
+      <div class="text-[0.75em] mb-5 text-dark text-right">
+        Quantity must be between {{ minimumQuantity }} and {{ maximumQuantity }}.
+      </div>
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Quantity</mat-label>
+        <input formControlName="quantity" matInput type="number" />
+        <mat-error *ngIf="form.get('quantity')?.hasError('pattern')">Must be a whole number.</mat-error>
+      </mat-form-field>
+
+      <!-- Only for adjusting the quantity -->
+      <mtx-slider
+        class="w-full mt-[-10px]"
+        [max]="maximumQuantity"
+        [min]="minimumQuantity"
+        [step]="1"
+        [value]="form.get('quantity')?.value"
+        (valueChange)="form.get('quantity')?.setValue($event)"
+        color="primary"
+        thumbLabel
+      ></mtx-slider>
+
+      <a class="text-right text-12 text-blue-400 underline cursor-pointer block mb-10" (click)="toggleBidding()">
+        {{ isBidding ? 'Place Order' : 'Place Bid' }}</a
+      >
+      <div class="grid grid-cols-2 gap-x-30">
+        <mat-form-field appearance="outline" class="w-full font-bold">
+          <mat-label>Price/Unit</mat-label>
+          <span matPrefix>$</span>
+          <input formControlName="pricePerUnit" matInput />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full font-bold">
+          <mat-label>Total Price</mat-label>
+          <span matPrefix>$</span>
+          <input formControlName="totalPrice" matInput />
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="isBidding">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Bid Expiry Date</mat-label>
+          <input
+            [matDatepicker]="bidExpiryDatePicker"
+            [matDatepickerFilter]="dateFilter"
+            formControlName="expiration_time"
+            matInput
+          />
+          <mat-hint>All dates will be referred to in UTC timezone.</mat-hint>
+          <mat-datepicker-toggle [for]="bidExpiryDatePicker" matSuffix></mat-datepicker-toggle>
+          <mat-datepicker #bidExpiryDatePicker color="primary"></mat-datepicker>
+        </mat-form-field>
+
+        <div class="mt-10">
+          <mat-checkbox color="primary" formControlName="is_partial_execution_enabled"
+            >Allow Partial Execution</mat-checkbox
+          >
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div *ngIf="tradeId && hasFinishedQuoting" class="mb-20">
+    <div class="text-grey text-10 text-right mb-10" [ngClass]="{ 'text-red-500': quoteTimeRemaining < 10 }">
+      Quote expires in: {{ quoteTimeRemaining | minutes }}
+    </div>
+
+    <div class="w-full mb-15">
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        class="w-full"
+        [disabled]="!tradeId || !hasFinishedQuoting || form.invalid || !isTradingEngineOnline || !hasEditPermission"
+        (click)="completeTrade(isBidding ? statusType.Bid : statusType.Purchase)"
+      >
+        {{ isBidding ? 'Place Bid' : 'Place Order' }}
+      </button>
+    </div>
+
+    <div class="grid grid-cols-2 gap-x-15" [ngClass]="{ '!grid-cols-1': isBidding }">
+      <button
+        *ngIf="!isBidding"
+        mat-flat-button
+        color="accent"
+        type="button"
+        class="w-full"
+        [disabled]="!tradeId || !hasFinishedQuoting || form.invalid || !isTradingEngineOnline || !hasEditPermission"
+        (click)="completeTrade(statusType.Watch)"
+      >
+        Watch Level
+      </button>
+      <button
+        mat-flat-button
+        color="warn"
+        type="button"
+        class="w-full"
+        [disabled]="!tradeId || !hasFinishedQuoting || !isTradingEngineOnline || !hasEditPermission"
+        (click)="requestNewQuote()"
+      >
+        Edit Config
+      </button>
+    </div>
+  </div>
+
+  <div class="border rounded-lg p-15 text-[12px]">
+    <p class="font-medium">Market Rules</p>
+    <p><span class="font-medium"> Trading Days: </span> Mon - Fri</p>
+    <p><span class="font-medium"> Trading Hours: </span> 9am - 11am, 12pm - 6pm</p>
+    <p><span class="font-medium"> Timezone: </span> USE, GMT+4</p>
+    <p><span class="font-medium"> Settlement: </span> Cash</p>
+  </div>
+</div>

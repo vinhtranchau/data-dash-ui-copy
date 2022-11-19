@@ -1,0 +1,33 @@
+<div class="bg-white h-full overflow-y-auto">
+  <div class="mb-10 sticky top-0 hidden md:block">
+    <div class="p-15">
+      <a [routerLink]="[homePath] | absolutePath" class="flex items-center">
+        <img alt="Logo" src="assets/images/logo.svg" />
+        <span *ngIf="!closed" class="text-20 text-black font-bold ml-10 min-w-190 overflow-hidden">{{
+          sidebarStatusService.title
+        }}</span>
+      </a>
+    </div>
+  </div>
+
+  <div>
+    <div class="mb-60">
+      <ul class="text-slate-400 text-15 min-280">
+        <li *ngFor="let item of navItems" class="px-10 mb-5">
+          <ng-container *ngIf="!item.disabled">
+            <a
+              [matTooltip]="closed ? item.title : ''"
+              [routerLink]="item.route"
+              class="flex items-center pl-10 pr-10 py-10 cursor-pointer rounded hover:bg-slate-200 hover:text-dark hover:shadow"
+              matTooltipPosition="right"
+              routerLinkActive="bg-slate-200 shadow text-dark"
+            >
+              <mat-icon class="min-w-25">{{ item.icon }}</mat-icon>
+              <span *ngIf="!closed" class="ml-10 min-w-190 overflow-hidden">{{ item.title }}</span>
+            </a>
+          </ng-container>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

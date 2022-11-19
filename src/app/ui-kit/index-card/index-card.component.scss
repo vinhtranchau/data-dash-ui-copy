@@ -1,0 +1,11 @@
+#index-card:hover #info-side {
+  width: 0;
+}
+
+#index-card:hover #graph-side {
+  width: 350px;
+}
+
+#index-card:hover #quote-badge {
+  display: block;
+}

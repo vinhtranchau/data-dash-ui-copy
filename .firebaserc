@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "datadash-351907",
+    "staging": "datadash-staging"
+  },
+  "targets": {}
+}

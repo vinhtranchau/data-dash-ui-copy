@@ -1,0 +1,66 @@
+<div class="w-[900px] min-h-[700px] relative bg-white md:rounded-3xl md:shadow-md">
+  <dd-side-panel></dd-side-panel>
+  <div class="py-60 px-100 ml-300">
+    <div class="text-35 font-bold mb-10">Sign Up</div>
+    <p class="text-[12px] text-grey mb-5">
+      Already have an account? <a class="underline text-blue-400 ml-5" routerLink="/login">Sign in</a>
+    </p>
+    <p class="text-[12px] text-grey mb-30">
+      Need another validation code? <a class="underline text-blue-400 ml-5" routerLink="/resend-validation">Resend</a>
+    </p>
+
+    <form (ngSubmit)="register()" [formGroup]="form">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-15">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>First name</mat-label>
+          <input formControlName="firstName" matInput placeholder="John" type="text" />
+          <mat-error *ngIf="form.controls.firstName?.hasError('required')">First name is required.</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Last name</mat-label>
+          <input formControlName="lastName" matInput placeholder="Doe" type="text" />
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Email</mat-label>
+        <input formControlName="email" matInput placeholder="john.doe@stableprice.com" type="email" />
+        <mat-error *ngIf="form.controls.email?.hasError('required')">Email is required.</mat-error>
+        <mat-error *ngIf="form.controls.email?.hasError('email')">Invalid email address form.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Password</mat-label>
+        <input data-private formControlName="password" matInput placeholder="Password" type="password" />
+        <mat-error *ngIf="form.controls.password?.hasError('required')">Password is required.</mat-error>
+        <mat-error *ngIf="form.controls.password?.hasError('minlength')"
+          >Password must be at least 8 characters long.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Remove magic code temporarily -->
+      <!-- <a (click)="haveMagicCode = true" class="text-primary block"> Have a magic code? </a>
+      <mat-form-field *ngIf="haveMagicCode" appearance="outline" class="w-full">
+        <mat-label>Magic Code</mat-label>
+        <input formControlName="magicCode" matInput />
+      </mat-form-field> -->
+
+      <mat-checkbox class="mb-30 pt-30" color="primary" formControlName="agreed">
+        <div class="text-[12px] text-grey">
+          I agree to the
+          <a class="underline text-blue-400" href="https://www.stableprice.com/terms-of-service" target="_blank"
+            >Terms of Service</a
+          >
+          and
+          <a class="underline text-blue-400" href="https://www.stableprice.com/terms-of-service" target="_blank"
+            >Privacy Policy</a
+          >
+        </div>
+      </mat-checkbox>
+
+      <button [disabled]="form.invalid || isLoading" class="w-full" color="primary" mat-flat-button>
+        {{ isLoading ? 'Registering...' : 'Register' }}
+      </button>
+    </form>
+  </div>
+</div>

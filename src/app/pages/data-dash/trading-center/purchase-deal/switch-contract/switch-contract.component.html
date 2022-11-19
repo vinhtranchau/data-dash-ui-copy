@@ -1,0 +1,13 @@
+<form [formGroup]="form" class="text-13">
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Contract Type</mat-label>
+    <mat-select formControlName="contractType">
+      <mat-option [value]="contractType.Individual" *ngIf="contractOptions.includes(contractType.Individual)">
+        Individual Quotes
+      </mat-option>
+      <mat-option [value]="contractType.RollingDeal" *ngIf="contractOptions.includes(contractType.RollingDeal)">
+        Rolling Deal
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>

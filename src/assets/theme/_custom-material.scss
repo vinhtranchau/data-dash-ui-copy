@@ -1,0 +1,44 @@
+.mat-raised-button {
+  padding: 5px 16px !important;
+  .mat-button-wrapper {
+    font-weight: 600 !important;
+    font-size: 16px;
+  }
+}
+
+.mat-card-content {
+  font-size: 15px;
+}
+
+.mat-error {
+  font-weight: 600;
+}
+
+/* Material Dialog start */
+.cdk-overlay-pane.full-screen-dialog {
+  max-width: 100vw !important;
+}
+
+.mat-dialog-container {
+  padding: 0 !important;
+
+  .mat-dialog-content {
+    margin: 0;
+    padding: 25px 25px 0 25px;
+  }
+
+  .mat-dialog-actions {
+    margin-bottom: 0;
+    padding-right: 15px;
+  }
+}
+/* Material Dialog end */
+
+.mat-form-field-appearance-outline .mat-form-field-prefix {
+  top: 0 !important;
+  margin-right: 2px;
+}
+
+.mat-form-field-disabled.mat-form-field-appearance-outline .mat-form-field-prefix {
+  color: rgba(0, 0, 0, 0.38);
+}

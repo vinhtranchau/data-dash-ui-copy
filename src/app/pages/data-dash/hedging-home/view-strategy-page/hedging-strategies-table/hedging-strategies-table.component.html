@@ -1,0 +1,14 @@
+<div class="py-10 !rounded-br-3xl rounded-lg bg-white relative h-full overflow-clip">
+  <h3 class="text-dark mb-15 mx-20">Hedging Strategies</h3>
+  <div class="relative" *ngIf="dataSource">
+    <dd-data-table-page
+      [columns]="columns"
+      [displayedColumns]="displayedColumns"
+      [isLoading]="false"
+      [dataSource]="dataSource"
+      [selectable]="true"
+      tableHeight="calc(33vh - 30px)"
+      (changeSelection)="changeSelection.emit($event)"
+    ></dd-data-table-page>
+  </div>
+</div>

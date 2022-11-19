@@ -1,0 +1,19 @@
+<div class="relative">
+  <h4 class="text-dark px-20">Positions</h4>
+
+  <div class="min-h-295">
+    <dd-data-table-page
+      [columns]="columns"
+      [displayedColumns]="displayedColumns"
+      [dataSource]="dataSource"
+      [isLoading]="isLoading"
+      (loadData)="loadData($event)"
+      [total]="total"
+      [pageSize]="5"
+      [serverSideSearch]="true"
+      [hasHeader]="false"
+      tableHeight="300px"
+      [stickyPaginator]="false"
+    ></dd-data-table-page>
+  </div>
+</div>

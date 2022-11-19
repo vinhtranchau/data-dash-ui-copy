@@ -1,0 +1,41 @@
+<dd-dialog-layout (save)="save()" [disabled]="form.invalid" [isLoading]="dialogDisabled" title="Add Index Extension">
+  <div class="grid grid-cols-5 gap-x-30">
+    <div class="col-span-5 md:col-span-3 mb-30 md:mb-0">
+      <form [formGroup]="form">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>SIC</mat-label>
+          <mtx-select
+            [clearable]="false"
+            [items]="(indexUUIDs$ | async) || []"
+            [virtualScroll]="true"
+            appendTo="body"
+            bindLabel="stable_index_code"
+            bindValue="id"
+            formControlName="index_details_id"
+          ></mtx-select>
+          <mat-error *ngIf="form.get('index_details_id')?.hasError('required')">Required.</mat-error>
+        </mat-form-field>
+      </form>
+
+      <dd-excel-uploader
+        (onFileUpload)="onFileUpload($event)"
+        [fileFormatExample]="homeUrl + '/media/excelfiles/upload_index_extension_template.xlsx'"
+      ></dd-excel-uploader>
+      <br/>
+      <div class="bg-accent text-14 text-dark px-15 py-10 rounded mb-20">
+        <b>WARNING</b>: Submitted extensions will overwrite any existing extensions on the index.
+      </div>
+    </div>
+    <div class="col-span-5 md:col-span-2 border">
+      <dd-data-table-page
+        [columns]="columns"
+        [dataSource]="dataSource"
+        [displayedColumns]="displayedColumns"
+        [hasHeader]="false"
+        [isLoading]="false"
+        tableHeight="375px"
+      >
+      </dd-data-table-page>
+    </div>
+  </div>
+</dd-dialog-layout>

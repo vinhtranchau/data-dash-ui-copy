@@ -1,0 +1,15 @@
+<div class="flex justify-center">
+  <input #fileUpload (change)="onFileSelected($event)" [accept]="fileType" class="file-input" type="file" />
+  <button
+    (click)="fileUpload.click()"
+    class="upload-button hover:!border-primary"
+    color="primary"
+    mat-button
+    type="button"
+  >
+    <mat-icon class="upload-button-icon" color="primary"> cloud_upload</mat-icon>
+    <div class="upload-button-text">
+      {{ fileName || 'Click here to upload a file' }}
+    </div>
+  </button>
+</div>

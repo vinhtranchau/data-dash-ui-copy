@@ -1,0 +1,17 @@
+<dd-data-table-page
+  (loadData)="loadData()"
+  [columns]="columns"
+  [dataSource]="dataSource"
+  [displayedColumns]="displayedColumns"
+  [hasHeader]="true"
+  [headerHasAddButton]="false"
+  [headerHasSearchFilter]="false"
+  [isLoading]="isLoading"
+  tableHeight="calc(100vh - 473px)"
+>
+  <div class="flex flex-wrap items-baseline w-full justify-center md:justify-start py-20">
+    <div class="flex flex-wrap items-baseline">
+      <span class="text-dark font-bold text-20">Portfolio Summary</span>
+    </div>
+  </div>
+</dd-data-table-page>

@@ -3,11 +3,14 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "data-dash-ui-copy": {
+    "data-dash-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
         }
       },
       "root": "",
@@ -17,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/data-dash-ui-copy",
+            "outputPath": "dist/data-dash-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -93,10 +96,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "data-dash-ui-copy:build:production"
+              "browserTarget": "data-dash-ui:build:production"
             },
             "development": {
-              "browserTarget": "data-dash-ui-copy:build:development"
+              "browserTarget": "data-dash-ui:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -104,7 +107,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "data-dash-ui-copy:build"
+            "browserTarget": "data-dash-ui:build"
           }
         },
         "test": {

@@ -1,0 +1,102 @@
+<dd-dialog-layout (save)="save()" title="Advanced Filters">
+  <div class="w-full gap-x-15 flex items-center" extensions>
+    <button (click)="addFilter()" class="w-full sm:w-fit" color="primary" mat-flat-button type="button">
+      <mat-icon>add</mat-icon>
+      Add Filter
+    </button>
+    <button (click)="clearFilters()" class="w-full sm:w-fit" color="accent" mat-flat-button type="button">
+      <mat-icon>delete</mat-icon>
+      Clear All
+    </button>
+  </div>
+
+  <form [formGroup]="form">
+    <div formArrayName="filters">
+      <p *ngIf="!form.controls.filters.length" class="mt-15 mb-30">No filters added yet. Click below to add filters.</p>
+
+      <div *ngFor="let filter of form.controls.filters.controls; let i = index" class="flex items-center">
+        <div [formGroupName]="i" class="grid grid-cols-3 gap-x-30 w-full">
+          <mat-form-field appearance="outline" class="col-span-3 sm:col-span-2 md:col-span-1">
+            <mat-label>Field</mat-label>
+            <mtx-select
+              [clearable]="false"
+              [items]="indexFieldOptions"
+              [multiple]="false"
+              [required]="true"
+              [virtualScroll]="true"
+              appendTo="body"
+              bindLabel="label"
+              bindValue="id"
+              formControlName="field"
+            ></mtx-select>
+          </mat-form-field>
+
+          <ng-container *ngIf="filter.controls.field as field">
+            <mat-form-field appearance="outline" class="col-span-3 sm:col-span-1">
+              <mat-label>Method</mat-label>
+              <mat-select formControlName="search_by">
+                <mat-option *ngFor="let item of field.value | searchOptions: indexFieldOptions" [value]="item.id">{{
+                  item.label
+                  }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <div class="col-span-3 md:col-span-1">
+              <ng-container [ngSwitch]="field.value | fieldType: indexFieldOptions">
+                <!-- Normal text search -->
+                <mat-form-field *ngSwitchCase="FieldType.String" appearance="outline" class="w-full">
+                  <mat-label>Search Term</mat-label>
+                  <input formControlName="search_term" matInput type="text"/>
+                </mat-form-field>
+
+                <!-- Number search -->
+                <mat-form-field *ngSwitchCase="FieldType.Number" appearance="outline" class="w-full">
+                  <mat-label>Search Value</mat-label>
+                  <input formControlName="search_term" matInput type="number"/>
+                </mat-form-field>
+
+                <!-- Boolean options - Yes/No dropdown -->
+                <mat-form-field *ngSwitchCase="FieldType.Boolean" appearance="outline" class="w-full">
+                  <mat-label>Options</mat-label>
+                  <mat-select formControlName="search_term">
+                    <mat-option *ngFor="let item of booleanOptions" [value]="item.id">{{ item.label }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <!-- Select options -->
+                <mat-form-field *ngSwitchCase="FieldType.Enum" appearance="outline" class="w-full">
+                  <mat-label>Options</mat-label>
+                  <mtx-select
+                    [clearable]="true"
+                    [items]="(field.value | enumFieldOptions: indexFieldOptions | async) || []"
+                    [multiple]="true"
+                    [required]="true"
+                    [virtualScroll]="true"
+                    appendTo="body"
+                    bindLabel="label"
+                    bindValue="id"
+                    formControlName="search_term"
+                  ></mtx-select>
+                </mat-form-field>
+              </ng-container>
+            </div>
+          </ng-container>
+        </div>
+        <div class="ml-10 mb-20">
+          <button (click)="removeFilter(i)" color="warn" mat-icon-button type="button">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="form.controls.filters.controls.length > 1" class="mt-30">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Aggregate Method</mat-label>
+        <mat-select formControlName="aggregate_method">
+          <mat-option *ngFor="let item of aggregateMethodOptions" [value]="item.id">{{ item.label }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+</dd-dialog-layout>

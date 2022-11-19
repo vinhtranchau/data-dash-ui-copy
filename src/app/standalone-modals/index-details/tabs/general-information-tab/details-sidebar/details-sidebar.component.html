@@ -1,0 +1,227 @@
+<ng-template #textRenderer let-isLast="isLast" let-label="label" let-value="value">
+  <div class="flex justify-between my-5 flex-wrap">
+    <div class="text-grey">{{ label }}:</div>
+    <div>{{ value }}</div>
+  </div>
+  <hr *ngIf="!isLast" />
+</ng-template>
+
+<ng-template #linkRenderer let-label="label" let-value="value">
+  <div class="flex justify-between items-center my-5 flex-wrap">
+    <div class="text-grey">{{ label }}:</div>
+    <a
+      *ngIf="value"
+      [href]="value"
+      [matTooltip]="value"
+      class="flex items-center"
+      matTooltipPosition="after"
+      target="_blank"
+    >
+      <mat-icon>link</mat-icon>
+    </a>
+  </div>
+  <hr />
+</ng-template>
+
+<dd-error-handler
+  [hasError]="!spinner.isLoading && !(indexDetails$ | async)"
+  message="Unable to load index details"
+></dd-error-handler>
+<dd-spinner [spinner]="spinner" bgClass="bg-white"></dd-spinner>
+
+<div class="overflow-auto h-[calc(100%_-_45px)] text-[0.8em]">
+  <div *ngIf="indexDetails$ | async as index" class="px-10">
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Stable Index Code', value: index.stable_index_code }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Index Provider Code', value: index.index_provider_code }"
+    ></ng-container>
+
+    <ng-container *ngTemplateOutlet="textRenderer; context: { label: 'Product', value: index.product }"></ng-container>
+
+    <ng-container *ngTemplateOutlet="textRenderer; context: { label: 'Class', value: index.class }"></ng-container>
+
+    <ng-container *ngTemplateOutlet="textRenderer; context: { label: 'Group', value: index.group }"></ng-container>
+
+    <ng-container *ngTemplateOutlet="textRenderer; context: { label: 'Kingdom', value: index.kingdom }"></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Specification', value: index.specification }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Specification Notes', value: index.specification_notes }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Delivery Point', value: index.delivery_point }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: { label: 'Unit', value: (index.unit_multiplier !== 1 ? index.unit_multiplier : '') + ' ' + index.unit }
+      "
+    ></ng-container>
+
+    <ng-container *ngTemplateOutlet="textRenderer; context: { label: 'Nation', value: index.nation }"></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: { label: 'Currency', value: index.currency + (index.is_currency_cents ? ' (Cents)' : '') }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Index Provider', value: index.index_provider }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        linkRenderer;
+        context: { label: 'Index Provider Methodology', value: index.index_provider_methodology }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: { label: 'Price Update Type', value: index.price_update_type | titlecase }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="linkRenderer; context: { label: 'Price Update URL', value: index.price_update_url }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: { label: 'Source Publication Notes', value: index.source_publication_notes }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: { label: 'Price Frequency', value: index.price_frequency | textTransform }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: {
+          label: 'Publishing Delay',
+          value:
+            index.publishing_delay_min_multiplier && index.publishing_delay_max_multiplier
+              ? (index.publishing_delay_min_multiplier +
+                  ' - ' +
+                  index.publishing_delay_max_multiplier +
+                  ' ' +
+                  index.publishing_delay_units | titlecase)
+              : 'None'
+        }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Proxy Type', value: index.proxy_type || 'None' }"
+    ></ng-container>
+
+    <ng-container *ngIf="index.proxy_type === ProxyType.Index">
+      <ng-container
+        *ngTemplateOutlet="textRenderer; context: { label: 'Proxy Indexes', value: index.proxy_index_id.join(', ') }"
+      ></ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="index.proxy_type === ProxyType.Factor || index.proxy_type === ProxyType.Future">
+      <ng-container
+        *ngTemplateOutlet="textRenderer; context: { label: 'Proxy Factor', value: index.proxy_factor }"
+      ></ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="index.proxy_type">
+      <ng-container
+        *ngTemplateOutlet="textRenderer; context: { label: 'Proxy Notes', value: index.proxy_notes }"
+      ></ng-container>
+    </ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Index Calculation', value: index.index_calculation }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: { label: 'Business Day Convention', value: index.business_day_convention }
+      "
+    ></ng-container>
+
+    <ng-container *ngIf="index.bundle_hierarchy > 0">
+      <ng-container
+        *ngTemplateOutlet="textRenderer; context: { label: 'Bundle Formula', value: index.bundle_display_formula }"
+      ></ng-container>
+    </ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Index State', value: index.index_state | textTransform }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Index Type', value: index.index_type | textTransform }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Tier', value: index.tier | textTransform }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: { label: 'Underwriter Approval', value: index.underwriter_approval | titlecase }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Index Notes', value: index.index_notes }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'CFP Ready', value: index.cfp_ready | boolean }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Hedging Book', value: index.in_hedging_book | boolean }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Rolling Deal', value: index.is_rolling_deal | boolean }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: { label: 'DS Check', value: index.total_data_quality_check | titlecase }
+      "
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="textRenderer; context: { label: 'Red List', value: index.red_list | titlecase }"
+    ></ng-container>
+
+    <ng-container
+      *ngTemplateOutlet="
+        textRenderer;
+        context: {
+          label: 'Seasonality',
+          value: index.seasonality_verdict | enumToLabel: seasonalityVerdictLabels,
+          isLast: true
+        }
+      "
+    ></ng-container>
+  </div>
+</div>

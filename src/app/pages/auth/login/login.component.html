@@ -1,0 +1,45 @@
+<div class="w-[900px] min-h-[700px] relative bg-white md:rounded-3xl md:shadow-md">
+  <dd-side-panel></dd-side-panel>
+  <div class="px-100 py-60 ml-300">
+    <div class="text-35 font-bold mb-10">Sign In</div>
+    <div class="text-15 text-grey mb-5">
+      Stable offers a safe harbor to businesses at risk from volatile commodity prices
+    </div>
+    <p class="text-[12px] text-grey mb-30">
+      Don't have an account? <a class="underline text-blue-400 ml-5" routerLink="/register">Register</a>
+    </p>
+
+    <form (ngSubmit)="login()" [formGroup]="form">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Email</mat-label>
+        <input formControlName="email" matInput placeholder="john.doe@stableprice.com" type="email" />
+        <mat-error *ngIf="form.controls.email?.hasError('required')">Email is required.</mat-error>
+        <mat-error *ngIf="form.controls.email?.hasError('email')">Invalid email address.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Password</mat-label>
+        <input data-private formControlName="password" matInput placeholder="Password" type="password" />
+        <mat-error *ngIf="form.controls.password?.hasError('required')">Password is required.</mat-error>
+        <mat-error *ngIf="form.controls.password?.hasError('minlength')"
+          >Password must be at least 8 characters long.
+        </mat-error>
+      </mat-form-field>
+
+      <div class="flex justify-end mb-30">
+        <div class="text-[12px] text-grey">
+          Forgot password? <a class="underline text-blue-400 ml-5" routerLink="/forgot-password">Reset Password</a>
+        </div>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <a class="text-[12px] text-blue-400 underline" routerLink="/contact-us">
+          Need Help?
+        </a>
+        <button [disabled]="form.invalid || isLoading" class="w-200" color="primary" mat-flat-button>
+          {{ isLoading ? 'Submitting...' : 'Login' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="overflow-y-auto h-[calc(100vh_-_50px)]">
+  <div class="px-30 py-20">
+    <div class="font-black text-35 text-dark text-center md:text-left">
+      <mat-icon class="mr-20 scale-150" color="warn">book</mat-icon>
+      <span>Index Library</span>
+    </div>
+    <br/>
+    <p class="text-grey font-medium mb-10 text-center md:text-left">Start searching for the perfect index!</p>
+    <div class="md:w-[600px] w-full">
+      <dd-search-bar (search)="search($event)" label="SIC Search" placeholder="e.g. US88 or Pork"></dd-search-bar>
+    </div>
+  </div>
+  <div class="pb-20">
+    <dd-favorite-indexes-table>
+      <div class="flex flex-wrap items-baseline w-full justify-center md:justify-start">
+        <div class="flex flex-wrap items-baseline">
+          <span class="text-dark font-bold text-20 mr-15">Favorite Indexes</span>
+          <span class="text-grey !text-[0.8em]">
+            Haven't found any favorites?<a (click)="search({ searchTerm: '' })" class="ml-5 text-blue-400 underline font-medium"
+          >Start browsing!</a
+          >
+          </span>
+        </div>
+      </div>
+    </dd-favorite-indexes-table>
+  </div>
+  <div class="grid grid-cols-2 px-30 flex-wrap gap-x-30 pb-[50px]">
+    <div class="col-span-2 lg:col-span-1">
+      <dd-popular-indexes-graph></dd-popular-indexes-graph>
+    </div>
+    <div class="col-span-2 lg:col-span-1">
+      <dd-hierarchy-count-chart></dd-hierarchy-count-chart>
+    </div>
+  </div>
+</div>

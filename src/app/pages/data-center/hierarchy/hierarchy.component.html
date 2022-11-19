@@ -1,0 +1,29 @@
+<div class="rounded-3xl bg-white mx-30 overflow-clip">
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab label="Product">
+      <ng-template matTabContent>
+        <dd-hierarchy-table [hierarchyType]="HierarchyType.Product"></dd-hierarchy-table>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Class">
+      <ng-template matTabContent>
+        <dd-hierarchy-table [hierarchyType]="HierarchyType.Class"></dd-hierarchy-table>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Group">
+      <ng-template matTabContent>
+        <dd-hierarchy-table [hierarchyType]="HierarchyType.Group"></dd-hierarchy-table>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Kingdom">
+      <ng-template matTabContent>
+        <dd-hierarchy-table [hierarchyType]="HierarchyType.Kingdom"></dd-hierarchy-table>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="All">
+      <ng-template matTabContent>
+        <dd-hierarchy-table></dd-hierarchy-table>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

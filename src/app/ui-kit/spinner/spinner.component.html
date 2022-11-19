@@ -1,0 +1,10 @@
+<div
+  *ngIf="spinner ? (spinner.isLoading$ | async) : true"
+  class="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center z-[9999]"
+>
+  <div [class]="bgClass" class="absolute top-0 left-0 right-0 bottom-0 bg-opacity-60"></div>
+  <div class="flex flex-col items-center justify-center relative z-10">
+    <mat-spinner class="mb-15" color="primary" diameter="30"></mat-spinner>
+    <p class="text-[0.8em]">{{ message || (spinner ? (spinner.message$ | async) : message) }}</p>
+  </div>
+</div>

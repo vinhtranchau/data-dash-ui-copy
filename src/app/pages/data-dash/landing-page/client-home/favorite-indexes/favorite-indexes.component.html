@@ -1,0 +1,32 @@
+<div class="flex justify-between px-30 pb-10">
+  <div class="flex items-baseline flex-wrap">
+    <span class="text-dark font-bold text-20 mr-15">Favorite Indexes</span>
+    <span class="text-grey !text-[12px]">
+      Haven't found any favorites?<a
+        [routerLink]="[dataDashRoute.root, dataDashRoute.tradingCenter] | absolutePath"
+        class="ml-5 text-blue-400 underline"
+        >Start browsing!</a
+      >
+    </span>
+  </div>
+  <div>
+    <button (click)="scrollRow(-1)" class="w-fit" mat-button>
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <button (click)="scrollRow(1)" class="w-fit" mat-button>
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+</div>
+<div
+  (scrolled)="onScroll()"
+  [horizontal]="true"
+  [scrollWindow]="false"
+  class="flex justify-start items-center mb-20 pl-30 relative overflow-x-auto overflow-y-hidden no-scroll"
+  id="favorite-index-row"
+  infiniteScroll
+>
+  <div *ngFor="let index of indexes">
+    <dd-index-card [index]="index" *ngIf="index.is_favorite"></dd-index-card>
+  </div>
+</div>
